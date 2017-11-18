@@ -264,7 +264,7 @@ Regardless of whether the transformation-induced $\tau$-bias is positive or nega
 
 Theorem \ref{thm:direction} guarantees that $\hat{\tau}^\text{avg.}$ is more biased than $\hat{\tau}^\text{mle}$. This raises yet more questions. By how much? Is the bias trivial? Or is it substantial? Monte Carlo experiments allow one to assess this directly, but an analytical approximation provides a helpful rule of thumb.
 
-I approximate the \textit{additional} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg.}$ compared to $\hat{\tau}^\text{avg.}$ as
+I approximate the \textit{additional} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg.}$ compared to $\hat{\tau}^\text{mle}$ as
 \begin{align*}
 \text{additional t.i. $\tau$-bias in } \hat{\tau}^\text{avg.} =& \underbrace{\left( \E \left( \hat{\tau}^\text{avg.}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg.}}} - \underbrace{ \left( \E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right)}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}}\\
 =& \E \left( \hat{\tau}^\text{avg.}\right) - \E \left( \hat{\tau}^\text{mle}\right)\\
