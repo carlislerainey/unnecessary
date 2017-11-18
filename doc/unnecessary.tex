@@ -219,6 +219,9 @@ Estimate the quantity of interest using the average of the simulations of the qu
 In the discussion that follows, I assume no Monte Carlo error exists in $\hat{\tau}^{\text{avg.}}$. 
 That is, make $M$ large enough to assume that $\hat{\tau}^{\text{avg.}} = \text{E}\left[ \tau \left(\tilde{\beta} \right) \right]$, where $\tilde{\beta} \sim N \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$. 
 
+One might use alternative approach to generate $\tilde{\beta}$, such as parametric or non-parametric bootstrap. 
+As long $\tilde{\beta}$ approximately follows a normal distribution, then the intuitions and best practices I offer below still apply.
+
 \section*{The Average of Simulations Versus the Maximum Likelihood Estimate}
 
 Applied researchers seem to use $\hat{\tau}^\text{avg.}$ and $\hat{\tau}^\text{mle}$ interchangeably. 
