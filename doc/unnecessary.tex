@@ -26,6 +26,7 @@
 \usepackage{framed} 
 \usepackage{epigraph}
 \usepackage{lipsum}
+\usepackage{textcomp} % for \textrightarrow
 %\usepackage{dcolumn}
 %\restylefloat{table}
 \bibpunct{(}{)}{;}{a}{}{,}
@@ -101,8 +102,38 @@
 \def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
 
 % Create the colors I want
-\usepackage{color}
-\definecolor{darkred}{RGB}{100,0,0}
+\usepackage{color, xcolor}
+\definecolor{color1}{RGB}{217,95,2}  % orange
+\definecolor{color2}{RGB}{27,158,119}  % green
+\definecolor{color3}{RGB}{117,112,179}  % purple
+
+
+
+% for colored \left( and \right)
+\newcommand{\cleft}[2][.]{%
+  \begingroup\colorlet{savedleftcolor}{.}%
+  \color{#1}\left#2\color{savedleftcolor}%
+}
+\newcommand{\cright}[2][.]{%
+  \color{#1}\right#2\endgroup
+}
+
+% for drawing arrows
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes}
+
+
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+\newcommand{\DrawBox}[2]{%
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw[->,shorten >= 6pt, shorten <= 2pt, out=-90, in=90, distance=1.2cm, color2, thick] (MarkA.east) to (MarkB.east);
+    \draw[->,shorten >= 6pt, shorten <= 2pt, out=-90, in=90, distance=1cm, color2, thick] (MarkC.west) to (MarkD.east);
+  \end{tikzpicture}
+}
+
+% remarks by equations
+\newcommand{\justif}[2]{&{#1}&\text{#2}}
+
 
 % set up pdf
 \hypersetup{
@@ -145,7 +176,17 @@ urlcolor=blue % color of external links
 
 \vspace{5mm}
 
-Carlisle Rainey\symbolfootnote[2]{Carlisle Rainey is Assistant Professor of Political Science, Texas A\&M University, 2010 Allen Building, College Station, TX, 77843 (\href{mailto:crainey@tamu.edu}{crainey@tamu.edu}).}
+
+\begin{tabular}{c c}
+Carlisle Rainey\symbolfootnote[2]{Carlisle Rainey is Assistant Professor of Political Science, Texas A\&M University, 2010 Allen Building, College Station, TX, 77843 (\href{mailto:crainey@tamu.edu}{crainey@tamu.edu}).} & Holger Kern\symbolfootnote[3]{Holger Kern is Assistant Professor of Political Science, Florida State University, 600 W. College Avenue Tallahassee, FL, 32306.(\href{mailto:hkern@fsu.edu}{hkern@fsu.edu}).}
+\end{tabular}
+
+
+
+
+\vspace{5mm}
+
+
 \end{center}
 
 \vspace{5mm}
@@ -153,7 +194,11 @@ Carlisle Rainey\symbolfootnote[2]{Carlisle Rainey is Assistant Professor of Poli
 % Abstract
 {\centerline{\textbf{Abstract}}}
 \begin{quote}\noindent
-Following \cite{KingTomzWittenberg2000}, researchers commonly convert coefficient estimates into an estimate of the quantity of interest using the average of simulations. However, other researchers follow the advice of \cite{King1989} and use the invariance property of maximum likelihood estimates to quickly convert the coefficients into the quantity of interest. These approaches are not equivalent, yet researchers seem to give little thought to the choice. I show that the average of simulations can introduce substantial bias compared to the maximum likelihood estimate. In general, when reporting point estimates of the quantity of interest, researchers should report the maximum likelihood estimate, not the average of the simulations. 
+Following \cite{KingTomzWittenberg2000}, researchers commonly convert coefficient estimates into an estimate of the quantity of interest using the average of simulations. 
+However, other researchers simply use the invariance property of maximum likelihood estimates to directly convert the model coefficient estimates into the quantity of interest. 
+These approaches are not equivalent, yet researchers rarely justify their choice. 
+I show that the average of simulations can introduce substantial bias compared to the maximum likelihood estimate. 
+In general, when reporting point estimates of the quantity of interest, researchers should report the maximum likelihood estimate, not the average of the simulations. 
  \end{quote}
 
 % Add quote to first page
@@ -172,42 +217,41 @@ Following \cite{KingTomzWittenberg2000}, researchers commonly convert coefficien
 \onehalfspace
 %\section*{Introduction}
 
-
 Suppose the researcher uses maximum likelihood to estimate a statistical model in which $y_i \sim f(\theta_i)$, where $i \in \{1,..., N\}$ and $f$ represents a probability distribution. 
 The parameter $\theta_i$ is connected to a design matrix $X$ of $k$ explanatory variables and a column of ones by a link function $g$, so that $g(\theta_i) = X_i\beta$, where $\beta \in \mathbb{R}^N$ represents a vector of coefficients with length $k + 1$. 
-The researcher can use maximum likelihood to compute estimates $\hat{\beta}^{\text{mle}}$ for the parameter vector $\beta$.\footnote{I do not consider other estimators of $\beta$. I superscript the estimate with ``mle'' to emphasize that $\hat{\beta}^{\text{mle}}$ represents the \emph{maximum likelihood} estimate.} 
+The researcher can use maximum likelihood to compute estimates $\hat{\beta}^{\text{mle}}$ for the parameter vector $\beta$.
 Note that I adopt a frequentist perspective, so $\hat{\beta}^{\text{mle}}$ represents a \emph{random variable} that varies across samples.
 
 But researchers usually care about a function $\tau$ of the model coefficients $\beta$ rather than the model coefficients themselves. 
 Following \cite{KingTomzWittenberg2000}, I refer to this function $\tau$ as the ``quantity of interest.''
 The researcher can use the invariance property $\hat{\tau}^{\text{mle}} = \tau \left( \hat{\beta}^{\text{mle}}\right)$ to quickly obtain a maximum likelihood estimate of the quantity of interest (\citealt[pp. 75-76]{King1989}, and \citealt[pp. 320-321]{CasellaBerger2002}).
 
-\section*{The Cost of Transformation}
+\section*{Transformation-Induced $\tau$-Bias}
 
 The invariance property does not come without cost. 
 The transformation of unbiased model coefficient estimates introduces bias into the estimate of the quantity of interest. 
 If the coefficient estimates are biased, the transformation-induced bias can, but generally does not, offset the bias in the coefficient estimates. 
 To separate the sources of bias, \citet[p. 404]{Rainey2017} decomposes the bias in the estimate of the quantity of interest, which he refers to as total $\tau$-bias, into two components: transformation-induced $\tau$-bias and coefficient-induced $\tau$-bias. These are defined as
 \begin{equation}
-\text{total } \tau\text{-bias}= \underbrace{ \E[\tau(\hat{\beta}^\text{mle})]-  \tau[\E(\hat{\beta}^\text{mle})]  }_{\text{transformation-induced}} + \overbrace{  \tau[\E(\hat{\beta}^\text{mle})] - \tau(\beta)  }^{\text{coefficient-induced}}\text{} \nonumber
+\text{total } \tau\text{-bias}= \underbrace{ \E[\tau(\hat{\beta}^\text{mle})]-  \tau[\E(\hat{\beta}^\text{mle})]  }_{\text{transformation-induced}} + \overbrace{  \tau[\E(\hat{\beta}^\text{mle})] - \tau(\beta)  }^{\text{coefficient-induced}}\text{} \label{eqn:ti-bias}
 \end{equation}
 The direction and magnitude of the coefficient-induced $\tau$-bias depends on the choice of $\tau$ and the bias in the coefficient estimates, but an unbiased estimator $\hat{\beta}$ implies no coefficient-induced $\tau$-bias.
-I do not consider coefficient-induced $\tau$-bias any further.
-
+I do not consider coefficient-induced $\tau$-bias any further. 
 Transformation-induced $\tau$-bias, though, can be understood based on the shape of the transformation. 
 In general, any strictly convex (concave) $\tau$ creates upward (downward) transformation-induced $\tau$-bias. 
 
 \section*{The Average of Simulations}
 
-Some commonly used software, such as Stata's \href{https://www.stata.com/help.cgi?margins}{\texttt{margins}} command (and Leeper's \href{https://github.com/leeper/margins}{\texttt{margins}} port into R), use the invariance property to estimate the quantity of interest. 
+Some commonly used software, such margins in Stata (and Leeper's margins port into R), use the invariance property to estimate the quantity of interest. 
+But other software, such as CLARIFY for Stata and Zelig for R, adopts an alternative approach recommended by \cite{KingTomzWittenberg2000}. 
 
-But other software, such as \texttt{CLARIFY} for Stata and \texttt{Zelig} for R, adopts an alternative approach recommended by \cite{KingTomzWittenberg2000}. \cite{KingTomzWittenberg2000} suggest the following algorithm: 
+\cite{KingTomzWittenberg2000} suggest the following algorithm: 
 
 \begin{enumerate}
 \item \textit{Fit the model.} 
 Use maximum likelihood to estimate the model coefficients $\hat{\beta}^{\text{mle}}$ and their covariance $\hat{V} \left( \hat{\beta}^{\text{mle}} \right)$.
 \item \textit{Simulate the coefficients.} 
-Simulate a large number $M$ of coefficient vectors $\tilde{\beta}^{(i)}$ for $i \in \{1, 2, ... , M\}$ using $\tilde{\beta}^{(i)} \sim N \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, where $N$ is the multivariate normal distribution. 
+Simulate a large number $M$ of coefficient vectors $\tilde{\beta}^{(i)}$ for $i \in \{1, 2, ... , M\}$ using $\tilde{\beta}^{(i)} \sim N \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, where $N$ is the multivariate normal distribution.\footnote{One might use alternative approach to generate $\tilde{\beta}$, such as parametric or non-parametric bootstrap. As long $\tilde{\beta}$ approximately follows a normal distribution, then the intuitions and best practices I offer below still apply.}
 \item \textit{Convert simulated coefficients to simulated quantity of interest.} 
 Compute $\tilde{\tau}^{(i)} = \tau \left( \tilde{\beta}^{(i)} \right)$ for $i \in \{1, 2, ... , M\}$. 
 Most quantities of interest depend on the values of the explanatory variables. 
@@ -219,8 +263,29 @@ Estimate the quantity of interest using the average of the simulations of the qu
 In the discussion that follows, I assume no Monte Carlo error exists in $\hat{\tau}^{\text{avg.}}$. 
 That is, make $M$ large enough to assume that $\hat{\tau}^{\text{avg.}} = \text{E}\left[ \tau \left(\tilde{\beta} \right) \right]$, where $\tilde{\beta} \sim N \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$. 
 
-One might use alternative approach to generate $\tilde{\beta}$, such as parametric or non-parametric bootstrap. 
-As long $\tilde{\beta}$ approximately follows a normal distribution, then the intuitions and best practices I offer below still apply.
+One can hardly overstate the importance of this simulation method to political science research. 
+According to the Web of Science, \cite{KingTomzWittenberg2000} has been cited 1,097 times, making it the fourth most-cited methodology article in political science, at least among those published in the \textit{American Political Science Review}, the \textit{American Journal of Political Science}, or \textit{Political Analysis}. 
+It is the second most-cited article \textit{overall} in the \textit{American Journal of Political Science}, falling just 56 citations behind \cite{BeckKatzTucker1998}.
+Google Scholar suggests that \cite{KingTomzWittenberg2000} might have as many as 3,598 citations and that \cite{TomzWittenbergKing2003}, which provides and overview of the CLARIFY software, might have as many as 1,437 citations.
+Make no mistake, the procedures proposed by \cite{KingTomzWittenberg2000} and software offered by \cite{TomzWittenbergKing2003} have meaningfully altered (and improved) the practice of political science research. 
+
+%% Please add the following required packages to your document preamble:
+%% \usepackage{booktabs}
+%\begin{table}[h!]
+%\centering
+%\caption{This table shows the five most cited methodology articles published in the \textit{American Political Science Review}, the \textit{American Journal of Political Science}, or \textit{Political Analysis}.}
+%\label{my-label}
+%\footnotesize
+%\begin{tabular}{@{}m{6cm}l l m{2cm}m{2cm}@{}}
+%\toprule
+%Title                                                                                                & Journal       & Citation                          & Web of Science Citation & Google Scholar Citations \\ \midrule
+%What to Do (and Not to Do) with Time-series Cross-section Data                                       & \textit{APSR} & Beck and Katz (1995)              & 2125                    & 5682                    \\
+%Understanding interaction models: Improving empirical analyses                                       & \textit{PA}   & Brambor, Clark, and Golden (2006) & 1729                    & 4110                    \\
+%Taking time seriously: Time-series-cross-section analysis with a binary dependent variable           & \textit{AJPS} & Beck, Katz, and Tucker (1998)     & 1153                    & 2611                    \\
+%Making the most of statistical analyses: Improving interpretation and presentation                   & \textit{AJPS} & King, Tomz, Wittenberg (2000)     & 1097                    & 3598                    \\
+%Matching as nonparametric preprocessing for reducing model dependence in parametric causal inference & \textit{PA}   & Ho, Imai, King, Stuart (2007)     & 946                     & 2225                    \\ \bottomrule
+%\end{tabular}
+%\end{table}
 
 \section*{The Average of Simulations Versus the Maximum Likelihood Estimate}
 
@@ -280,7 +345,7 @@ where the remaining expectation occurs with respect to $\hat{\beta}^\text{mle}$,
 
 This is approximation is similar to the approximation for the transformation-induced $\tau$-bias for $\hat{\beta}^\text{mle}$, which adjusting notation slightly, \citet[p. 405, Eq. 1]{Rainey2017} computes as 
 \begin{align*}
-\text{t.i. } \tau \text{-bias for } \hat{\beta}^\text{mle} = \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left[ \E \left( \hat{\beta}^\text{mle} \right) \right] V_{rs} \left( \hat{\beta}^{\text{mle}} \right), \numberthis \label{eqn:mle-approx}
+\text{t.i. } \tau \text{-bias for } \hat{\beta}^\text{mle} \approx \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left[ \E \left( \hat{\beta}^\text{mle} \right) \right] V_{rs} \left( \hat{\beta}^{\text{mle}} \right), \numberthis \label{eqn:mle-approx}
 \end{align*} 
 where $H\left[ \E \left( \hat{\beta}^\text{mle} \right) \right]$ represents the Hessian matrix of second derivatives of $\tau$ at the point $\E \left( \hat{\beta}^\text{mle} \right)$ and $V \left( \hat{\beta}^{\text{mle}} \right)$ represents the covariance matrix of the sampling distribution of $\hat{\beta}^\text{mle}$.
 
@@ -291,7 +356,137 @@ Therefore, as a rule of thumb, I suggest that the transformation-induced $\tau$-
 
 Because of the similarity in Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, the difference between $\hat{\tau}^\text{avg.}$ and $\hat{\tau}^\text{mle}$ becomes large under the same conditions that \cite{Rainey2017} notes transformation-induced $\tau$-bias becomes large: when the non-linearity in the transformation in severe and when the standard errors of $\hat{\beta}^\text{mle}$ are large.
 
-\section*{Illustrative Simulation}
+\section*{The Intuition}
+
+\subsection*{Using a Drastic, Convex Transformation: $\tau(\mu) = \mu^2$}
+
+To develop an intuition for the additional bias in $\hat{\tau}^\text{avg.}$, consider the the simple scenario in which $y_i \sim N(\mu, 1)$, for $i \in \{1, 2, ... , 100\}$. 
+The variance is known to be one. 
+The mean $\mu$ is unknown, but equals zero. 
+Suppose the researcher uses the best unbiased estimator $\hat{\mu}^\text{mle}$ of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$. 
+The researcher can use the invariance property to estimate $\tau(\mu)$ as $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$. 
+Or the researcher might use the simulation approach, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg.} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)^2$, where $\tilde{\mu}^{(i)} \sim N \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2, ... , M\}$.
+
+
+The true value of the quantity of interest is $\tau(0) = 0^2 = 0$. 
+However, the maximum likelihood estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right)^2$ equals zero if and only if $\hat{\mu}^\text{mle} = 0$. 
+Otherwise, $\hat{\mu}^\text{mle} > 0$. 
+Since $\hat{\mu}^\text{mle}$ rarely equals zero, it is clear that $\hat{\mu}^\text{mle}$ is biased upward. 
+But even if $\hat{\mu}^\text{mle} = 0$, then $\tilde{\mu}^{(i)}$ rarely equals zero. If $\tilde{\mu}^{(i)} \neq 0$, then $\left( \tilde{\mu}^{(i)} \right)^2 > 0$. 
+Thus, $\hat{\mu}^\text{avg.}$ is \emph{always} larger than the true value $\tau(\mu) = 0$.
+
+We can see the dynamics even more clearly by repeatedly simulating $y$ and estimating $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$. 
+Figures \ref{fig:int1}-\ref{fig:int4} show the first four of 1,000 total simulations. 
+The figures show how the the unbiased estimate $\hat{\mu}^\text{mle}$ is translated into $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$. 
+
+First, to find $\hat{\tau}^\text{avg.}$, we complete three steps: (1) simulate $\tilde{\mu}^{(i)} \sim N \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2, ... , M = 1,000\}$, (2) calculate $\tilde{\tau}^{(i)} = \tau\left( \tilde{\mu}^{(i)} \right)^2$, and (3) calculate $\hat{\tau}^\text{avg.} = \frac{1}{M} \sum_{i = 1}^M \tilde{\tau}^{(i)}$.
+The rug plot along the horizontal axis and the density plot at the top of each plot show the distribution of $\tilde{\mu}$. 
+The hollow points in Figures \ref{fig:int1}-\ref{fig:int4} show the transformation of each point $\tilde{\mu}^{(i)}$ into $\tilde{\tau}^{(i)}$. 
+The rug plot along the vertical axis and the density plot to the right of each plot shows the distribution of $\tilde{\tau}$. 
+Focus on Figure \ref{fig:int1}. Notice that $\hat{\mu}^\text{mle}$ estimates the true value $\mu = 0$ quite well. 
+However, after simulating $\tilde{\mu}$ and transforming $\tilde{\mu}$ into $\tilde{\tau}$, the $\tilde{\tau}$s fall far from the true value $\tau(0) = 0$. 
+The dashed, purple line shows the average of $\tilde{\tau}$. 
+Notice that although $\hat{\mu}^\text{mle}$ estimates $\mu = 0$ unusually well, $\hat{\tau}^\text{avg.}$ is biased substantially upward.
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{figs/intuition-1.pdf}
+  \caption{Simulation 1 of 1,000}
+  \label{fig:int1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{figs/intuition-2.pdf}
+  \caption{Simulation 2 of 1,000}
+  \label{fig:int2}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{figs/intuition-3.pdf}
+  \caption{Simulation 3 of 1,000}
+  \label{fig:int3}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.8\linewidth]{figs/intuition-4.pdf}
+  \caption{Simulation 4 of 1,000}
+  \label{fig:int4}
+\end{subfigure}
+\caption{Caption here.}
+\label{fig:int}
+\end{figure}
+
+Second, to find $\hat{\tau}^\text{mle}$, we simply transform $\hat{\mu}^\text{mle}$ directly using $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$. 
+The solid, green lines show this transformation. 
+Notice that $\hat{\tau}^\text{mle}$ corresponds to the mode of the density plot of $\tilde{\tau}$ along the right side of the plot, which falls closer to the true value $\tau(0) = 0$ than $\hat{\tau}^\text{avg.}$.
+The convex transformation $\tau$ has the effect of lengthening the right tail of the distribution of $\tilde{\tau}$, which pulls the average well above the mode. 
+This provides the basic intuition for Lemma \ref{lem:direction}.
+
+Figures \ref{fig:int2}-\ref{fig:int4} repeat this process three more times to give some sense of how the dynamic changes for different data sets $y$.
+In each case, the story is similar--the convex transformation $\tau$ stretches the distribution of $\tilde{\tau}$ to the right, which pulls $\hat{\tau}^\text{avg.}$ above $\hat{\tau}^\text{mle}$.
+
+I repeat this process until I have 1,000 different estimates of $\hat{\mu}^\text{mle}$, $\hat{\tau}^\text{mle}$, and $\hat{\tau}^\text{avg.}$. 
+Figure \ref{fig:int-samp} shows the density plot for each of these 1,000 estimates (i.e., the sampling distributions).
+Notice $\hat{\mu}^\text{mle}$ is unbiased with a standard error of $\frac{1}{\sqrt{n}} = \frac{1}{\sqrt{100}} = \frac{1}{n}$.  
+This confirms a basic result from statistical theory.
+Both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$ are biased upward, but $\hat{\tau}^\text{avg.}$ more so. 
+Theorem \ref{thm:direction} ensures this must be the case. 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale = 0.6]{figs/intuition-sampling.pdf}
+\caption{.}\label{fig:int-samp}
+\end{center}
+\end{figure}
+
+\subsection*{Using the Law of Iterated Expectations}
+
+We can also develop the intuition using a more mathematical approach via the law of iterated expectations. 
+However, it helps if we alter the notation slightly, making two implicit dependencies explicit. 
+I explain each change below and use the alternate, more expansive notation only in this section.
+ 
+The law of iterated expectations states that $\E_Y \left( \E_{X|Y}(X | Y) \right) = E_X(X)$, where $X$ and $Y$ represent random variables. 
+The three expectations occur with respect to three different distributions: $\E_Y$ denotes the expectation w.r.t. the marginal distribution of $Y$, $\E_{X|Y}$ denotes the expectation w.r.t. the conditional distribution of $X | Y$, and $\E_X$ denotes the expectation w.r.t. the marginal distribution of $X$. 
+
+Outside of this section, we realize that the distribution of $\tilde{\beta}$ depends on $\hat{\beta}^\text{mle}$ and could be written as $\tilde{\beta} | \hat{\beta}^\text{mle}$. 
+To remain consistent with other papers, especially \cite{KingTomzWittenberg2000} and \cite{Herron1999}, I simply use $\tilde{\beta}$ to represent $\tilde{\beta} | \hat{\beta}^\text{mle}$.
+The definition of $\tilde{\beta}$ makes this clear. 
+In this section only, I use $\tilde{\beta} | \hat{\beta}^\text{mle}$ to represent the conditional distribution of $\tilde{\beta}$. 
+I use $\tilde{\beta}$ to represent the \underline{un}conditional distribution of $\tilde{\beta}$.
+Intuitively, one might imagine (1) generating a data set $y$, (2) estimating $\hat{\beta}^\text{mle}$, and (3) simulating $\tilde{\beta} | \hat{\beta}^\text{mle}$. 
+If we do steps (1) and (2) just once, but step (3) repeatedly, then we have a sample from the conditional distribution $\tilde{\beta} | \hat{\beta}^\text{mle}$. 
+If we do steps (1), (2), and (3) repeatedly, then we have a sample from the \underline{un}conditional distribution $\tilde{\beta}$. 
+The unconditional distribution helps one understand the additional bias.
+
+More technically, we could also define the relevant distributions hierarchically. 
+First, we have $\hat{\beta}^\text{mle} \sim s(\beta)$, where $s(\beta)$ represents the sampling distribution of $\hat{\beta}$. 
+Then we have $\tilde{\beta} \sim N \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$. 
+
+Applying the law of iterated expectations, I obtain $\E_{\tilde{\beta}} \left( \tilde{\beta} \right) = \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} | \hat{\beta}^\text{mle}} (\tilde{\beta} | \hat{\beta}^\text{mle}) \right)$.
+%Using the law of the unconscious statistician, we have $\E_{\tilde{\beta}} \left( \tau \left[\tilde{\beta} \right] \right) = \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta}) | \hat{\beta}^\text{mle}} \left( \tau[\tilde{\beta}] | \hat{\beta}^\text{mle} \right) \right)$.
+The three identities below connects the three key quantities from Theorem \ref{thm:direction} to three versions of $\E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} | \hat{\beta}^\text{mle}} (\tilde{\beta} | \hat{\beta}^\text{mle}) \right)$, with the transformation $\tau$ applied at different points.
+
+\begin{alignat}{2}
+ \color{color1} \tikzmark{MarkA}\tau \left[ \normalcolor \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} | \hat{\beta}^\text{mle}} \left( \tilde{\beta} | \hat{\beta}^\text{mle} \right) \right) \color{color1} \right] \normalcolor =&  \tau \left[ \E_{\tilde{\beta}} \left( \tilde{\beta} \right) \right] = \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]\text{,} \label{eqn:true}\\
+ \E_{\hat{\beta}^\text{mle}}\left( \color{color1} \tikzmark{MarkB}\tau\tikzmark{MarkC} \left[ \normalcolor \E_{\tilde{\beta} | \hat{\beta}^\text{mle}} \left( \tilde{\beta} | \hat{\beta}^\text{mle} \right) \color{color1} \right] \normalcolor \right)  =&  \E_{\hat{\beta}^\text{mle}} \left( \tau \left[\hat{\beta}^\text{mle} \right] \right) =  \E_{\hat{\beta}^\text{mle}} \left(\hat{\tau}^\text{mle} \right) \text{, and} \justif{\quad}{$\longleftarrow~$ Switch $\tau$ and an $\E$ once.} \label{eqn:mle}\\
+\E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} | \hat{\beta}^\text{mle}} \left( \color{color1} \tikzmark{MarkD}\tau \left[ \normalcolor \tilde{\beta} | \hat{\beta}^\text{mle} \color{color1} \right] \normalcolor \right) \right)  =& 
+\E_{\tilde{\beta}} \left( \tau \left[\tilde{\beta} \right] \right)  = 
+\E_{\tilde{\beta}} \left(\hat{\tau}^\text{avg.} \right) \text{.}\justif{\quad}{$\longleftarrow~$ Switch $\tau$ and an $\E$ again.}\label{eqn:avg}\DrawBox{red}{blue}
+\end{alignat}
+
+If we subtract Equation \ref{eqn:mle} from Equation \ref{eqn:true}, then we obtain the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$ (see Equation \ref{eqn:ti-bias} for the definition of transformation-induced $\tau$-bias). 
+To move from Equation \ref{eqn:true} from Equation \ref{eqn:mle}, we must swap $\tau$ with an expectation once, so, if $\tau$ is convex, then Equation \ref{eqn:mle} must be greater than Equation \ref{eqn:true}.
+This, in turn, implies that the bias is positive.
+
+To obtain the transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$, we must subtract Equation \ref{eqn:avg} from Equation \ref{eqn:true}. 
+But to move from Equation \ref{eqn:true} from Equation \ref{eqn:avg}, we must swap $\tau$ with an expectation \emph{twice}. 
+Again, if $\tau$ is convex, then Equation \ref{eqn:avg} must be greater than Equation \ref{eqn:true}.
+However, because we expect $\hat{\beta}^\text{mle}$ and $\tilde{\beta} | \hat{\beta}^\text{mle}$ to have similar distributions, we should expect the additional swap to roughly double the bias in $\hat{\tau}^\text{avg.}$ compared to $\hat{\tau}^\text{avg.}$.
+
+\section*{Illustrative Simulations}
+
+\subsection*{Marginal Effects in Poisson Regression}
 
 As an illustration, consider the Poisson regression model $y_i \sim \text{Poisson}(\lambda_i)$, where $\lambda_i = e^{(-2 + x_i)}$ for $i \in \{1, 2, ..., 100\}$. 
 To create the $x_i$s, I simply took 100 draws from a standard normal distribution. 
@@ -300,15 +495,13 @@ Assume that the researcher wants to estimate the instantaneous marginal effect o
 Following the procedures discussed above, I generate 1,000 data sets and use each data set to estimate $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$. 
 Note that the transformation using is convex, so Theorem \ref{thm:direction} guarantees that the transformation-induced $\tau$-bias in both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$ will be positive. The rule of thumb suggests about twice as much bias in $\hat{\tau}^\text{avg.}$ as in $\hat{\tau}^\text{mle}$. 
 
-Figure \ref{fig:poisson-mcs} shows the bias in $\hat{\tau}^\text{avg.}$ and $\hat{\tau}^\text{mle}$ compared to the true value $\tau(\beta)$. 
+Figure \ref{fig:poisson-mcs} shows the transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg.}$ and $\hat{\tau}^\text{mle}$ compared to the true value $\tau(\beta)$. 
 Especially notice three features of this plot. 
 First, the bias is substantial. 
 For $\hat{\tau}^\text{mle}$, the bias is about $\frac{1}{8}$ the size of the true effect. 
 For $\hat{\tau}^\text{avg.}$, the bias is about $\frac{1}{4}$ the size of the true effect. 
 Second, notice that the bias occurs in the expected direction. 
 Because the transformation $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ is convex, the bias is positive. 
-Upon careful inspection of Figure \ref{fig:poisson-mcs}, you might notice that the bias is slightly \textit{negative} in the interval from 0 to $\frac{1}{4}$. 
-In this region, the negative coefficient-induced $\tau$-bias (Poisson regression coefficients are biased toward zero) happens to be larger than the positive transformation-induced $\tau$-bias. Theorem \ref{thm:direction} only addresses transformation-induced $\tau$-bias.
 Third, notice that the bias in $\hat{\tau}^\text{avg.}$ is about twice as large as the bias in $\hat{\tau}^\text{mle}$, as the rule of thumb suggests.
 
 \begin{figure}[h!]
@@ -317,6 +510,15 @@ Third, notice that the bias in $\hat{\tau}^\text{avg.}$ is about twice as large 
 \caption{This figure shows the bias in the estimates of the marginal effects in a Poisson regression model. Notice that the convex transformation $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ creates a positive bias (see Theorem \ref{thm:direction}) and that the bias in $\hat{\tau}^\text{avg.}$ is about twice as large as the bias in $\hat{\tau}^\text{mle}$ (compare Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}).}\label{fig:poisson-mcs}
 \end{center}
 \end{figure}
+
+%\subsection*{Predicted Probabilities in Logistic Regression}
+%
+%When the quantity of interest is the marginal effect from a Poisson regression, we have an advantage: the transformation is strictly convex. 
+%But many quantities of interest require a transformation that is neither strictly convex nor concave.
+%For examples, the inverse-logit transformation researchers use to calculate predicted probabilities convex for inputs less than zero and concave for inputs greater than zero. 
+%
+%But Theorem \ref{thm:direction} offers some intuition about this case. 
+%If the coefficients being transformed (either $\hat{\beta}^\text{mle}$ or $\tilde{\beta}$) lie mostly in a convex region, then the estimated quantity of interest is biased upward and the average of simulations is about twice as biased as the maximum likelihood estimates.
 
 \section*{Example: Supreme Court Decisions}
 
@@ -357,7 +559,7 @@ I use this model illustrate the potential impact of using the simulation average
 I focus on two potential quantities of interest: the probability of a conservative decision and the effect of the Solicitor General filing a brief. 
 Table \ref{tab:ge-qi} summarizes these quantities of interest. 
 
-\begin{table}[]
+\begin{table}[h!]
 \centering
 \caption{This table provides the details of the quantities of interest from George and Epstein's (1992) model of U.S. Supreme Court decisions.}
 \label{tab:ge-qi}
@@ -389,7 +591,7 @@ For example, when maximum likelihood suggests a chance of about 5\%, the average
 This difference may seem small at first (i.e., only 5 percentage points), but the average of simulations is about \textit{double} the maximum likelihood estimate. 
 
 
-\begin{figure}
+\begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=.8\linewidth]{figs/ge-pr.pdf}
@@ -424,16 +626,15 @@ The important point is this: \cite{HanmerKalkan2013} draw a distinction between 
 
 \section*{Conclusion}
 
-Substantive researchers in political science tend to estimate their quantity of interest using the average of simulation (e.g., CLARIFY, Zelig) or using the invariance property of maximum likelihood estimates (margins in Stata and R). 
-The choice between the two seems idiosyncratic rather than principled. 
-However, the choice is clear. 
+Substantive researchers in political science tend to estimate their quantity of interest using the average of simulation (e.g., CLARIFY in Stata, Zelig in R) or using the invariance property of maximum likelihood estimates (e.g., margins in Stata). 
+In practice, researchers' choice between the two seems idiosyncratic rather than principled. 
+But the choice is clear. 
 \cite{Rainey2017} introduces the idea of transformation-induced bias. 
-This paper shows that the average of the simulation roughly \textit{doubles} this bias.
+This paper shows that the average of the simulations roughly \textit{doubles} this bias.
 In many cases, the researcher has small standard errors. 
-In this case, the additional bias is minimal. 
+In this case, the additional bias is small. 
 But in other cases, such as when the researcher has large standard errors or focuses on a highly non-linear transformation of the model coefficients, the bias is substantial. 
-And the fix is easily. 
-Simply plugging the coefficient estimates into the transformation. 
+And the fix is easy: simply plug the coefficient estimates into the transformation to obtain the maximum likelihood estimates of the quantity of interest. 
 Our software should do this by default. 
 
 
