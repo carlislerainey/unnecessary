@@ -486,16 +486,17 @@ However, because we expect $\hat{\beta}^\text{mle}$ and $\tilde{\beta} | \hat{\b
 
 As an illustration, consider the Poisson regression model $y_i \sim \text{Poisson}(\lambda_i)$, where $\lambda_i = e^{(-2 + x_i)}$ for $i \in \{1, 2, ..., 100\}$. 
 To create the $x_i$s, we simply took 100 draws from a standard normal distribution. 
-Assume that the researcher wants to estimate the instantaneous marginal effect of $x$ on $\E(y)$ so that $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ for $x$ ranging from about -3 to about +3.
+Assume that the researcher wants to estimate the instantaneous marginal effect of $x$ on $\E(y)$ so that $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ for $x$ ranging from -3 to +3.
 
-Following the procedures discussed above, we generate 1,000 data sets and use each data set to estimate $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$. 
-Note that the transformation using is convex, so Theorem \ref{thm:direction} guarantees that the transformation-induced $\tau$-bias in both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$ will be positive. The rule of thumb suggests about twice as much bias in $\hat{\tau}^\text{avg.}$ as in $\hat{\tau}^\text{mle}$. 
+Following the procedures discussed above, we generate 10,000 data sets and use each data set to estimate $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$. 
+Note that the transformation is convex, so Theorem \ref{thm:direction} guarantees that the transformation-induced $\tau$-bias in both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg.}$ will be positive. 
+The rule of thumb suggests about twice as much bias in $\hat{\tau}^\text{avg.}$ as in $\hat{\tau}^\text{mle}$. 
 
 Figure \ref{fig:poisson-mcs} shows the transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg.}$ and $\hat{\tau}^\text{mle}$ compared to the true value $\tau(\beta)$. 
 Especially notice three features of this plot. 
 First, the bias is substantial. 
-For $\hat{\tau}^\text{mle}$, the bias is about $\frac{1}{8}$ the size of the true effect. 
-For $\hat{\tau}^\text{avg.}$, the bias is about $\frac{1}{4}$ the size of the true effect. 
+The relative size of the bias varies, but when the true marginal effect is greater than 0.5, the average transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$ is about $\frac{1}{3}$ the size of the true effect. 
+For $\hat{\tau}^\text{avg.}$, the bias is about $\frac{3}{4}$ the size of the true effect. 
 Second, notice that the bias occurs in the expected direction. 
 Because the transformation $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ is convex, the bias is positive. 
 Third, notice that the bias in $\hat{\tau}^\text{avg.}$ is about twice as large as the bias in $\hat{\tau}^\text{mle}$, as the rule of thumb suggests.
