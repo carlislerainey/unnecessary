@@ -6,7 +6,6 @@
 \usepackage{array}
 \usepackage{subcaption}
 
-
 \usepackage{fullpage}
 \usepackage{breakcites}
 \usepackage{setspace}
@@ -40,7 +39,6 @@
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
-
 % Define mathematical results
 \newtheorem{lemma}{Lemma}
 \newtheorem{proposition}{Proposition}
@@ -59,7 +57,6 @@
 \DeclareMathOperator*{\E}{\text{E}}
 %\DeclareMathOperator*{\Pr}{\text{Pr}}
 
-
 %Set up fonts the way I like
 %\usepackage{tgpagella}
 %\usepackage[T1]{fontenc}
@@ -77,7 +74,6 @@
 % A special command to create line break in table cells
 \newcommand{\specialcell}[2][c]{%
  \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
-
 
 %% Set up lists the way I like
 % Redefine the first level
@@ -103,7 +99,6 @@
 %\usepackage{footmisc}
 %\renewcommand{\thefootnote}{\symbolfootnote{footnote}}
 
-
 % Create the colors I want
 \usepackage{color, xcolor}
 \definecolor{color1}{RGB}{217,95,2}  % orange
@@ -122,7 +117,6 @@
 % for drawing arrows
 \usepackage{tikz}
 \usetikzlibrary{calc,shapes}
-
 
 \newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 \newcommand{\DrawBox}[2]{%
@@ -167,7 +161,6 @@ urlcolor=blue % color of external links
 % enable comments in pdf
 \newcommand{\dtk}[1]{\textcolor{blue}{#1}}
 \newcommand{\ctk}[1]{\textcolor{red}{#1}}
-
 
 \begin{document}
 
@@ -217,8 +210,6 @@ In general, when reporting point estimates of the quantity of interest, research
 \onehalfspace
 %\section*{Introduction}
 
-
-
 Political scientists now routinely employ maximum likelihood (ML) estimators to model a wide variety of dependent variables. Examples include probit, logit, and rare events logistic regression (King and Zeng 2001) for binary outcomes; ordered logit and probit for ordered categorical outcomes; multinomial logit and probit for unordered categorical outcomes; Poisson and negative binomial regression for count data, and beta regression for fractions (Paolino 2001). Numerous additional ML estimators could be listed here, many of them proposed by political scientists and regularly used in political science research. What all of these estimators have in common is that model coefficients are not directly informative about the substantive impact of changes in predictors on the dependent variable.
 
 \cite{KingTomzWittenberg2000} noticeably improved quantitative research in political science by urging political scientists to focus on substantively meaningful {\it quantities of interest} such as predicted probabilities, expected counts, marginal effects, and first differences. Before the publication of \cite{KingTomzWittenberg2000}, it was common for political scientists to present lengthy tables of estimated model coefficients from non-linear models, with little or no attention paid to the substantive interpretation of the results beyond the sign and statistical significance of the model coefficients. Moreover, when researchers did report quantities of interest they often failed to provide valid measures of uncertainty for them. Expectations about how empirical results should be presented changed after the publication of \cite{KingTomzWittenberg2000} and the availability of easy-to-use software for Stata (CLARIFY) and \texttt{R} (Zelig). According to the Web of Science, by January 2018 \cite{KingTomzWittenberg2000} has been cited 1,097 times, making it the fourth most-cited methodology article in political science, at least among those published in the \textit{American Political Science Review}, the \textit{American Journal of Political Science}, and \textit{Political Analysis}. Moreover, it is the second most-cited article \textit{overall} in the \textit{American Journal of Political Science}, falling just $56$ citations short of \cite{BeckKatzTucker1998}. Google Scholar suggests that \cite{KingTomzWittenberg2000} has as many as 3,598 citations, that \cite{TomzWittenbergKing2003}, which provides an overview of the CLARIFY software, has as many as 1,437, and that Imai, King, and Lau (2008), which proposes a common framework for statistical analysis and software development centered on Zelig, has as many as 318. In short, the valuable advice offered by \cite{KingTomzWittenberg2000} has been incredibly influential, not only in political science but across the social sciences.
@@ -233,20 +224,7 @@ Software implementations differ in whether they rely on the invariance property 
 
 The methodological literature is similarly divided. Herron (1999) for example advocates using the ML invariance property to get a point estimator for predicted probabilities in limited dependent variable models and then using stochastic simulation to compute measures of uncertainty. Even though the paper cites an earlier version of \cite{KingTomzWittenberg2000}, it does not comment on the fact that its recommendation differs from \cite{KingTomzWittenberg2000}'s. Carsey and Harden (2013) follows \cite{KingTomzWittenberg2000} in recommending the use of the average of simulation draws when computing quantities of interest. We are not aware of any paper that constrasts these two approaches in terms of finite sample bias. 
 
-
-%Suppose a researcher uses maximum likelihood to estimate a statistical model in which $y_i \stackrel{iid}{\sim} f(\theta_i)$, where $i \in \{1,\ldots, N\}$ and $f$ represents a probability distribution. The parameter $\theta_i$ is connected to a design matrix $X$ of $k$ explanatory variables and a column of ones by a link function $g$, so that $g(\theta_i) = X_i\beta$, where $\beta \in \mathbb{R}^{k+1}$ represents a vector of coefficients with length $k + 1$. The researcher uses maximum likelihood to compute estimates $\hat{\beta}^{\text{mle}}$ for the parameter vector $\beta$.\footnote{Note that we adopt a frequentist perspective, so $\hat{\beta}^{\text{mle}}$ represents a \emph{random variable} that varies across samples.}
-
-%While it might seem obvious that when estimating non-linear models, estimated model coefficients are often of limited interest, the publication of \cite{KingTomzWittenberg2000} made this point very clear, admonishing political scientists to focus on substantively meaningful {\it quantities of interest} when reporting their empirical results. For example, when fitting binary, ordinal, or multinomial probit models, we typically care about probabilities or changes in probabilities (i.e., marginal effects or first differences). When modeling count data using Poisson or negative binomial models, we often are most interested in the expected count or changes in the expected count.
-
-%\noindent It would be impossible to overstate the salutary effects that \cite{KingTomzWittenberg2000} has had on quantitative political science research. Before its publication, it was common for political scientists to present lengthy tables of estimated model coefficients from non-linear models, with little or no attention paid to the substantive interpretation of the results beyond the sign and statistical significance of the model coefficients. When researchers did report quantities of interest these were typically not accompanied by measures of uncertainty. Expectations about how empirical results should be presented changed swiftly after the publication of \cite{KingTomzWittenberg2000}. According to the Web of Science, by January 2018 \cite{KingTomzWittenberg2000} had been cited 1,097 times, making it the fourth most-cited methodology article in political science, at least among those published in the \textit{American Political Science Review}, the \textit{American Journal of Political Science}, and \textit{Political Analysis}. Moreover, it is the second most-cited article \textit{overall} in the \textit{American Journal of Political Science}, falling just $56$ citations short of \cite{BeckKatzTucker1998}. Google Scholar suggests that \cite{KingTomzWittenberg2000} has as many as 3,598 citations and that \cite{TomzWittenbergKing2003}, which provides an overview of the CLARIFY software, has as many as 1,437. In short, the stochastic simulation approach that \cite{KingTomzWittenberg2000} advocates has been incredibly influential, both in political science and in neighboring disciplines.
-
-
-
-
-
 \section*{Transformation-Induced $\tau$-Bias}
-
-%The ML invariance property does not come without cost.
 
 The transformation of unbiased model coefficient estimates introduces bias into the estimate of the quantity of interest. If the coefficient estimates are biased, the transformation-induced bias can, but generally does not, offset the bias in the coefficient estimates. \citet[p. 404]{Rainey2017} decomposes the bias in the estimate of the quantity of interest, which he refers to as {\it total $\tau$-bias,} into two components: {\it transformation-induced $\tau$-bias} and {\it coefficient-induced $\tau$-bias.} These are defined as
 \begin{equation}
@@ -263,7 +241,6 @@ The direction and magnitude of the coefficient-induced $\tau$-bias depends on th
 Use maximum likelihood to estimate the model coefficients $\hat{\beta}^{\text{mle}}$ and their covariance $\hat{V} \left( \hat{\beta}^{\text{mle}} \right)$.
 \item \textit{Simulate the coefficients.}
 Simulate a large number $M$ of coefficient vectors $\tilde{\beta}^{(i)}$, for $i \in \{1, 2,\ldots, M\}$, using $\tilde{\beta}^{(i)} \sim MVN \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, where $MVN$ is the multivariate normal distribution.
-%\footnote{One could use alternative approaches to generate $\tilde{\beta}$, such as the parametric or non-parametric bootstrap. As long as $\tilde{\beta}$ approximately follows a normal distribution the intuitions and best practices we offer below still apply.}[HOLGER: I'm not sure we need this footnote. I think it might make more sense to have a sentence towards the end pointing out that statistical inference is possible using various commonly used approaches]
 \item \textit{Convert simulated coefficients into simulated quantity of interest.}
 Compute $\tilde{\tau}^{(i)} = \tau \left( \tilde{\beta}^{(i)} \right)$ for $i \in \{1, 2,\ldots, M\}$.
 Most quantities of interest depend on the values of the explanatory variables.
@@ -272,27 +249,6 @@ In any case, the transformation $\tau(\cdot)$ includes this choice.\footnote{As 
 \item \textit{Average the simulations of the quantity of interest.}
 Estimate the quantity of interest using the average of the simulations of the quantity of interest, so that $\hat{\tau}^{\text{avg}} = \frac{1}{M} \sum_{i = 1}^{M} \tilde{\tau}^{(i)}$.\footnote{In the discussion that follows, we assume no Monte Carlo error exists in $\hat{\tau}^{\text{avg}}$. In other words, we assume that $M$ is sufficiently large so that $\hat{\tau}^{\text{avg}} = \text{E}\left[ \tau \left(\tilde{\beta} \right) \right]$, where $\tilde{\beta} \sim MVN \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$.}\\
 \end{enumerate}
-
-
-%Make no mistake, the procedures proposed by \cite{KingTomzWittenberg2000} and software offered by \cite{TomzWittenbergKing2003} have meaningfully altered (and improved) the practice of political science research.
-
-%% Please add the following required packages to your document preamble:
-%% \usepackage{booktabs}
-%\begin{table}[h!]
-%\centering
-%\caption{This table shows the five most cited methodology articles published in the \textit{American Political Science Review}, the \textit{American Journal of Political Science}, or \textit{Political Analysis}.}
-%\label{my-label}
-%\footnotesize
-%\begin{tabular}{@{}m{6cm}l l m{2cm}m{2cm}@{}}
-%\toprule
-%Title                                                                                                & Journal       & Citation                          & Web of Science Citation & Google Scholar Citations \\ \midrule
-%What to Do (and Not to Do) with Time-series Cross-section Data                                       & \textit{APSR} & Beck and Katz (1995)              & 2125                    & 5682                    \\
-%Understanding interaction models: Improving empirical analyses                                       & \textit{PA}   & Brambor, Clark, and Golden (2006) & 1729                    & 4110                    \\
-%Taking time seriously: Time-series-cross-section analysis with a binary dependent variable           & \textit{AJPS} & Beck, Katz, and Tucker (1998)     & 1153                    & 2611                    \\
-%Making the most of statistical analyses: Improving interpretation and presentation                   & \textit{AJPS} & King, Tomz, Wittenberg (2000)     & 1097                    & 3598                    \\
-%Matching as nonparametric preprocessing for reducing model dependence in parametric causal inference & \textit{PA}   & Ho, Imai, King, Stuart (2007)     & 946                     & 2225                    \\ \bottomrule
-%\end{tabular}
-%\end{table}
 
 \section*{The Average of Simulations Versus the Maximum Likelihood Estimate}
 
@@ -352,7 +308,6 @@ where $H\left[ \E \left( \hat{\beta}^\text{mle} \right) \right]$ represents the 
 When we compare Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, we are yet again comparing the \textit{average of a function} with the \textit{function of that average}. Therefore, Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx} are not exactly equal. But, as a rule of thumb, we should expect them to be similar. And to the extent that this is the case, the \emph{excessive} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ is about the same as the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$. This implies that the transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ will be about \emph{double} the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$.\footnote{This rule of thumb naturally raises the question of whether we can use it to de-bias estimates of quantities of interest by adjusting $\hat{\tau}^\text{mle}$ by the difference between $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$. Some preliminary Monte Carlo evidence suggests that the performance of the bias-adjusted estimator depends strongly on the dgp. Bias-adjustment can lead to smaller MSEs as well as larger MSEs, mirroring the performance of other de-biasing strategies such as bootstrap bias correction (Efron and Tibshirani 1993: ch. 10).}
 
 Because of the similarity in Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, the difference between $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$ becomes large under the conditions identified by \cite{Rainey2017} as leading to large transformation-induced $\tau$-bias: when the non-linearity in the transformation $\tau(\cdot)$ is severe and when the standard errors of $\hat{\beta}^\text{mle}$ are large. While transformation-induced bias vanishes as $N \to\infty$, it can be large for the sample sizes commonly encountered in social science research (\cite{Rainey2017}).
-
 
 \section*{The Intuition}
 
@@ -416,7 +371,6 @@ Figure \ref{fig:int-samp} shows the density plots for the three empirical sampli
 \end{center}
 \end{figure}
 
-
 \subsection*{Using the Law of Iterated Expectations}
 
 We can also develop the intuition using a more mathematical approach via the law of iterated expectations. For this it helps if we alter the notation slightly, making two implicit dependencies explicit. We explain each change below and use the alternate, more expansive notation only in this section.
@@ -426,8 +380,6 @@ The law of iterated expectations states that $\E_Y \left( \E_{X \mid Y}(X \mid Y
 Outside of this section, we realize that the distribution of $\tilde{\beta}$ depends on $\hat{\beta}^\text{mle}$ and could be written as $\tilde{\beta} \mid \hat{\beta}^\text{mle}$. To remain consistent with previous work, especially \cite{KingTomzWittenberg2000} and \cite{Herron1999}, we simply use $\tilde{\beta}$ to represent $\tilde{\beta} \mid \hat{\beta}^\text{mle}$. The definition of $\tilde{\beta}$ makes this clear. In this section only, we use $\tilde{\beta} \mid \hat{\beta}^\text{mle}$ to represent the conditional distribution of $\tilde{\beta}$ and $\tilde{\beta}$ to represent the \underline{un}conditional distribution of $\tilde{\beta}$. Intuitively, one might imagine (1) generating a data set $y$, (2) estimating $\hat{\beta}^\text{mle}$, and (3) simulating $\tilde{\beta} \mid \hat{\beta}^\text{mle}$. If we do steps (1) and (2) just once, but step (3) repeatedly, then we have a sample from the conditional distribution $\tilde{\beta} \mid \hat{\beta}^\text{mle}$. If we do steps (1), (2), and (3) repeatedly, then we have a sample from the \underline{un}conditional distribution $\tilde{\beta}$. The unconditional distribution will help us understand the nature of the excessive transformation-induced $\tau$-bias.\footnote{More technically, we could also define the relevant distributions hierarchically. First, we have $\hat{\beta}^\text{mle} \sim s(\beta)$, where $s(\beta)$ represents the sampling distribution of $\hat{\beta}$. Then we have $\tilde{\beta} \sim MVN \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$. {\color{red} HOLGER: I would drop this footnote; I don't think it adds much.}}
 
 Applying the law of iterated expectations, we obtain $\E_{\tilde{\beta}} \left( \tilde{\beta} \right) = \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} (\tilde{\beta} \mid \hat{\beta}^\text{mle}) \right)$. The three identities below connect the three key quantities from Theorem \ref{thm:direction} to three versions of $\E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} (\tilde{\beta} \mid \hat{\beta}^\text{mle}) \right)$, with the transformation $\tau(\cdot)$ applied at different points.
-
-%Using the law of the unconscious statistician, we have $\E_{\tilde{\beta}} \left( \tau \left[\tilde{\beta} \right] \right) = \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta}) | \hat{\beta}^\text{mle}} \left( \tau[\tilde{\beta}] | \hat{\beta}^\text{mle} \right) \right)$.
 
 \begin{alignat}{2}
  \color{color1} \tikzmark{MarkA}\tau \left[ \normalcolor \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} \left( \tilde{\beta} \mid \hat{\beta}^\text{mle} \right) \right) \color{color1} \right] \normalcolor =&  \tau \left[ \E_{\tilde{\beta}} \left( \tilde{\beta} \right) \right] = \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]\text{,} \label{eqn:true}\\
@@ -442,7 +394,6 @@ To move from Equation \ref{eqn:true} to Equation \ref{eqn:mle} we must swap $\ta
 This, in turn, implies that the bias is positive.
 
 To obtain the transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ we must subtract Equation \ref{eqn:avg} from Equation \ref{eqn:true}. But to move from Equation \ref{eqn:true} to Equation \ref{eqn:avg} we must swap $\tau(\cdot)$ with an expectation \emph{twice}. Again, if $\tau(\cdot)$ is convex, then Equation \ref{eqn:avg} must be greater than Equation \ref{eqn:true}. However, because we expect $\hat{\beta}^\text{mle}$ and $\tilde{\beta} \mid \hat{\beta}^\text{mle}$ to have similar distributions, we should expect the additional swap to roughly double the bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{avg}$.
-
 
 \section*{Illustrative Simulations}
 
@@ -464,49 +415,11 @@ Figure \ref{fig:poisson-mcs} shows the transformation-induced $\tau$-bias in $\h
 \end{center}
 \end{figure}
 
-%\subsection*{Predicted Probabilities in Logistic Regression}
-%
-%When the quantity of interest is the marginal effect from a Poisson regression, we have an advantage: the transformation is strictly convex.
-%But many quantities of interest require a transformation that is neither strictly convex nor concave.
-%For examples, the inverse-logit transformation researchers use to calculate predicted probabilities convex for inputs less than zero and concave for inputs greater than zero.
-%
-%But Theorem \ref{thm:direction} offers some intuition about this case.
-%If the coefficients being transformed (either $\hat{\beta}^\text{mle}$ or $\tilde{\beta}$) lie mostly in a convex region, then the estimated quantity of interest is biased upward and the average of simulations is about twice as biased as the maximum likelihood estimates.
-
 \section*{Example: Supreme Court Decisions}
 
 To unify explanation of U.S. Supreme Court decisions, \cite{GeorgeEpstein1992} fit a single probit model that combines the legal and extralegal models of Court decision-making to a data set of 64 decisions.
 The authors model the probability of a conservative decision as a function of whether the Solicitor General filed an Amicus brief (SG = 1) or not (SG = 0) and 10 other explanatory variables.
-%Table \ref{tab:ge-coefs} provides the coefficient estimates.\footnote{I do not obtain identical coefficient estimates and standard errors, but the estimates are similar.}
 See \cite{GeorgeEpstein1992} for the more details of the model.
-
-%\begin{table}
-%\begin{center}
-%\begin{tabular}{l c }
-%\hline
-% & Coef. (S.E.) \\
-%\hline
-%Intercept                                  & $-13.62 \; (3.60)^{*}$ \\
-%Death-Qualified Jury                       & $1.28 \; (1.07)$       \\
-%Capital Punishment Proportional to Offense & $2.96 \; (1.14)^{*}$   \\
-%Particularizing Circumstances              & $1.14 \; (0.65)$       \\
-%Aggravating Factors                        & $1.06 \; (0.67)$       \\
-%State Psychiatric Examination              & $2.24 \; (0.88)^{*}$   \\
-%Conservative Political Environment         & $2.18 \; (0.76)^{*}$   \\
-%Court Change                               & $0.60 \; (0.38)$       \\
-%State Appellant                            & $1.52 \; (0.74)^{*}$   \\
-%Inexperienced Defense Counsel              & $1.08 \; (0.64)$       \\
-%Repeat Player State                        & $1.89 \; (0.65)^{*}$   \\
-%Amicus Brief from Solicitor General        & $1.79 \; (1.37)$       \\
-%\hline
-%Num. obs.                                  & 64                     \\
-%\hline
-%\multicolumn{2}{l}{\scriptsize{$^*p<0.05$}}
-%\end{tabular}
-%\caption{Statistical models}
-%\label{tab:ge-coefs}
-%\end{center}
-%\end{table}
 
 We use this model illustrate the potential impact of using the simulation average rather than the maximum likelihood estimate of the quantity of interest.
 We focus on two potential quantities of interest: the probability of a conservative decision and the effect of the Solicitor General filing a brief.
@@ -576,15 +489,6 @@ Because researchers have not drawn a sharp conceptual distinction between using 
 The important point is this: \cite{HanmerKalkan2013} draws a distinction between the average-case and observed-value approaches to computing
 quantities of interest. Our paper draws a distinction between estimating quantities of interest (whether average-case or observed-value based) using the average of simulated draws and using the ML invariance property. Regardless of whether researchers use the average-case approach or the observed-value approach, the average of simulation draws will lead to estimates that generally will suffer from bias that can easily be avoided by relying on the ML invariance property instead.\footnote{\color{red} HOLGER: Do we want to say anything about what to do when using non ML estimators?}
 
-
-%\subsection*{Open questions}
-
-%Second, the invariance property is tied to maximum likelihood estimation. While most estimators used in political science research are maximum likelihood estimators, increasingly, researchers are using tools from statistical learning that are not rooted in parametric assumptions about the distribution of the outcome variable. Examples include tree-based learners such as bagging, boosting, and random forest (e.g., ). How should we approach the estimation of quantities of interests from such model fits?
-
-
-%When we average the maximum likelihood estimates of the effect of a Solicitor General brief in the left panel (b) of Figure \ref{fig:ge} (as \cite{HanmerKalkan2013} seem to suggest in their paper), we obtain an estimated effect of 0.28.
-%When we average the simulation averages (as Hanmer and Kalkan do in their Stata code), we obtain an estimated effect of 0.23. The maximum likelihood estimate is about 22\% larger than the simulation average--the choice matters.
-
 \section*{Conclusion}
 
 Many political scientists turn to \cite{KingTomzWittenberg2000}'s seminal paper when seeking advice on how to interpret, summarize, and present empirical results. By highlighting the importance of reporting substantively meaningful quantities of interest accompanied by valid measures of statistical uncertainty, \cite{KingTomzWittenberg2000} has significantly improved empirical research in political science and neighboring disciplines. However, depending on the statistical software used, political scientists following \cite{KingTomzWittenberg2000}'s advice will estimate quantities of interest either with the average of simulation draws (e.g., CLARIFY in Stata, Zelig in \texttt{R}) or relying on the ML invariance property (e.g., margins in Stata and \texttt{R}). In practice, researchers' choice between the two approaches seems idiosyncratic rather than principled. As far as we can tell, it is largely a function of which software package a researcher prefers to use, with little thought given to differences in the underlying statistical machinery. Even the methodological literature has failed to pay attention to potential differences between the two approaches to estimating quantities of interest.
@@ -593,8 +497,6 @@ Many political scientists turn to \cite{KingTomzWittenberg2000}'s seminal paper 
 
 
 Finally, if researchers use the ML invariance property to estimate quantities of interest, how should they conduct statistical inference? Commonly employed approaches include the delta method, stochastic simulation (but using the ML invariance property for the point estimator, as suggested by Herron (1999)), or the bootstrap (e.g., Efron and Tibshirani 1993). Krinsky and Robb (1991) presents some limited Monte Carlo evidence that these approaches lead to similar inferences but a more detailed examination of this question is, to the best of our knowledge, still missing from the literature.
-
-
 
 \singlespace
 %\newpage
