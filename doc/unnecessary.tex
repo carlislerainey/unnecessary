@@ -167,7 +167,7 @@ urlcolor=blue % color of external links
 \begin{center}
 
 {\LARGE \textbf{Unnecessary Bias}}\\\vspace{2mm}
-{ \textbf{Do Not Use the Average of Simulations to Estimate Quantities of Interest}}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}.}
+{ \textbf{The Consequences of Averaging Simulated Quantities of Interest}}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}.}
 
 \vspace{5mm}
 
@@ -210,72 +210,84 @@ In general, when reporting point estimates of the quantity of interest, research
 \onehalfspace
 %\section*{Introduction}
 
-Political scientists now routinely employ maximum likelihood (ML) estimators to model a wide variety of dependent variables.
-Examples include probit, logit, and rare events logistic regression (King and Zeng 2001) for binary outcomes; ordered logit and probit for ordered categorical outcomes; multinomial logit and probit for unordered categorical outcomes; Poisson and negative binomial regression for count data, and beta regression for fractions (Paolino 2001). 
-Numerous additional ML estimators could be listed here, many of them proposed by political scientists and regularly used in political science research. 
-What all of these estimators have in common is that model coefficients are not directly informative about the substantive impact of changes in predictors on the dependent variable.
+% political scientists use ML estimators, but the coefs are not always informative
+Political scientists now routinely employ maximum likelihood (ML) estimators to model a wide variety of dependent variables. 
+Examples include logit and probit models for binary outcomes; ordered logit and probit for ordered categorical outcomes; multinomial logit and probit for unordered categorical outcomes; Poisson and negative binomial regression for count data, and beta regression for fractions (Paolino 2001). 
+We could list numerous additional ML estimators here, many of them proposed by political scientists and regularly used in political science research. 
+However, the model coefficients from these estimators are not always directly informative about the quantities of interest.
 
+% introduce KTW and QIs
+Instead of focusing on model coefficients, \cite{KingTomzWittenberg2000} suggest focusing on substantively meaningful quantities of interest and offer a method for computing these quantities. 
+Their suggestion has improved political science research enourmously.
+Rather than focusing on model coefficients, almost all researchers rely on more substantively meaningful quantities such as predicted probabilities, first diffences, and marginal effects.
 
-\cite{KingTomzWittenberg2000} noticeably improved quantitative research in political science by urging political scientists to focus on substantively meaningful {\it quantities of interest} such as predicted probabilities, expected counts, marginal effects, and first differences.
-Before the publication of \cite{KingTomzWittenberg2000}, it was common for political scientists to present lengthy tables of estimated model coefficients from non-linear models, with little or no attention paid to the substantive interpretation of the results beyond the sign and statistical significance of the model coefficients.
-Moreover, when researchers did report quantities of interest they often failed to provide valid measures of uncertainty for them.
-Expectations about how empirical results should be presented changed after the publication of \cite{KingTomzWittenberg2000} and the availability of easy-to-use software for Stata (CLARIFY) and \texttt{R} (Zelig).
-According to the Web of Science, by January 2018 \cite{KingTomzWittenberg2000} has been cited 1,097 times, making it the fourth most-cited methodology article in political science, at least among those published in the \textit{American Political Science Review}, the \textit{American Journal of Political Science}, and \textit{Political Analysis}.
-Moreover, it is the second most-cited article \textit{overall} in the \textit{American Journal of Political Science}, falling just $56$ citations short of \cite{BeckKatzTucker1998}.
-Google Scholar suggests that \cite{KingTomzWittenberg2000} has as many as 3,598 citations, that \cite{TomzWittenbergKing2003}, which provides an overview of the CLARIFY software, has as many as 1,437, and that Imai, King, and Lau (2008), which proposes a common framework for statistical analysis and software development centered on Zelig, has as many as 318.
-In short, the valuable advice offered by \cite{KingTomzWittenberg2000} has been incredibly influential, not only in political science but across the social sciences.
+% KTW - simulation
+\cite{KingTomzWittenberg2000} also offer a simulation-based method for computing these quantities of interest. 
+They suggest that the researcher repeatedly (1) draw model coefficients from a multivariate normal distribution, (2) transform the coefficients into the quantity of interest, and (3) summarize the distribution of simulated quantity of interest to obtain. 
+The authors suggest that researcher can summarize these simulation to obtain the desired point and interval estimate.
 
-In addition to highlighting the importance of reporting substantively meaningful quantities of interest, a major contribution of \cite{KingTomzWittenberg2000} was to popularize {\it stochastic simulation} to compute quantities of interest and associated measures of statistical uncertainty.
-Stochastic simulation repeatedly draws model coefficients from their asymptotic multivariate normal sampling distribution, transforms them into quantities of interest (such as marginal effects or predicted probabilities), and then summarizes the distribution of simulated estimates by reporting its mean and standard error.
+% KTW - avg.
+Our analysis examines one piece of King, Tomz, and Wittenberg's (2000) advice: use the average of the simulated quantities of interest as the point estimate. 
+We refer to this estimate as the "simulation average" estimate of the quantity of interest.
+With theory and examples, we show that averaging simulations is suboptimal. 
+In short, it exaggerates the transformation-induced bias described by \cite{Rainey2017}.
+Instead, we propose that political scientists rely on the invariance property to calculate the ML estimate of the quantity of interest.
 
-Our paper addresses one particular aspect of \cite{KingTomzWittenberg2000}'s advice: to use the mean of the simulated quantities of interest as the point estimator for the quantity of interest.
-As we will show both analytically and empirically, this choice is suboptimal in that it can introduce unnecessary finite sample bias into estimates of quantities of interest.
-Instead, we propose that political scientists compute quantities of interest based on the ML {\it invariance} property, which, as we will show, generally results in less finite sample bias.
-Informally speaking, the ML invariance property says that we can estimate the function of a parameter by estimating the parameter using ML and then applying the function to the estimate (\citealt[pp. 75-76]{King1989}, and \citealt[pp. 320-321]{CasellaBerger2002}).
-
-More formally, suppose a researcher uses ML to estimate a statistical model in which $y_i \stackrel{iid}{\sim} f(\theta_i)$, where $i \in \{1,\ldots, N\}$ and $f$ represents a probability distribution.
+% invariance properity
+The invariance property of ML estimators allows the reseacher to find the ML estimate of \textit{a function} of a parameter by first using ML to estimate the parameter and then applying the function to that estimate (\citealt[pp. 75-76]{King1989}, and \citealt[pp. 320-321]{CasellaBerger2002}).
+We refer to this estimate as the "ML" estimate of the quantity of interest.
+More formally, suppose a researcher uses ML to estimate a statistical model in which $y_i {\sim} f(\theta_i)$, where $i \in \{1,\ldots, N\}$ and $f$ represents a probability distribution. 
 The parameter $\theta_i$ is connected to a design matrix $X$ of $k$ explanatory variables and a column of ones by a link function $g$, so that $g(\theta_i) = X_i\beta$, where $\beta \in \mathbb{R}^{k+1}$ represents a vector of coefficients with length $k + 1$.
-The researcher uses maximum likelihood to compute estimates $\hat{\beta}^{\text{mle}}$ for the parameter vector $\beta$.\footnote{Note that we adopt a frequentist perspective, so $\hat{\beta}^{\text{mle}}$ represents a \emph{random variable} that varies across samples.} We refer to the function that transforms model coefficients into quantities of interest as $\tau(\cdot)$.
-For a probit model, for example, $\tau(\cdot) = \Phi( X_i \beta) = \text{Pr}(y_i = 1 \mid  X_i) = \int_{-\infty} ^{X_i \beta} \frac {1} {\sqrt{2\pi}} e^{-\frac {\left(y_i - X_i \beta\right)^2} {2}} d\mathbf X_i$, the cumulative distribution function of the standard normal distribution.
-The invariance property $\hat{\tau}^{\text{mle}} = \tau \left( \hat{\beta}^{\text{mle}}\right)$ can be used to quickly obtain a maximum likelihood estimate of the quantity of interest (\citealt[pp. 75-76]{King1989}, and \citealt[pp. 320-321]{CasellaBerger2002}).
+The researcher uses maximum likelihood to compute estimates $\hat{\beta}^{\text{mle}}$ for the parameter vector $\beta$.
+We refer to the function that transforms model coefficients into quantities of interest as $\tau(\cdot)$.
+For example, if the researcher using a logit model chooses to focus on a predicted probability for a particular observation $X_c$, then $\tau(\beta) = \text{logit}^{-1}( X_c \beta) = \dfrac{1}{1 + e^{-X_c\beta}}$. 
+The the researcher can use the invariance property $\hat{\tau}^{\text{mle}} = \tau \left( \hat{\beta}^{\text{mle}}\right) = \text{logit}^{-1} \left( X_c \hat{\beta}^{\text{mle}} \right) = \dfrac{1}{1 + e^{-X_c \hat{\beta}^{\text{mle}}}}$ to quickly obtain a maximum likelihood estimate of the predicted probability.
 
-Software implementations differ in whether they rely on the invariance property or \cite{KingTomzWittenberg2000}'s stochastic simulation approach to estimate quantities of interest.
-Some commonly used software, such as margins in Stata (and Leeper's margins port into \texttt{R}), uses the ML invariance property.
-But other software, such as CLARIFY for Stata and Zelig for \texttt{R}, adopts the stochastic simulation approach recommended by \cite{KingTomzWittenberg2000}.
+% What does software do?
+Software implementations differ.
+Some, such as margins in Stata, report the ML estimate of the quantity of interest using the invariance principle. 
+Others, such as Clarify in Stata or Zelig in R, report the simulation average estimate.
 
-The methodological literature is similarly divided.
-Herron (1999) for example advocates using the ML invariance property to get a point estimator for predicted probabilities in limited dependent variable models and then using stochastic simulation to compute measures of uncertainty.
-Even though the paper cites an earlier version of \cite{KingTomzWittenberg2000}, it does not comment on the fact that its recommendation differs from \cite{KingTomzWittenberg2000}'s.
-Carsey and Harden (2013) follows \cite{KingTomzWittenberg2000} in recommending the use of the average of simulation draws when computing quantities of interest.
-We are not aware of any paper that constrasts these two approaches in terms of finite sample bias. 
+% What does the methods literature suggest?
+The methodology literature offers similarly divided advice.
+\cite{Herron1999} suggests using the invariance principle to compute the ML estimate of the quantity of interest and using simulation to calculate the measures of uncertainty.\footnote{\cite{Herron1999} cites an earlier version of \cite{KingTomzWittenberg2000}, but does not comment on whether researchers should prefer the ML estimate over the simulation average estimate.}
+Carsey and Harden (2013) follows \cite{KingTomzWittenberg2000} and recommends that researchers use the simulation average estimate.
+We do not know of any paper that constrasts the ML and the simulation average estimates. 
+Indeed, it seems that the literature considers both approaches valid and perhaps equivalent.
+However, we argue that the ML estimate has a distinct advantage over the simulation average estimate.
 
 \section*{Transformation-Induced $\tau$-Bias}
 
-The transformation of unbiased model coefficient estimates introduces bias into the estimate of the quantity of interest.
-If the coefficient estimates are biased, the transformation-induced bias can, but generally does not, offset the bias in the coefficient estimates.
-\citet[p. 404]{Rainey2017} decomposes the bias in the estimate of the quantity of interest, which he refers to as {\it total $\tau$-bias,} into two components: {\it transformation-induced $\tau$-bias} and {\it coefficient-induced $\tau$-bias.} These are defined as
+% partition the bias
+While we argue that researchers should use the invariance principle to transform coefficient estimated into the quantity of interest, \cite{Rainey2017} shows that this transformation can introduce bias into the estimates of the quantity of interest.
+To highly the impact of the transformation, \citet[p. 404]{Rainey2017} decomposes the bias in the estimate of the quantity of interest, which he refers to as total $\tau$-bias, into two components: transformation-induced $\tau$-bias and coefficient-induced $\tau$-bias. 
+Rainey defines these as
 \begin{equation}
 \text{total } \tau\text{-bias}= \underbrace{ \E[\tau(\hat{\beta}^\text{mle})]-  \tau[\E(\hat{\beta}^\text{mle})]  }_{\text{transformation-induced}} + \overbrace{  \tau[\E(\hat{\beta}^\text{mle})] - \tau(\beta)  }^{\text{coefficient-induced}}\text{.} \label{eqn:ti-bias}
 \end{equation}
-The direction and magnitude of the coefficient-induced $\tau$-bias depends on the choice of $\tau(\cdot)$ and the bias in the coefficient estimates, but an unbiased estimator $\hat{\beta}^\text{mle}$ implies the absence of coefficient-induced $\tau$-bias. 
-Going forward, we will not consider coefficient-induced $\tau$-bias any further.
+
+% point out ci-bias
+Note that the direction and magnitude of the coefficient-induced $\tau$-bias depends on the choice of $\tau(\cdot)$ and the bias in the coefficient estimates, but an unbiased estimator $\hat{\beta}^\text{mle}$ implies the absence of coefficient-induced $\tau$-bias. 
+We do not consider coefficient-induced $\tau$-bias any further.
+
+% point out ti-bias
 Instead, we focus on transformation-induced $\tau$-bias.
-Its sign can be predicted based on the shape of the transformation that converts estimated model coefficients into estimated quantities of interest.
+Notice that we can predicted the direction of the transformation-induced bias using the shape of the transformation that converts the model coefficients into the quantities of interest.
 In general, any strictly convex (concave) $\tau(\cdot)$ creates upward (downward) transformation-induced $\tau$-bias.
 
 \subsection*{The Average of Simulations}
 
-\cite{KingTomzWittenberg2000} suggests the following algorithm:\vspace{.1in}
-
+Rather than relying on the invariance property to compute the point estimate for the quantity of interest, \cite{KingTomzWittenberg2000} suggests the following simulation-based approach:\vspace{.1in}
 \begin{enumerate}
 \item \textit{Fit the model.}
 Use maximum likelihood to estimate the model coefficients $\hat{\beta}^{\text{mle}}$ and their covariance $\hat{V} \left( \hat{\beta}^{\text{mle}} \right)$.
 \item \textit{Simulate the coefficients.}
-Simulate a large number $M$ of coefficient vectors $\tilde{\beta}^{(i)}$, for $i \in \{1, 2,\ldots, M\}$, using $\tilde{\beta}^{(i)} \sim MVN \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, where $MVN$ is the multivariate normal distribution.
+Simulate a large number $M$ of coefficient vectors $\tilde{\beta}^{(i)}$, for $i \in \{1, 2,\ldots, M\}$, using $\tilde{\beta}^{(i)} \sim \text{MVN} \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, where MVN represents the multivariate normal distribution.
 \item \textit{Convert simulated coefficients into simulated quantity of interest.}
 Compute $\tilde{\tau}^{(i)} = \tau \left( \tilde{\beta}^{(i)} \right)$ for $i \in \{1, 2,\ldots, M\}$.
 Most quantities of interest depend on the values of the explanatory variables.
-In this case, the researcher must choose to focus either on a particular ``average case'' or average across sample observations \citep{HanmerKalkan2013}.\footnote{We return to \cite{HanmerKalkan2013} in a later section of our paper.}
+In this situation, the researcher might choose to (1) focus either on a particual scenario or (2) compute the average quantity of interest across all observed cases in the data set \citep{HanmerKalkan2013}. 
+We return to \cite{HanmerKalkan2013} in a later section.
 In any case, the transformation $\tau(\cdot)$ includes this choice.\footnote{As \cite{KingTomzWittenberg2000} note, this step might require additional simulation, to first introduce and then average over fundamental uncertainty.
 We ignore this additional step here since it does not affect our argument.}
 \item \textit{Average the simulations of the quantity of interest.}
@@ -285,10 +297,18 @@ In other words, we assume that $M$ is sufficiently large so that $\hat{\tau}^{\t
 
 \section*{The Average of Simulations Versus the Maximum Likelihood Estimate}
 
-Commonly used statistical software uses $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$ interchangeably.
-The same seems to be true for most political scientists, the authors included.\footnote{In our previous work, we have used both $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$, admittedly without giving much thought to the choice.
-This choice between $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$ does not seem to get any attention in published research, and so the only published work for which we know this choice is research that notes which statistical software package was used to compute quantities of interest.} But the preceding discussion raises questions.
-How does $\hat{\tau}^\text{avg}$ compare to $\hat{\tau}^{\text{mle}}$? Are they the same? If not, how do they differ? Is one more biased than the other?
+Researchers have two potential estimates of the quantity of interest: the ML estimate $\hat{\tau}^\text{mle}$ that they calculate using the invariance principle and the average simulation estimate $\hat{\tau}^\text{avg}$ that they calculate using the algorithm described by \cite{KingTomzWittenberg2000}. 
+
+Documentation for statistical software does not draw a strong distinction between the two estimates.
+Indeed, researchers often need to look deep into the details to determine which estimate the software reports.
+Similarly, many researchers to not report which estimate they report, including the authors. In our previous work, we have used both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$ without giving much thought to the choice.
+Indeed, the differences between $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$ has not received attention in published research. 
+Typically, we can only determine which estimate reseachers use if (1) they report the software they use and (2) referring to the details in the documentation. 
+But the preceding discussion raises questions.
+How does $\hat{\tau}^\text{avg}$ compare to $\hat{\tau}^{\text{mle}}$? 
+Are they the same? 
+If not, how do they differ? 
+Is one more biased than the other?
 
 If the transformation of estimated model coefficients into estimated quantities of interest is always convex (or always concave), then Jensen's inequality allows the simple statement given in Lemma \ref{lem:direction} relating the estimate based on the average of stochastic simulations and the estimate based on the ML invariance property.
 
@@ -299,7 +319,7 @@ Then any strictly convex (concave) $\tau(\cdot)$ guarantees that $\hat{\tau}^{\t
 \begin{proof}
 By definition, $$ \hat{\tau}^{\text{avg}} = \text{E}\left[ \tau \left(\tilde{\beta} \right) \right].$$
 Using Jensen's inequality \citep[p. 190, Thm. 4.7.7]{CasellaBerger2002}, we know that $\text{E}\left[ \tau \left(\tilde{\beta} \right) \right] > \tau \left[ \text{E}\left( \tilde{\beta} \right) \right]$, so that $$\hat{\tau}^{\text{avg}} > \tau \left[ \text{E}\left( \tilde{\beta} \right) \right].$$
-However, because $\tilde{\beta} \sim MVN \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, $\text{E}\left( \tilde{\beta} \right) = \hat{\beta}^\text{mle}$, so that
+However, because $\tilde{\beta} \sim \text{MVN} \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, $\text{E}\left( \tilde{\beta} \right) = \hat{\beta}^\text{mle}$, so that
 $$\hat{\tau}^{\text{avg}} > \tau \left( \hat{\beta}^\text{mle}\right).$$
 Of course, $\hat{\tau}^\text{mle} = \tau \left( {\hat{\beta}^\text{mle}} \right)$ by definition, so that $$\hat{\tau}^{\text{avg}} > \hat{\tau}^\text{mle}.$$
 The proof for concave $\tau$ follows similarly.
@@ -331,14 +351,23 @@ It follows that $\underbrace{\E \left( \hat{\tau}^\text{avg}\right) - \tau \left
 \end{proof}
 Regardless of whether the transformation-induced $\tau$-bias is positive or negative, Theorem \ref{thm:direction} shows that the magnitude of the bias is \textit{always} larger for $\hat{\tau}^{\text{avg}}$ than for  $\hat{\tau}^{\text{mle}}$ for strictly convex or concave $\tau(\cdot)$.
 
-\section*{An Approximation for the Additional Bias in $\hat{\tau}^\text{avg}$}
+Because the invariance principle offers an easy method to compute an estimator with less transformation-induced bias, we refer to the additional transformation-induced bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{mle}$ as ``unnecessary'' $\tau$-bias, so that 
+
+\begin{align*}
+\text{unnecessary } \tau\text{-bias} =& \underbrace{ \left( \E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} - \underbrace{ \left( \E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} \\
+ =& \E \left( \hat{\tau}^\text{avg}\right) - \E \left( \hat{\tau}^\text{mle}\right) .
+\end{align*}
+
+\section*{An Approximation for the Unnecessary Bias in $\hat{\tau}^\text{avg}$}
 
 Theorem \ref{thm:direction} guarantees that $\hat{\tau}^\text{avg}$ is more biased than $\hat{\tau}^\text{mle}$.
 This raises yet more questions.
-By how much? Is the bias trivial? Or is it substantial? Monte Carlo experiments allow one to assess this directly, but an analytical approximation provides a helpful rule of thumb.
-We approximate the \textit{excessive} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{mle}$ as
+By how much? 
+Is the bias trivial or substantial? 
+Monte Carlo experiments allow one to assess this directly, but an analytical approximation provides a helpful rule of thumb.
+We approximate the \textit{unnecessary} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ as
 \begin{align*}
-\text{excessive t.i. $\tau$-bias in } \hat{\tau}^\text{avg} =& \underbrace{\left( \E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} - \underbrace{ \left( \E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right)}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}}\\
+\text{unnecessary t.i. $\tau$-bias in } \hat{\tau}^\text{avg} =& \underbrace{\left( \E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} - \underbrace{ \left( \E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right)}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}}\\
 =& \E \left( \hat{\tau}^\text{avg}\right) - \E \left( \hat{\tau}^\text{mle}\right)\\
 =& \E \left( \hat{\tau}^\text{avg} - \hat{\tau}^\text{mle} \right)\\
 =& \E \left(     \E \left[ \tau\left( \tilde{\beta} \right) \right]      -      \tau \left( \hat{\beta}^\text{mle} \right)     \right)\\
@@ -347,7 +376,7 @@ We approximate the \textit{excessive} transformation-induced $\tau$-bias in $\ha
 \end{align*}
 where the remaining expectation occurs with respect to $\hat{\beta}^\text{mle}$, $H\left( \hat{\beta}^\text{mle} \right)$ represents the Hessian matrix of second derivatives of $\tau$ at the point $\hat{\beta}^\text{mle}$ and, conveniently, $\hat{V} \left( \hat{\beta}^{\text{mle}} \right)$ represents the estimated covariance matrix for $\hat{\beta}^\text{mle}$.
 
-This approximation is similar to the approximation for the transformation-induced $\tau$-bias for $\hat{\beta}^\text{mle}$, which adjusting notation slightly, \citet[p. 405, Eq. 1]{Rainey2017} computes as
+This approximation is similar to the approximation for the transformation-induced $\tau$-bias for $\hat{\beta}^\text{mle}$, which, adjusting notation slightly, \citet[p. 405, Eq. 1]{Rainey2017} computes as
 \begin{align*}
 \text{t.i. } \tau \text{-bias for } \hat{\beta}^\text{mle} \approx \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left[ \E \left( \hat{\beta}^\text{mle} \right) \right] V_{rs} \left( \hat{\beta}^{\text{mle}} \right), \numberthis \label{eqn:mle-approx}
 \end{align*}
@@ -356,24 +385,23 @@ where $H\left[ \E \left( \hat{\beta}^\text{mle} \right) \right]$ represents the 
 When we compare Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, we are yet again comparing the \textit{average of a function} with the \textit{function of that average}.
 Therefore, Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx} are not exactly equal.
 But, as a rule of thumb, we should expect them to be similar.
-And to the extent that this is the case, the \emph{excessive} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ is about the same as the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$.
+And to the extent that this is the case, the \emph{unnecessary} transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ is about the same as the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$.
 This implies that the transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ will be about \emph{double} the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$.\footnote{This rule of thumb naturally raises the question of whether we can use it to de-bias estimates of quantities of interest by adjusting $\hat{\tau}^\text{mle}$ by the difference between $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$.
 Some preliminary Monte Carlo evidence suggests that the performance of the bias-adjusted estimator depends strongly on the dgp.
 Bias-adjustment can lead to smaller MSEs as well as larger MSEs, mirroring the performance of other de-biasing strategies such as bootstrap bias correction (Efron and Tibshirani 1993: ch. 10).}
 
-Because of the similarity in Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, the difference between $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$ becomes large under the conditions identified by \cite{Rainey2017} as leading to large transformation-induced $\tau$-bias: when the non-linearity in the transformation $\tau(\cdot)$ is severe and when the standard errors of $\hat{\beta}^\text{mle}$ are large.
-While transformation-induced bias vanishes as $N \to\infty$, it can be large for the sample sizes commonly encountered in social science research (\cite{Rainey2017}).
+Because of the similarity in Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, the unnecessary bias becomes large under the conditions identified by \cite{Rainey2017} as leading to large transformation-induced $\tau$-bias: when the non-linearity in the transformation $\tau(\cdot)$ is severe and when the standard errors of $\hat{\beta}^\text{mle}$ are large.
+While the unnecessary bias vanishes as the number of observations grows large, it can be substantively meaningful for the sample sizes commonly encountered in social science research \citep{Rainey2017}.
 
 \section*{The Intuition}
 
 \subsection*{Using a Drastic, Convex Transformation: $\tau(\mu) = \mu^2$}
 
-To develop an intuition for the additional bias in $\hat{\tau}^\text{avg}$, consider the simple scenario in which $y_i \sim N(\mu, 1)$, for $i \in \{1, 2, \ldots, n = 100\}$.
-The variance is known to be one.
-The mean $\mu$, which equals zero in the population, is to be estimated.
-Suppose the researcher uses the unbiased maximum likelihood estimator $\hat{\mu}^\text{mle} = n^{-1}\sum_{i=1}^n y_i$ of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$.
-The researcher can use the ML invariance property to estimate $\tau(\mu)$ as $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$.
-Alternatively, the researcher can use the stochastic simulation approach, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)$, where $\tilde{\mu}^{(i)} \sim N \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M\}$.
+To develop an intuition for the unnecessary bias in $\hat{\tau}^\text{avg}$, consider the simple scenario in which $y_i \sim N(\mu, 1)$, for $i \in \{1, 2, \ldots, n = 100\}$ and the researcher wishes to estimate $\mu^2$.
+For this example, suppose that the researcher know that the variance equals one but does not know that the mean $\mu$ equals zero.
+Suppose the researcher uses the maximum likelihood estimator $\hat{\mu}^\text{mle} = n^{-1}\sum_{i=1}^n y_i$ of $\mu$, which happened to be the best unbiased estimator of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$.
+The researcher can use the invariance property to compute the ML estimate $\tau(\mu)$ as $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$.
+Alternatively, the researcher can use the simulation-based approach, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)$, where $\tilde{\mu}^{(i)} \sim N \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M\}$.
 
 The true value of the quantity of interest is $\tau(0) = 0^2 = 0$.
 However, the maximum likelihood estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right)^2$ equals zero if and only if $\hat{\mu}^\text{mle} = 0$.
@@ -381,16 +409,13 @@ Otherwise, $\hat{\tau}^\text{mle} > 0$.
 Since $\hat{\mu}^\text{mle}$ is almost surely different from zero, it is clear that $\hat{\tau}^\text{mle}$ is biased upward.
 Moreover, even if $\hat{\mu}^\text{mle} = 0$, $\tilde{\mu}^{(i)}$ almost surely does not equal zero.
 If $\tilde{\mu}^{(i)} \neq 0$, then $\left( \tilde{\mu}^{(i)} \right)^2 > 0$.
-Thus, with probability one $\hat{\mu}^\text{avg}$ is larger than the true value $\tau(\mu) = 0$.
+Thus, $\hat{\mu}^\text{avg}$ \textit{always} larger than the true value $\tau(\mu) = \tau(0) = 0^2 = 0$.
 
 We can see the dynamics even more clearly by repeatedly simulating $y$ and estimating $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$.
 Figures \ref{fig:int1}-\ref{fig:int4} show the first four of 1,000 total simulations.
 The figures show how the unbiased estimate $\hat{\mu}^\text{mle}$ is translated into $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$.
 
-\footnote{\color{red} HOLGER: We should state what M is.
-We should make it really large here and in other situations to rule out concerns about Monte Carlo error.}
-
-First, to find $\hat{\tau}^\text{avg}$, we complete three steps: (1) simulate $\tilde{\mu}^{(i)} \sim N \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M = 1000\}$, (2) calculate $\tilde{\tau}^{(i)} = \tau\left( \tilde{\mu}^{(i)} \right)$, and (3) calculate $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tilde{\tau}^{(i)}$.
+First, to find $\hat{\tau}^\text{avg}$, we complete three steps: (1) simulate $\tilde{\mu}^{(i)} \sim N \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M = 1,000\}$, (2) calculate $\tilde{\tau}^{(i)} = \tau\left( \tilde{\mu}^{(i)} \right)$, and (3) calculate $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tilde{\tau}^{(i)}$.
 The rug plot along the horizontal axis and the density plot at the top of each plot show the distribution of $\tilde{\mu}$.
 The hollow points in Figures \ref{fig:int1}-\ref{fig:int4} show the transformation of each point $\tilde{\mu}^{(i)}$ into $\tilde{\tau}^{(i)}$.
 The rug plot along the vertical axis and the density plot to the right of each plot show the distribution of $\tilde{\tau}$.
@@ -398,7 +423,7 @@ Focus on Figure \ref{fig:int1}.
 Notice that $\hat{\mu}^\text{mle}$ estimates the true value $\mu = 0$ quite well.
 However, after simulating $\tilde{\mu}$ and transforming $\tilde{\mu}$ into $\tilde{\tau}$, the $\tilde{\tau}$s fall far from the true value $\tau(0) = 0$.
 The dashed purple line shows the average of $\tilde{\tau}$.
-Notice that although $\hat{\mu}^\text{mle}$ is unusually close to the truth $\mu = 0$ in this sample, $\hat{\tau}^\text{avg}$ is substantially biased upward.
+Notice that although $\hat{\mu}^\text{mle}$ and $\hat{\tau}^\text{mle}$ are unusually close to the true values $\mu = 0$ and $\tau(\mu) = \mu^2 = 0$ in this sample, $\hat{\tau}^\text{avg}$ falls well above the true value $\tau(\mu) = \mu^2 = 0$.
 
 \begin{figure}
 \begin{subfigure}{.5\textwidth}
@@ -431,7 +456,6 @@ Notice that although $\hat{\mu}^\text{mle}$ is unusually close to the truth $\mu
 \label{fig:int}
 \end{figure}
 
-
 Second, to find $\hat{\tau}^\text{mle}$, we simply transform $\hat{\mu}^\text{mle}$ directly using $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$.
 The solid green lines show this transformation.
 Notice that $\hat{\tau}^\text{mle}$ corresponds approximately to the mode of the density plot of $\tilde{\tau}$ along the right side of the plot, which falls closer to the true value $\tau(0) = 0$ than $\hat{\tau}^\text{avg}$.
@@ -441,7 +465,7 @@ This provides the basic intuition for Lemma \ref{lem:direction}.
 Figures \ref{fig:int2}-\ref{fig:int4} repeat this process three more times to give some sense of how the dynamic changes for different samples.
 In each case, the story is similar---the convex transformation stretches the distribution of $\tilde{\tau}$ to the right, which pulls $\hat{\tau}^\text{avg}$ above $\hat{\tau}^\text{mle}$.
 
-We repeat this process to produce 1000 estimates of $\hat{\mu}^\text{mle}$, $\hat{\tau}^\text{mle}$, and $\hat{\tau}^\text{avg}$.
+We repeat this process 1,000 times to produce 1,000 estimates of $\hat{\mu}^\text{mle}$, $\hat{\tau}^\text{mle}$, and $\hat{\tau}^\text{avg}$.
 Figure \ref{fig:int-samp} shows the density plots for the three empirical sampling distributions.
 As we would expect, $\hat{\mu}^\text{mle}$ is unbiased with a standard error of $\frac{1}{\sqrt{n}} = \frac{1}{\sqrt{100}} = \frac{1}{10}$.
 Both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$ are biased upward, but $\hat{\tau}^\text{avg}$ is more so.
@@ -461,7 +485,7 @@ We can also develop the intuition using a more mathematical approach via the law
 For this it helps if we alter the notation slightly, making two implicit dependencies explicit.
 We explain each change below and use the alternate, more expansive notation only in this section.
 
-The law of iterated expectations states that $\E_Y \left( \E_{X \mid Y}(X \mid Y) \right) = E_X(X)$, where $X$ and $Y$ represent random variables.
+The law of iterated expectations states that $\E_Y \left( \E_{X \mid Y}(X \mid Y) \right) = \E_X(X)$, where $X$ and $Y$ represent random variables.
 The three expectations occur with respect to three different distributions: $\E_Y$ denotes the expectation w.r.t. the marginal distribution of $Y$, $\E_{X \mid Y}$ denotes the expectation w.r.t. the conditional distribution of $X \mid Y$, and $\E_X$ denotes the expectation w.r.t. the marginal distribution of $X$.
 
 Outside of this section, we realize that the distribution of $\tilde{\beta}$ depends on $\hat{\beta}^\text{mle}$ and could be written as $\tilde{\beta} \mid \hat{\beta}^\text{mle}$.
@@ -471,10 +495,7 @@ In this section only, we use $\tilde{\beta} \mid \hat{\beta}^\text{mle}$ to repr
 Intuitively, one might imagine (1) generating a data set $y$, (2) estimating $\hat{\beta}^\text{mle}$, and (3) simulating $\tilde{\beta} \mid \hat{\beta}^\text{mle}$.
 If we do steps (1) and (2) just once, but step (3) repeatedly, then we have a sample from the conditional distribution $\tilde{\beta} \mid \hat{\beta}^\text{mle}$.
 If we do steps (1), (2), and (3) repeatedly, then we have a sample from the \underline{un}conditional distribution $\tilde{\beta}$.
-The unconditional distribution will help us understand the nature of the excessive transformation-induced $\tau$-bias.\footnote{More technically, we could also define the relevant distributions hierarchically.
-First, we have $\hat{\beta}^\text{mle} \sim s(\beta)$, where $s(\beta)$ represents the sampling distribution of $\hat{\beta}$.
-Then we have $\tilde{\beta} \sim MVN \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$.
-{\color{red} HOLGER: I would drop this footnote; I don't think it adds much.}}
+The unconditional distribution helps us understand the nature of the unnecessary transformation-induced $\tau$-bias.
 
 Applying the law of iterated expectations, we obtain $\E_{\tilde{\beta}} \left( \tilde{\beta} \right) = \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} (\tilde{\beta} \mid \hat{\beta}^\text{mle}) \right)$.
 The three identities below connect the three key quantities from Theorem \ref{thm:direction} to three versions of $\E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} (\tilde{\beta} \mid \hat{\beta}^\text{mle}) \right)$, with the transformation $\tau(\cdot)$ applied at different points.
@@ -497,9 +518,9 @@ But to move from Equation \ref{eqn:true} to Equation \ref{eqn:avg} we must swap 
 Again, if $\tau(\cdot)$ is convex, then Equation \ref{eqn:avg} must be greater than Equation \ref{eqn:true}.
 However, because we expect $\hat{\beta}^\text{mle}$ and $\tilde{\beta} \mid \hat{\beta}^\text{mle}$ to have similar distributions, we should expect the additional swap to roughly double the bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{avg}$.
 
-\section*{Illustrative Simulations}
+\section*{Illustrative Simulation}
 
-\subsection*{Marginal Effects in Poisson Regression}
+%\subsection*{Marginal Effects in Poisson Regression}
 
 As an illustration, consider the Poisson regression model $y_i \sim \text{Poisson}(\lambda_i)$, where $\lambda_i = e^{(-2 + x_i)}$ for $i \in \{1, 2,\ldots, 100\}$.
 To create $x_i$ we take $100$ i.i.d.\@ draws from a standard normal distribution.
@@ -513,7 +534,7 @@ Figure \ref{fig:poisson-mcs} shows the transformation-induced $\tau$-bias in $\h
 Notice three features of this plot.
 First, the bias is substantial.
 The relative size of the bias varies, but when the true marginal effect is greater than 0.5, the average transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$ is about $\frac{1}{3}$ the size of the true effect.
-[{\color{red} HOLGER: I think these numbers are still off.}] For $\hat{\tau}^\text{avg}$, the bias is about $\frac{3}{4}$ the size of the true effect.
+For $\hat{\tau}^\text{avg}$, the bias is about $\frac{3}{4}$ the size of the true effect.
 Second, notice that the bias occurs in the expected direction.
 Because the transformation $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ is convex, the bias is positive.
 Third, notice that the bias in $\hat{\tau}^\text{avg}$ is about twice as large as the bias in $\hat{\tau}^\text{mle}$, as the rule of thumb suggests.
@@ -598,10 +619,10 @@ This difference is certainly meaningful---the maximum likelihood estimate is 50\
 \subsection*{A Note on \cite{HanmerKalkan2013}}
 
 \cite{HanmerKalkan2013} discusses two approaches to computing quantities of interest: the more commonly used {\it average-case} approach and their recommended {\it observed-value} approach.
-With either approach, researchers estimate the quantity of interest as a key explanatory variable changes its value.
-However, in non-linear models researchers must also deal with the other explanatory variables in the model, because these variables alter the quantity of interest.
+With either approach, researchers estimate the quantity of interest as the value of the key explanatory variable changes.
+However, in many models, researchers must also deal with the other explanatory variables in the model, because these variables alter the quantity of interest.
 The average-case approach sets the other explanatory variables to central values such as the mean, median, or mode.
-\cite{HanmerKalkan2013} in contrast suggests estimating the quantity of interest for all sample observations, leaving their explanatory variables except for the key variable of interest at their observed values, and then averaging the estimates across the sample.
+\cite{HanmerKalkan2013}, in contrast, suggests estimating the quantity of interest for all sample observations, leaving their explanatory variables (except for the key variable of interest) at their observed values, and then averaging the estimates across the sample.
 Here, this choice is implicitly part of the transformation $\tau(\cdot)$, so their (compelling) argument does not undermine or enhance our own.\footnote{We generally agree with the arguments in favor of the observed-value approach but recommend that researchers plot the distribution of quantities of interest in addition to providing a summary measure such as their average.
 See Ai and Norton (2003) for examples.}
 
@@ -611,33 +632,34 @@ The replication archive for the article confirms that this is indeed the case.
 
 The important point is this: \cite{HanmerKalkan2013} draws a distinction between the average-case and observed-value approaches to computing
 quantities of interest.
-Our paper draws a distinction between estimating quantities of interest (whether average-case or observed-value based) using the average of simulated draws and using the ML invariance property.
-Regardless of whether researchers use the average-case approach or the observed-value approach, the average of simulation draws will lead to estimates that generally will suffer from bias that can easily be avoided by relying on the ML invariance property instead.\footnote{\color{red} HOLGER: Do we want to say anything about what to do when using non ML estimators?}
+Our paper draws a distinction between estimating quantities of interest (whether average-case or observed-value based) using the average of simulated draws and using the invariance property.
+Regardless of whether researchers use the average-case approach or the observed-value approach, the simulation average leads to estimates that generally suffer from transformation-induced bias that researchers can easily avoid by relying on the invariance property instead.
 
 \section*{Conclusion}
 
-Many political scientists turn to \cite{KingTomzWittenberg2000}'s seminal paper when seeking advice on how to interpret, summarize, and present empirical results.
-By highlighting the importance of reporting substantively meaningful quantities of interest accompanied by valid measures of statistical uncertainty, \cite{KingTomzWittenberg2000} has significantly improved empirical research in political science and neighboring disciplines.
-However, depending on the statistical software used, political scientists following \cite{KingTomzWittenberg2000}'s advice will estimate quantities of interest either with the average of simulation draws (e.g., CLARIFY in Stata, Zelig in \texttt{R}) or relying on the ML invariance property (e.g., margins in Stata and \texttt{R}).
+Many political scientists turn to King, Tomz, and Wittenberg's (2000) seminal paper when seeking advice on how to interpret, summarize, and present empirical results.
+By highlighting the importance of reporting substantively meaningful quantities of interest along with the uncertainty, \cite{KingTomzWittenberg2000} has significantly improved empirical research in political science and neighboring disciplines.
+However, depending on the statistical software used, political scientists following King, Tomz, and Wittenberg's advice will estimate quantities of interest either with the average of simulated quantities of interest (e.g., Clarify in Stata, Zelig in \texttt{R}) or using the invariance property to compute the ML estimate (e.g., margins in Stata and \texttt{R}).
 In practice, researchers' choice between the two approaches seems idiosyncratic rather than principled.
-As far as we can tell, it is largely a function of which software package a researcher prefers to use, with little thought given to differences in the underlying statistical machinery.
-Even the methodological literature has failed to pay attention to potential differences between the two approaches to estimating quantities of interest.
+As far as we can tell, researchers' choice depends largely on their prefer software package rather than statistical principles.
+Even the methodological literature has failed to pay attention to differences between the two approaches to estimating quantities of interest.
 
 \cite{Rainey2017} stresses the importance of transformation-induced bias, which originates in the non-linear transformation of model coefficient estimates into estimated quantities of interest.
-As shown by \cite{Rainey2017}, such transformation-induced biases will be large when standard errors are large or when the transformation of the model coefficients into quantities of interest is highly non-linear.
-Our paper shows that when we use the average of simulation draws we incur about \textit{twice} as much bias as when we rely on the ML invariance property.
+As \cite{Rainey2017} shows, such transformation-induced biases is large when standard errors are large or when the transformation of the model coefficients into quantities of interest is highly non-linear.
+We shows that when researchers use the simulation average to estimate quantities of interest, they roughly double the transformation-induced bias that Rainey (2017) describes.
 The good news is that the fix is easy: do not use the average of simulation draws to estimate quantities of interest.
-Instead, simply plug model coefficients into the transformation to obtain an estimate of the quantity of interest.
-We recommend that statistical software does this by default.\footnote{Based on communications with Christopher Gandrud, a member of the Zelig Core Team, it appears that Zelig sometimes uses the median of the simulation draws as point estimator (as opposed to the mean).
-We were not able to find any information in the Zelig documentation (Choirat et al.\@ 2017) for when that might happen.
-Note that the median of the simulation draws does not correspond to the estimator based on the ML invariance property unless the transformation is monotonic.
-(Even then stochastic simulation would introduce Monte Carlo error that could easily be avoided by relying on the ML invariance property in the first place.) To see this revisit the previous example where $\tau(\mu) = \mu^2.$ Imagine the best-case scenario in which $\hat{\mu}^\text{mle} = 0$, so that the estimator based on the ML invariance property is unbiased.
-Even then simulated draws of the quantity of interest will almost surely be greater than zero.
-Taking either the mean or the median of the simulated draws will result in a biased estimator of the quantity of interest.}
+Instead, simply plug model coefficients into the transformation to obtain an estimate of the quantities of interest.
+We recommend that statistical software does this by default.%\footnote{Based on communications with Christopher Gandrud, a member of the Zelig Core Team, it appears that Zelig sometimes uses the median of the simulation draws as point estimator (as opposed to the mean).
+% We were not able to find any information in the Zelig documentation (Choirat et al.\@ 2017) for when that might happen.
+% Note that the simulation median corresponds to the ML estimate (in expectation) for monotonic transformations.
+% (Even then, simulation introduces Monte Carlo error that the researcher could easily avoid by using invariance property in the first place.) 
+% To see this revisit the previous example where $\tau(\mu) = \mu^2.$ Imagine the best-case scenario in which $\hat{\mu}^\text{mle} = 0$, so that the estimator based on the invariance property is unbiased.
+% Even then simulated draws of the quantity of interest are greater than zero.
+% Taking either the mean or the median of the simulated draws will result in an estimator with more transformation-induced bias than the ML estimator.}
 
-
-Finally, if researchers use the ML invariance property to estimate quantities of interest, how should they conduct statistical inference? Commonly employed approaches include the delta method, stochastic simulation (but using the ML invariance property for the point estimator, as suggested by Herron (1999)), or the bootstrap (e.g., Efron and Tibshirani 1993).
-Krinsky and Robb (1991) presents some limited Monte Carlo evidence that these approaches lead to similar inferences but a more detailed examination of this question is, to the best of our knowledge, still missing from the literature.
+%Finally, if researchers use the invariance property to compute ML estimates of the quantities of interest, how should they conduct statistical inference? 
+%Commonly employed approaches include the delta method, simulation, or parametric or non-parametric bootstrap (e.g., Efron and Tibshirani 1993).
+%Krinsky and Robb (1991) presents some limited Monte Carlo evidence that these approaches lead to similar inferences but a more detailed examination of this question is, to the best of our knowledge, still missing from the literature.
 
 \singlespace
 %\newpage
