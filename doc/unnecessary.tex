@@ -26,7 +26,7 @@
 \usepackage{epigraph}
 \usepackage{lipsum}
 \usepackage{textcomp} % for \textrightarrow
-%\usepackage{dcolumn}
+\usepackage{dcolumn}
 %\restylefloat{table}
 \bibpunct{(}{)}{;}{a}{}{,}
 
@@ -35,7 +35,7 @@
 \parindent=20pt
 
 %\usepackage{helvet}
-\usepackage[labelfont={bf}, margin=0cm, font=small, skip=0pt]{caption}
+%\usepackage[labelfont={bf}, margin=0cm, font=small, skip=0pt]{caption}
 
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 
@@ -63,10 +63,10 @@
 %\usepackage[bitstream-charter]{mathdesign}
 
 %% Baskervald
-\usepackage[lf]{Baskervaldx} % lining figures
-\usepackage[bigdelims,vvarbb]{newtxmath} % math italic letters from Nimbus Roman
-\usepackage[cal=boondoxo]{mathalfa} % mathcal from STIX, unslanted a bit
-\renewcommand*\oldstylenums[1]{\textosf{#1}}
+%\usepackage[lf]{Baskervaldx} % lining figures
+%\usepackage[bigdelims,vvarbb]{newtxmath} % math italic letters from Nimbus Roman
+%\usepackage[cal=boondoxo]{mathalfa} % mathcal from STIX, unslanted a bit
+%\renewcommand*\oldstylenums[1]{\textosf{#1}}
 
 %\usepackage[T1]{fontenc}
 %\usepackage{newtxtext,newtxmath}
@@ -518,11 +518,13 @@ But to move from Equation \ref{eqn:true} to Equation \ref{eqn:avg} we must swap 
 Again, if $\tau(\cdot)$ is convex, then Equation \ref{eqn:avg} must be greater than Equation \ref{eqn:true}.
 However, because we expect $\hat{\beta}^\text{mle}$ and $\tilde{\beta} \mid \hat{\beta}^\text{mle}$ to have similar distributions, we should expect the additional swap to roughly double the bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{avg}$.
 
-\section*{Illustrative Simulation}
+\section*{Illustrations}
 
-%\subsection*{Marginal Effects in Poisson Regression}
+We illustrate the additional bias from averaging simulations in three ways: (1) computing the coefficient-induced, transformation-induced, and additional bias from averaging simulations for a simple Poisson regression model, (2) repeating that exercise for a more complex logistic regression, and (3) using a real application to show that different estimates result from using the invariance principle and averging simulations.
 
-As an illustration, consider the Poisson regression model $y_i \sim \text{Poisson}(\lambda_i)$, where $\lambda_i = e^{(-2 + x_i)}$ for $i \in \{1, 2,\ldots, 100\}$.
+\subsection*{Marginal Effects in Poisson Regression}
+
+As an initial illustration, consider the Poisson regression model $y_i \sim \text{Poisson}(\lambda_i)$, where $\lambda_i = e^{(-2 + x_i)}$ for $i \in \{1, 2,\ldots, 100\}$.
 To create $x_i$ we take $100$ i.i.d.\@ draws from a standard normal distribution.
 Assume that the researcher wants to estimate the instantaneous marginal effect of $x$ on $\E(y)$, so that $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\beta_{cons} + \beta_x x)}$ for $x$ ranging from $-3$ to $+3$.
 
@@ -548,7 +550,63 @@ Notice that the convex transformation $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\
 \end{center}
 \end{figure}
 
-\section*{Example: Supreme Court Decisions}
+\subsection*{First-Differences in a Logistic Regression Model}
+
+As a more relastic example, we compute the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias from averaging simulations for a more complex logistic regression. 
+Of course, we need to assume particular, but typical, model coefficients for the data-generating process, so we use the classic, common example of modeling turnout \cite{WolfingerRosenstone1980, Nagler1994, HuangShields2000, BerryDeMerritEsarey2010} as the closing date for voter regristration varies.
+As our data generating process, we use the coefficients reported in Table 1, Column 2, of \cite{BerryDeMerritEsarey2010}. 
+We reproduced and report these coefficients in our Table \ref{tab:coef}. 
+
+\begin{table}[h]
+\begin{center}
+\caption{Logistic regression coefficient estimates reported by Berry, DeMeritt, and Esarey (2010).}
+\begin{tabular}{l D{.}{.}{6.5} }
+\toprule
+closing date           & -0.008 \\ 
+education              & 0.182  \\
+education$^2$          & 0.012  \\
+age                    & 0.070  \\
+age$^2$                & -0.001 \\
+South                  & -0.116 \\
+gubernatorial election & 0.003  \\
+constant               & -2.523 \\
+\bottomrule
+\end{tabular}
+\label{tab:coef}
+\end{center}
+\end{table}
+
+Using the coefficients from Table \ref{tab:coef} as the data-generating process, we conduct a Monte Carlo study to compute the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias in estimates of the quantity of interest. 
+Motivated by the orginal examples, we examine the change in the probability of voting if the closing date changes from the observed closing date (somewhere between 0 and 50 days before Election Day, depending on the state in which the individual resides) increases by 10 days (one standard deviation).
+Because the effect of a 10-day increase in the closing date depends on the original closing date and the values of the other explanatory variables, we produce estimates for 250 randomly-chosen cases from the data that Nagler (1994) and Berry, DeMeritt, and Esarey (2010) use to fit their models.
+We compute the sizes of the biases in the estimated effect for sample sizes of 100, 200, 400, and 800. 
+Figure \ref{fig:nagler} shows these biases.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale = 0.75]{figs/nagler-fd-bias.pdf}\\
+\vspace{.1in}
+\caption{This figure shows the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias from averaging simulations for the logistic regression models example. Using the coefficients in Table \ref{tab:coef} as the data generate process, this figure shows the biases in the estimates of the effect of increasing the time between Election Day and the closing date by 10 days on the probability of voting for sample sizes of 100, 200, 400, and 800. The purple values in the upper-right corner of the panels show the average absolute bias across all 250 cases. Points that fall outside the funnel-shaped orange lines have a bias larger than $\pm$10\%. Finally, the green rugs along the horizontal and vertical axes show the distribution of the actual effect and the bias, respectively.}\label{fig:nagler}
+\end{center}
+\end{figure}
+
+Notice three features of the plots. First, the additional bias from averaging simulations (which we can avoid by using the invariance principle instead), has a magnitude similar to the well-known small sample bias in logistic regression models as well as the transformation-induced bias that Rainey (2017) discusses.
+This similarity in magnitude serves as a rough, but useful, heuristic.
+
+Second, notice that, at least in some scenarios, the researcher cannot ignore the additional bias from averaging simulations, especially when she can easily avoid it entirely by simply using the invariance principle.
+For at least a few cases, the additional bias remains larger than 10\% until the sample size exceeds 400. 
+Remember that this substantial bias can be completely avoided by using the invariance principle.
+
+Third, notice that, while each type of bias disappears asymptotically, they disappear at different rates. 
+Rainey (2017) points out that transformation-induced bias might disappear more slowly than coefficient-induced bias. 
+We see this pattern here, where the transformation-induced bias remains large--especially for certain cases--while the coefficient-induced bias has nearly disappeared.
+Consistent with the heuristic that transformed-induced bias approximates the additional bias from averaging simulations ought, we see that the additional bias disappears more slowly as well.
+
+\subsection*{Application: Supreme Court Decisions}
+
+As a final illustration of the additional bias from averaging simulations, we simply compare the ML estimates computing using the invariance property to the average of the simulations. 
+We cannot demonstrate bias using this approach, but we can show that the estimates differ and rely on our previous arguments that the researcher should prefer the ML estimate. 
+To show the difference, we simply reproduce estimates from \cite{GeorgeEpstein1992}.
 
 To unify explanation of U.S. Supreme Court decisions, \cite{GeorgeEpstein1992} fit a single probit model that combines the legal and extralegal models of Court decision-making to a data set of 64 decisions.
 The authors model the probability of a conservative decision as a function of whether the Solicitor General filed an Amicus brief (SG = 1) or not (SG = 0) and 10 other explanatory variables.
@@ -616,7 +674,7 @@ For this group of observations, the average of simulations suggests than a brief
 On the other hand, the maximum likelihood estimate suggests an increase of about 60 percentage points.
 This difference is certainly meaningful---the maximum likelihood estimate is 50\% larger than the average of the simulations.
 
-\subsection*{A Note on \cite{HanmerKalkan2013}}
+\section*{A Note on \cite{HanmerKalkan2013}}
 
 \cite{HanmerKalkan2013} discusses two approaches to computing quantities of interest: the more commonly used {\it average-case} approach and their recommended {\it observed-value} approach.
 With either approach, researchers estimate the quantity of interest as the value of the key explanatory variable changes.
