@@ -11,19 +11,24 @@ set.seed(589)
 my_colors <- c("#1b9e77", "#d95f02", "#7570b3")
 
 # load data
-
 turnout_df <- haven::read_dta("data/scobit.dta") %>%
   filter(newvote != -1) %>%
   mutate(case_priority = sample(1:n())) %>%
   glimpse()
 
+# fit model
 f <- newvote ~ poly(neweduc, 2, raw = TRUE) + closing + poly(age, 2, raw = TRUE) + south + gov
 fit <- glm(f, data = turnout_df, family = binomial(link = "probit"))
 
+# print coef. estimates
 texreg::screenreg(fit)
 
-# simulation
+# simulation parameters
 n_c <- 250  # number of cases for which to compute the quantity of interest
+n_sims <- 5000
+sample_size <- c(100, 200, 400, 800)
+
+# compute simulation requisites
 beta <- coef(fit)
 turnout_df %<>%
   mutate(p = predict(fit, type = "response")) %>%
@@ -34,20 +39,7 @@ pred1_df <- pred_df %>%
 X_pred <- model.matrix(f, data = pred_df)
 X1_pred <- model.matrix(f, data = pred1_df)
 
-
-# calc_qi_fn <- function(X_pred = X_pred, 
-#                        X1_pred = X1_pred,
-#                        beta_hat = beta_hat, 
-#                        beta_tilde = beta_tilde) {
-# 
-# }
-
-
-# for each iteraction of the simulation, store the following
-#   1. the beta-hats -> beta_hat_mat
-#   2. the tau-hats  -> e.g., pr_mle_df
-n_sims <- 5000
-sample_size <- c(100, 200, 400, 800)
+# do simulation
 bias_df <- NULL
 for (j in 1:length(sample_size)){
   qi_df <- NULL
@@ -94,6 +86,7 @@ for (j in 1:length(sample_size)){
   bias_df <- bind_rows(bias_df, bias_df_j)
 }
 
+# tidy the data
 tall_bias_df <- bias_df %>%
   gather(concept, bias, ends_with("_bias")) %>%
   mutate(concept = fct_relevel(concept, c("ci_bias", "ti_bias", "additional_bias")),
