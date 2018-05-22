@@ -235,7 +235,6 @@ Instead, we propose that political scientists rely on the invariance property to
 
 % invariance properity
 The invariance property of ML estimators allows the reseacher to find the ML estimate of \textit{a function} of a parameter by first using ML to estimate the parameter and then applying the function to that estimate (\citealt[pp. 75-76]{King1989}, and \citealt[pp. 320-321]{CasellaBerger2002}).
-We refer to this estimate as the "ML" estimate of the quantity of interest.
 More formally, suppose a researcher uses ML to estimate a statistical model in which $y_i {\sim} f(\theta_i)$, where $i \in \{1,\ldots, N\}$ and $f$ represents a probability distribution. 
 The parameter $\theta_i$ is connected to a design matrix $X$ of $k$ explanatory variables and a column of ones by a link function $g$, so that $g(\theta_i) = X_i\beta$, where $\beta \in \mathbb{R}^{k+1}$ represents a vector of coefficients with length $k + 1$.
 The researcher uses maximum likelihood to compute estimates $\hat{\beta}^{\text{mle}}$ for the parameter vector $\beta$.
@@ -245,12 +244,12 @@ The the researcher can use the invariance property $\hat{\tau}^{\text{mle}} = \t
 
 % What does software do?
 Software implementations differ.
-Some, such as margins in Stata, report the ML estimate of the quantity of interest using the invariance principle. 
+Some, such as margins in Stata, report the ML estimate of the quantity of interest using the invariance property. 
 Others, such as Clarify in Stata or Zelig in R, report the simulation average estimate.
 
 % What does the methods literature suggest?
 The methodology literature offers similarly divided advice.
-\cite{Herron1999} suggests using the invariance principle to compute the ML estimate of the quantity of interest and using simulation to calculate the measures of uncertainty.\footnote{\cite{Herron1999} cites an earlier version of \cite{KingTomzWittenberg2000}, but does not comment on whether researchers should prefer the ML estimate over the simulation average estimate.}
+\cite{Herron1999} suggests using the invariance property to compute the ML estimate of the quantity of interest and using simulation to calculate the measures of uncertainty.\footnote{\cite{Herron1999} cites an earlier version of \cite{KingTomzWittenberg2000}, but does not comment on whether researchers should prefer the ML estimate over the simulation average estimate.}
 Carsey and Harden (2013) follows \cite{KingTomzWittenberg2000} and recommends that researchers use the simulation average estimate.
 We do not know of any paper that constrasts the ML and the simulation average estimates. 
 Indeed, it seems that the literature considers both approaches valid and perhaps equivalent.
@@ -259,7 +258,7 @@ However, we argue that the ML estimate has a distinct advantage over the simulat
 \section*{Transformation-Induced $\tau$-Bias}
 
 % partition the bias
-While we argue that researchers should use the invariance principle to transform coefficient estimated into the quantity of interest, \cite{Rainey2017} shows that this transformation can introduce bias into the estimates of the quantity of interest.
+While we argue that researchers should use the invariance property to transform coefficient estimated into the quantity of interest, \cite{Rainey2017} shows that this transformation can introduce bias into the estimates of the quantity of interest.
 To highly the impact of the transformation, \citet[p. 404]{Rainey2017} decomposes the bias in the estimate of the quantity of interest, which he refers to as total $\tau$-bias, into two components: transformation-induced $\tau$-bias and coefficient-induced $\tau$-bias. 
 Rainey defines these as
 \begin{equation}
@@ -297,7 +296,7 @@ In other words, we assume that $M$ is sufficiently large so that $\hat{\tau}^{\t
 
 \section*{The Average of Simulations Versus the Maximum Likelihood Estimate}
 
-Researchers have two potential estimates of the quantity of interest: the ML estimate $\hat{\tau}^\text{mle}$ that they calculate using the invariance principle and the average simulation estimate $\hat{\tau}^\text{avg}$ that they calculate using the algorithm described by \cite{KingTomzWittenberg2000}. 
+Researchers have two potential estimates of the quantity of interest: the ML estimate $\hat{\tau}^\text{mle}$ that they calculate using the invariance property and the average simulation estimate $\hat{\tau}^\text{avg}$ that they calculate using the algorithm described by \cite{KingTomzWittenberg2000}. 
 
 Documentation for statistical software does not draw a strong distinction between the two estimates.
 Indeed, researchers often need to look deep into the details to determine which estimate the software reports.
@@ -351,7 +350,7 @@ It follows that $\underbrace{\E \left( \hat{\tau}^\text{avg}\right) - \tau \left
 \end{proof}
 Regardless of whether the transformation-induced $\tau$-bias is positive or negative, Theorem \ref{thm:direction} shows that the magnitude of the bias is \textit{always} larger for $\hat{\tau}^{\text{avg}}$ than for  $\hat{\tau}^{\text{mle}}$ for strictly convex or concave $\tau(\cdot)$.
 
-Because the invariance principle offers an easy method to compute an estimator with less transformation-induced bias, we refer to the additional transformation-induced bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{mle}$ as ``unnecessary'' $\tau$-bias, so that 
+Because the invariance property offers an easy method to compute an estimator with less transformation-induced bias, we refer to the additional transformation-induced bias in $\hat{\tau}^\text{avg}$ compared to $\hat{\tau}^\text{mle}$ as ``unnecessary'' $\tau$-bias, so that 
 
 \begin{align*}
 \text{unnecessary } \tau\text{-bias} =& \underbrace{ \left( \E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} - \underbrace{ \left( \E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} \\
@@ -520,7 +519,7 @@ However, because we expect $\hat{\beta}^\text{mle}$ and $\tilde{\beta} \mid \hat
 
 \section*{Illustrations}
 
-We illustrate the additional bias from averaging simulations in three ways: (1) computing the coefficient-induced, transformation-induced, and additional bias from averaging simulations for a simple Poisson regression model, (2) repeating that exercise for a more complex logistic regression, and (3) using a real application to show that different estimates result from using the invariance principle and averging simulations.
+We illustrate the additional bias from averaging simulations in three ways: (1) computing the coefficient-induced, transformation-induced, and additional bias from averaging simulations for a simple Poisson regression model, (2) repeating that exercise for a more complex logistic regression, and (3) using a real application to show that different estimates result from using the invariance property and averaging simulations.
 
 \subsection*{Marginal Effects in Poisson Regression}
 
@@ -553,56 +552,56 @@ Notice that the convex transformation $\tau(\beta) = \frac{d \E (y)}{dx} = e^{(\
 \subsection*{First-Differences in a Logistic Regression Model}
 
 As a more relastic example, we compute the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias from averaging simulations for a more complex logistic regression. 
-Of course, we need to assume particular, but typical, model coefficients for the data-generating process, so we use the classic, common example of modeling turnout \cite{WolfingerRosenstone1980, Nagler1994, HuangShields2000, BerryDeMerritEsarey2010} as the closing date for voter regristration varies.
-As our data generating process, we use the coefficients reported in Table 1, Column 2, of \cite{BerryDeMerritEsarey2010}. 
-We reproduced and report these coefficients in our Table \ref{tab:coef}. 
+Of course, we need to assume particular, but typical, model coefficients for the data-generating process, so we use the classic, common example of modeling turnout \cite{WolfingerRosenstone1980, Nagler1994, HuangShields2000, BerryDeMerittEsarey2010} as the closing date for voter registration varies.
+As our data generating process, we use the coefficients reported in Table 1, Column 2, of \cite{BerryDeMerittEsarey2010}. 
+We refer to you their paper, or Nagler (1994), for the details.
 
-\begin{table}[h]
-\begin{center}
-\caption{Logistic regression coefficient estimates reported by Berry, DeMeritt, and Esarey (2010).}
-\begin{tabular}{l D{.}{.}{6.5} }
-\toprule
-closing date           & -0.008 \\ 
-education              & 0.182  \\
-education$^2$          & 0.012  \\
-age                    & 0.070  \\
-age$^2$                & -0.001 \\
-South                  & -0.116 \\
-gubernatorial election & 0.003  \\
-constant               & -2.523 \\
-\bottomrule
-\end{tabular}
-\label{tab:coef}
-\end{center}
-\end{table}
+%\begin{table}[h]
+%\begin{center}
+%\caption{Logistic regression coefficient estimates reported by Berry, DeMeritt, and Esarey (2010).}
+%\begin{tabular}{l D{.}{.}{6.5} }
+%\toprule
+%closing date           & -0.008 \\ 
+%education              & 0.182  \\
+%education$^2$          & 0.012  \\
+%age                    & 0.070  \\
+%age$^2$                & -0.001 \\
+%South                  & -0.116 \\
+%gubernatorial election & 0.003  \\
+%constant               & -2.523 \\
+%\bottomrule
+%\end{tabular}
+%\label{tab:coef}
+%\end{center}
+%\end{table}
 
-Using the coefficients from Table \ref{tab:coef} as the data-generating process, we conduct a Monte Carlo study to compute the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias in estimates of the quantity of interest. 
-Motivated by the orginal examples, we examine the change in the probability of voting if the closing date changes from the observed closing date (somewhere between 0 and 50 days before Election Day, depending on the state in which the individual resides) increases by 10 days (one standard deviation).
-Because the effect of a 10-day increase in the closing date depends on the original closing date and the values of the other explanatory variables, we produce estimates for 250 randomly-chosen cases from the data that Nagler (1994) and Berry, DeMeritt, and Esarey (2010) use to fit their models.
-We compute the sizes of the biases in the estimated effect for sample sizes of 100, 200, 400, and 800. 
-Figure \ref{fig:nagler} shows these biases.
+Borrowing the coefficients and explanatory variables from Berry, DeMeritt, and Esarey (2010) as the data-generating process, we use Monte Carlo simulation to compute the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias in estimates of the quantity of interest. 
+Motivated by the original studies, we choose our quantity of interest as the change in the probability of voting when the closing date increases by 10 days (one standard deviation).
+Because the effect of a 10-day increase depends on the original closing date as well as the values of the other explanatory variables, we produce estimates for 250 randomly-chosen cases--a representative sample--from the data that Nagler (1994) and Berry, DeMeritt, and Esarey (2010) use to fit their models.
+We compute the biases in the estimated effect for sample sizes of 100, 200, 400, and 800. 
+Figure \ref{fig:nagler} shows the biases.
 
 \begin{figure}[h]
 \begin{center}
 \includegraphics[scale = 0.75]{figs/nagler-fd-bias.pdf}\\
 \vspace{.1in}
-\caption{This figure shows the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias from averaging simulations for the logistic regression models example. Using the coefficients in Table \ref{tab:coef} as the data generate process, this figure shows the biases in the estimates of the effect of increasing the time between Election Day and the closing date by 10 days on the probability of voting for sample sizes of 100, 200, 400, and 800. The purple values in the upper-right corner of the panels show the average absolute bias across all 250 cases. Points that fall outside the funnel-shaped orange lines have a bias larger than $\pm$10\%. Finally, the green rugs along the horizontal and vertical axes show the distribution of the actual effect and the bias, respectively.}\label{fig:nagler}
+\caption{This figure shows the coefficient-induced $\tau$-bias, the transformation-induced $\tau$-bias, and additional bias from averaging simulations for the logistic regression models example based on Berry, DeMeritt, and Esarey (2010).}\label{fig:nagler}
 \end{center}
 \end{figure}
 
-Notice three features of the plots. First, the additional bias from averaging simulations (which we can avoid by using the invariance principle instead), has a magnitude similar to the well-known small sample bias in logistic regression models as well as the transformation-induced bias that Rainey (2017) discusses.
+Notice three features of Figure \ref{fig:nagler}. 
+First, the additional bias from averaging simulations (which we can avoid by using the invariance property instead), has a magnitude similar to the well-known small sample bias in logistic regression models. 
+The magnitude of the bias is also similar to the transformation-induced bias.
 This similarity in magnitude serves as a rough, but useful, heuristic.
 
-Second, notice that, at least in some scenarios, the researcher cannot ignore the additional bias from averaging simulations, especially when she can easily avoid it entirely by simply using the invariance principle.
+Second, at least in some scenarios, the researcher cannot ignore the additional bias from averaging simulations, especially when she can easily avoid it entirely by simply using the invariance property.
 For at least a few cases, the additional bias remains larger than 10\% until the sample size exceeds 400. 
-Remember that this substantial bias can be completely avoided by using the invariance principle.
 
-Third, notice that, while each type of bias disappears asymptotically, they disappear at different rates. 
-Rainey (2017) points out that transformation-induced bias might disappear more slowly than coefficient-induced bias. 
-We see this pattern here, where the transformation-induced bias remains large--especially for certain cases--while the coefficient-induced bias has nearly disappeared.
-Consistent with the heuristic that transformed-induced bias approximates the additional bias from averaging simulations ought, we see that the additional bias disappears more slowly as well.
+Third, while each type of bias disappears asymptotically, they disappear at different rates. 
+Rainey (2017) points out that transformation-induced bias might disappear more slowly than coefficient-induced bias, and we see this pattern here, where the transformation-induced bias remains large--especially for certain cases--while the coefficient-induced bias has nearly disappeared.
+Consistent with the heuristic that transformed-induced bias approximates the additional bias from averaging simulations, we see that the additional bias disappears more slowly as well.
 
-\subsection*{Application: Supreme Court Decisions}
+\subsection*{Application}
 
 As a final illustration of the additional bias from averaging simulations, we simply compare the ML estimates computing using the invariance property to the average of the simulations. 
 We cannot demonstrate bias using this approach, but we can show that the estimates differ and rely on our previous arguments that the researcher should prefer the ML estimate. 
@@ -647,7 +646,6 @@ Further, some of the differences are quite large.
 For example, when maximum likelihood suggests a chance of about 5\%, the average of the simulation suggests a chance of about 10\%.
 This difference may seem small at first (i.e., only 5 percentage points), but the average of simulations is about \textit{double} the maximum likelihood estimate.
 
-
 \begin{figure}[h!]
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -663,7 +661,6 @@ This difference may seem small at first (i.e., only 5 percentage points), but th
 \end{subfigure}
 \caption{The figure shows the relationship between the simulation average and the maximum likelihood estimate two the quantities of interest.
 The left panel (a) shows the probability of a conservative decision.
-Notice that the simulation average tends falls about the maximum likelihood estimate when the probability is low--where the transformation is convex--and below the maximum likelihood estimate when the probability is high--where the transformation is concave.
 The right panel (b) shows the effect of a brief by the Solicitor General on the probability of a conservative decision.}
 \label{fig:ge}
 \end{figure}
