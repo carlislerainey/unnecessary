@@ -58,9 +58,9 @@ ggplot(sims_df, aes(x = true_qi, y = ti_bias, linetype = method, color = method)
   scale_linetype_manual(values = c("dotted", "solid")) + 
   scale_color_manual(values = c("#1b9e77", "#d95f02")) +
   theme_minimal() + 
-  labs(title = expression(paste("Transformation-Induced ",  tau, "-Bias in Estimates of Poisson Marginal Effects")),
+  labs(title = expression(paste(tau, "-Bias in Estimates of Poisson Marginal Effects")),
        x = "True Marginal Effect",
-       y = expression(paste("Transformation-Induced ",  tau, "-Bias")),
+       y = expression(paste(tau, "-Bias")),
        linetype = "Method", 
        color = "Method") + 
   guides(linetype = guide_legend(keywidth = 2, keyheight = 1))
