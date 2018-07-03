@@ -93,7 +93,7 @@ tall_bias_df <- bias_df %>%
          concept = fct_recode(concept,  
                               `Coefficient-Induced Bias` = "ci_bias",
                               `Transformation-Induced Bias` = "ti_bias",
-                              `Simulation Bias` = "sim_bias"),
+                              `Simulation-Induced Bias` = "sim_bias"),
          sample_size_fct = factor(paste0("N = ", sample_size))) %>%
   glimpse() %>%
   write_rds("data/nagler-fd-bias.rds")
