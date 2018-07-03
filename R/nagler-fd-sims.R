@@ -76,12 +76,12 @@ for (j in 1:length(sample_size)){
   # compute biases
   ci_bias <- tau_e_beta - tau_beta
   ti_bias <- e_tau_beta_mle - tau_e_beta
-  additional_bias <- e_tau_beta_avg - e_tau_beta_mle
+  sim_bias <- e_tau_beta_avg - e_tau_beta_mle
   bias_df_j <- data.frame(sample_size = sample_size[j], 
                           tau = tau_beta,
                           ci_bias = ci_bias,
                           ti_bias = ti_bias,
-                          additional_bias = additional_bias, 
+                          sim_bias = sim_bias, 
                           case_id = pred_df$case_priority)
   bias_df <- bind_rows(bias_df, bias_df_j)
 }
@@ -89,11 +89,11 @@ for (j in 1:length(sample_size)){
 # tidy the data
 tall_bias_df <- bias_df %>%
   gather(concept, bias, ends_with("_bias")) %>%
-  mutate(concept = fct_relevel(concept, c("ci_bias", "ti_bias", "additional_bias")),
+  mutate(concept = fct_relevel(concept, c("ci_bias", "ti_bias", "sim_bias")),
          concept = fct_recode(concept,  
                               `Coefficient-Induced Bias` = "ci_bias",
                               `Transformation-Induced Bias` = "ti_bias",
-                              `Additional Bias` = "additional_bias"),
+                              `Simulation Bias` = "sim_bias"),
          sample_size_fct = factor(paste0("N = ", sample_size))) %>%
   glimpse() %>%
   write_rds("data/nagler-fd-bias.rds")
