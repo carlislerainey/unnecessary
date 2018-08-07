@@ -1,14 +1,16 @@
 
 # load packages
 library(tidyverse)
-library(ggplot2)
 
 # read in the biases
 tall_bias_df <- read_rds("data/nagler-fd-bias.rds")
 
+# colors 
+my_colors <- c("#1b9e77", "#d95f02", "#7570b3")
+
 # compute the avg. abs. bias
 aab_df <- tall_bias_df %>% 
-  group_by(concept, sample_size_fct) %>%
+  group_by(concept, sample_size_fct, sample_size) %>%
   summarize(aab = format(round(mean(abs(bias)), 3), digits = 3, nsmall = 3),
             x = max(tall_bias_df$tau),
             y = max(tall_bias_df$bias)) %>%

@@ -1,10 +1,6 @@
 
-# set working directory
-setwd(here::here())
-
 # load packages
 library(tidyverse)
-library(magrittr)
 library(forcats)
 
 # set seed

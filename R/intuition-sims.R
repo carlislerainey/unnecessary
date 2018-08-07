@@ -1,10 +1,6 @@
-
-setwd(here::here())
-
 set.seed(19743)
 
 library(tidyverse)
-library(magrittr)
 library(ggrepel)
 library(forcats)
 

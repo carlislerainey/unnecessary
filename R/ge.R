@@ -1,10 +1,6 @@
 
-# set working directory
-setwd(here::here())
-
 # load packages
 library(tidyverse)
-library(magrittr)
 
 # load data
 ge <- read_csv("data/ge.csv")

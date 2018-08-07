@@ -7,9 +7,6 @@ library(magrittr)
 # set seed
 set.seed(589)
 
-# colors 
-my_colors <- c("#1b9e77", "#d95f02", "#7570b3")
-
 # load data
 turnout_df <- haven::read_dta("data/scobit.dta") %>%
   filter(newvote != -1) %>%
@@ -96,5 +93,6 @@ tall_bias_df <- bias_df %>%
                               `Simulation-Induced Bias` = "sim_bias"),
          sample_size_fct = factor(paste0("N = ", sample_size))) %>%
   glimpse() %>%
-  write_rds("data/nagler-fd-bias.rds")
+  write_rds("data/nagler-fd-bias.rds") %>%
+  write_csv("data/nagler-fd-bias.csv")
 
