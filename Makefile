@@ -25,8 +25,10 @@ doc/figs/ge-pr.pdf docs/figs/ge-fd.pdf: R/ge.R data/ge.csv
 # compile manuscript	
 doc/unnecessary.pdf: doc/unnecessary.tex doc/figs/intuition-1.pdf doc/figs/intuition-2.pdf doc/figs/intuition-3.pdf doc/figs/intuition-4.pdf doc/figs/intuition-sampling.pdf doc/figs/poisson-mcs.pdf doc/figs/nagler-fd-bias.pdf doc/figs/ge-pr.pdf doc/figs/ge-fd.pdf
   # cd into doc so that pdflatex runs in the doc directory
-	cd doc; pdflatex unnecessary.tex; pdflatex unnecessary.tex; 
-	cd doc; bibtex unnecessary.tex; pdflatex unnecessary.tex
+	cd doc; pdflatex unnecessary
+	cd doc; bibtex unnecessary
+	cd doc; pdflatex unnecessary 
+	cd doc; pdflatex unnecessary 
 	cd doc; rm -f *.bbl *.log *.synctex.gz *.aux *.out *blg
 
 cleanpaper: 	
