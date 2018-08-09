@@ -1,4 +1,7 @@
 
+# set seed
+set.seed(4835)
+
 # load packages
 library(tidyverse)
 

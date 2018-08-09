@@ -1,10 +1,10 @@
 
+# set seed
+set.seed(8764)
+
 # load packages
 library(tidyverse)
 library(forcats)
-
-# set seed
-set.seed(8764)
 
 # set simulation paramters
 n <- 100  # sample size

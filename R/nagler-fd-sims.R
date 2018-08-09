@@ -1,11 +1,10 @@
 
+# set seed
+set.seed(589)
 
 # load packages
 library(tidyverse)
 library(magrittr)
-
-# set seed
-set.seed(589)
 
 # load data
 turnout_df <- haven::read_dta("data/scobit.dta") %>%
