@@ -1,6 +1,11 @@
 # phony
-all: paper
+all: paper dag
 paper: doc/unnecessary.pdf
+dag: makefile-dag.png
+
+# draw makefile dag
+makefile-dag.png: Makefile
+	make -Bnd | make2graph | dot -Tpng -Gdpi=300 -o makefile-dag.png
 
 # do and plot poisson simulations
 doc/figs/poisson-mcs.pdf: R/poisson-mcs.R
@@ -19,7 +24,7 @@ doc/figs/nagler-fd-bias.pdf: R/plot-nagler-fd-bias.R data/nagler-fd-bias.rds
 	Rscript $<	
 	
 # do ge example
-doc/figs/ge-pr.pdf docs/figs/ge-fd.pdf: R/ge.R data/ge.csv
+doc/figs/ge-pr.pdf doc/figs/ge-fd.pdf: R/ge.R data/ge.csv
 	Rscript R/ge.R
 
 # compile manuscript	
@@ -33,6 +38,9 @@ doc/unnecessary.pdf: doc/unnecessary.tex doc/bibliography.bib doc/figs/intuition
 
 cleanpaper: 	
 	rm -f doc/unnecessary.pdf
+	
+cleandag: 	
+	rm -f makefile-dag.png
 
 cleanALL: cleanpaper
 	rm -f doc/figs/poisson-mcs.pdf
