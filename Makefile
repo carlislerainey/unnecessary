@@ -4,8 +4,8 @@ paper: doc/unnecessary.pdf
 dag: makefile-dag.png
 
 # draw makefile dag
-makefile-dag.png: Makefile
-	make -Bnd | make2graph | dot -Tpng -Gdpi=300 -o makefile-dag.png
+makefile-dag.png: makefile-dag.R Makefile
+	Rscript $<
 
 # do and plot poisson simulations
 doc/figs/poisson-mcs.pdf: R/poisson-mcs.R
