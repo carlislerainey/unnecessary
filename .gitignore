@@ -15,4 +15,5 @@
 !.gitignore
 .Rproj.user
 present/
+memo/
 Rplots.pdf
