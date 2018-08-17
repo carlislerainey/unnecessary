@@ -13,7 +13,7 @@ function(
     m <- character()
     # handle continuation characters
     while (length(con)) {
-        this_line <- readLines(con, n = 1L)
+        this_line <- readLines(con, n = 1L, warn = FALSE)
         if (!length(this_line)) {
             break
         }

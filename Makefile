@@ -35,7 +35,6 @@ doc/unnecessary.pdf: doc/unnecessary.tex doc/bibliography.bib doc/figs/intuition
 	cd doc; pdflatex unnecessary 
 	cd doc; pdflatex unnecessary 
 	cd doc; rm -f *.bbl *.log *.synctex.gz *.aux *.out *blg
-
 cleanpaper: 	
 	rm -f doc/unnecessary.pdf
 	
