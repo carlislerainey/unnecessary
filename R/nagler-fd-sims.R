@@ -21,7 +21,7 @@ texreg::screenreg(fit)
 
 # simulation parameters
 n_c <- 250  # number of cases for which to compute the quantity of interest
-n_sims <- 5000
+n_sims <- 10000
 sample_size <- c(100, 200, 400, 800)
 
 # compute simulation requisites
@@ -55,7 +55,7 @@ for (j in 1:length(sample_size)){
     beta_hat_mat[i, ] <- coef(sim_fit)
     Sigma_hat <- vcov(sim_fit)
     # simulate beta
-    beta_tilde <- MASS::mvrnorm(1000, beta_hat_mat[i, ], Sigma_hat)
+    beta_tilde <- MASS::mvrnorm(10000, beta_hat_mat[i, ], Sigma_hat)
     # compute tau-hat
     fd_mle[i, ] <- pnorm(X1_pred%*%beta_hat_mat[i, ]) - pnorm(X_pred%*%beta_hat_mat[i, ])
     fd_avg[i, ] <- apply(pnorm(X1_pred%*%t(beta_tilde)) - pnorm(X_pred%*%t(beta_tilde)), 1, mean)

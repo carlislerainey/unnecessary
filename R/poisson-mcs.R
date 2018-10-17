@@ -6,6 +6,11 @@ set.seed(8764)
 library(tidyverse)
 library(forcats)
 
+# create colors
+mc <- c("#1b9e77",  # ml
+        "#d95f02",  # avg
+        "#7570b3")  # ann
+
 # set simulation paramters
 n <- 100  # sample size
 x <- rnorm(n)  # single explanatory variable
@@ -46,21 +51,37 @@ sims_df <- data.frame(x = x0,
                       avg = apply(tau_hat_avg, 2, mean)) %>%
   gather(method, ev, mle, avg) %>%
   mutate(ti_bias = ev - tau_e_beta_hat) %>%
-  mutate(method = fct_recode(method, `Average of Simulations` = "avg", `Maximum Likelihood` = "mle"))
+  mutate(method = factor(method, levels = c("mle", "avg")),
+         method = fct_recode(method, `Average of Simulations` = "avg", `Maximum Likelihood` = "mle")) %>%
+  glimpse()
 
 # plot the ti-bias compared to the true value
-ggplot(sims_df, aes(x = true_qi, y = ti_bias, linetype = method, color = method)) + 
+ggplot(sims_df, aes(x = true_qi, y = ev - true_qi, linetype = method, color = method)) + 
+  geom_abline(intercept = 0, slope = 1, color = "grey50", linetype = "dotted") + 
+  annotate(geom = "text", 
+           x = 0.75, 
+           y = 1.5, 
+           label = "Bias equals true marginal effect.",
+           color = "grey50",
+           size = 2.5) + 
+  annotate(geom = "segment", 
+           x = 0.75, 
+           xend = 0.80,
+           y = 1.42, 
+           yend = 0.8,
+           color = "grey50",
+           size = 0.2) + 
   geom_line(size = .9) + 
-  scale_linetype_manual(values = c("dotted", "solid")) + 
-  scale_color_manual(values = c("#1b9e77", "#d95f02")) +
-  theme_minimal() + 
-  labs(title = expression(paste(tau, "-Bias in Estimates of Poisson Marginal Effects")),
+  scale_linetype_manual(values = c("solid", "longdash")) + 
+  scale_color_manual(values = mc[1:2]) +
+  theme_bw() + 
+  labs(#title = expression(paste(tau, "-Bias in Estimates of Poisson Marginal Effects")),
        x = "True Marginal Effect",
-       y = expression(paste(tau, "-Bias")),
+       y = "Bias",
        linetype = "Method", 
        color = "Method") + 
-  guides(linetype = guide_legend(keywidth = 2, keyheight = 1))
-ggsave("doc/figs/poisson-mcs.pdf", height = 3, width = 8)
+  guides(linetype = guide_legend(keywidth = 3, keyheight = 1))
+ggsave("doc/figs/poisson-mcs.pdf", height = 3, width = 6.7)
 
 # compute discriptive for a subset of the data
 mean(sims_df$true_qi > 0.5)  # proportion of data in condition
@@ -75,12 +96,3 @@ descr_df <- sims_df %>%
   group_by(quantity) %>%
   summarize(avg = mean(ratio)) %>%
   glimpse()
-
-# a slightly different version of the plot
-## note: this plot has teh expected axes, but makes the comparison less clear imo.
-sims_df %>%
-  rename(expected_estimate = ev, true_value = true_qi) %>%
-  gather(quantity, me, true_value, expected_estimate) %>%
-  ggplot(aes(x = x, y = me, color = quantity)) + 
-    facet_wrap(~ method) +
-    geom_line(size = .9) 
