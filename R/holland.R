@@ -29,7 +29,12 @@ for (i in 1:length(cities)) {
   # extract and simulate model coefficients
   beta_hat <- coef(fit)  # extract coef estimates
   Sigma_hat <- sandwich::vcovHC(fit, type = "HC4m")  # extract cov estimates
-  beta_tilde <- MASS::mvrnorm(10000, mu = beta_hat, Sigma = Sigma_hat)  # simulate betas
+  # note: we use 5 million simulations here the difference btw the estimators is extremely 
+  # small in the districts in bogota with the least lower class residence. of course, the
+  # monte carlo estimates are extremely close for samples > 1k, but it small errors change 
+  # the direction of the arrows in the figure below. 5 million ensures that tiny monte carlo
+  # errors don't qualitatively change the plot.
+  beta_tilde <- MASS::mvrnorm(5000000, mu = beta_hat, Sigma = Sigma_hat)  # simulate betas
   
   # set scenarios
   X_lo <- X_hi <- model.matrix(f, data = city_df)
@@ -163,7 +168,8 @@ smry2_df <- tau_df %>%
   mutate(ratio = (mle - avg)/avg) %>%
   group_by(city) %>%
   summarize(med = median(ratio)) %>%
-  glimpse()
+  glimpse() %>%
+  write_csv("doc/tabs/holland-medians.csv")
 
 
 
