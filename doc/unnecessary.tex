@@ -186,8 +186,12 @@ urlcolor=blue % color of external links
 
 \begin{center}
 
-{\Large \textbf{Simulation-Induced Bias in Quantities of Interest}}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}. %I thank Bill Berry, Christopher Gandrud, Michael Hanmer, John Holbein, Gary King, Justin Kirkland, Thomas Leeper, Matt Pietryka, Arthur Spirling, Michael Tomz, Jason Wittenberg, and Chris Wlezien for helpful comments. Holger Kern initated the conversation that led to the paper and provided helpful feedback throughout its development. I also thank audiences at Florida State University and the 2018 Texas Methods Meeting for productive discussions. All remaining errors are my own.
-}
+{\Large \textbf{A Careful Consideration of Clarify}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}. %I thank Bill Berry, Christopher Gandrud, Michael Hanmer, John Holbein, Gary King, Justin Kirkland, Thomas Leeper, Matt Pietryka, Arthur Spirling, Michael Tomz, Jason Wittenberg, and Chris Wlezien for helpful comments. Holger Kern initated the conversation that led to the paper and provided helpful feedback throughout its development. I also thank audiences at Florida State University and the 2018 Texas Methods Meeting for productive discussions. All remaining errors are my own.
+}}
+
+{\textbf{Simulation-Induced Bias in Point Estimates of Quantities of Interest}}
+
+
 
 \vspace{1cm}
 
@@ -203,11 +207,10 @@ Carlisle Rainey\symbolfootnote[2]{Carlisle Rainey is Associate Professor of Poli
 % Abstract
 {\centerline{\textbf{Abstract}}}
 \begin{quote}\noindent
-Researchers commonly obtain point estimates of quantities of interest by simulating model coefficients, transforming these simulated coefficients into simulated quantities of interest, and then averaging the simulated quantities of interest. 
-In contrast, other researchers directly transform coefficient estimates into estimated quantities of interest. 
-I point out that these two approaches are not equivalent and extend the analysis of Rainey (2017) to the simulation approach.
-I show that averaging simulated quantities of interest does not eliminate the transformation-induced bias identified by Rainey (2017). 
-Instead, the simulation algorithm compounds the transformation-induced bias, adding bias with similar direction and magnitude that I refer to as ``simulation-induced bias.'' 
+Some work in political methodology recommends that applied researchers obtain point estimates of quantities of interest by simulating model coefficients, transforming these simulated coefficients into simulated quantities of interest, and then averaging the simulated quantities of interest (e.g., Clarify). 
+But other work advises applied researchers to directly transform coefficient estimates into estimated quantities of interest. 
+I point out that these two approaches are not interchangeable and examine their properties. 
+I show that the simulation approach compounds the transformation-induced bias identified by Rainey (2017), adding bias with direction and magnitude similar to the transformation-induced bias. I refer to this easily-avoided additional bias as ``simulation-induced bias.'' 
 \end{quote}
 
 % Add quote to first page
@@ -223,8 +226,8 @@ Instead, the simulation algorithm compounds the transformation-induced bias, add
 
 % Start main text
 %\newpage
-\doublespace
-%\onehalfspace
+%\doublespace
+\onehalfspace
 \section*{Introduction}
 
 \setcounter{page}{1}
@@ -282,6 +285,18 @@ The Berstein-Von Mises theorem \citep[pp.\@ 140-146]{vanderVaart2000} guarantees
 
 However, the small sample properties of the average-of-simulations remain poorly understood. Researchers seem to assume that $\hat{\tau}^{\text{avg}}$ is a comparable alternative, if not equivalent, to  $\hat{\tau}^{\text{mle}}$. 
 But below, I show that the average-of-simulations algorithm compounds the transformation-induces bias described by Rainey (2017) and adds a similar bias to the estimate that I refer to as ``simulation-induced bias.'' 
+
+\section*{Current Practice}
+
+Before comparing the average-of-simulations estimator to the plug-in estimator, I discuss its popularity of the average-of-simulations in political methodology. First, \cite{KingTomzWittenberg2000} is among the most important methods papers published in political science. As of 2021, it has recieved about 4,500 citations according to Google Scholar and 1,800 according to ISI, making it the most cited paper in the \textit{American Journal of Political Science}. The authors explicitly recommend the average-of-simulations to obtain point estimates. They write: ``[a]verage the simulated values to obtain a point estimate'' (p. 351). King, Tomz, and Wittenberg's advice has echoed throughout the discipline, and methodologists continue to recommend the average-of-simulations. Zhirnov, Moral, and Sedashov (2022), for example, explicitly recommend the average-of-simulations for their point estimates.
+
+Popular software implements the authors' suggestions. In 2021, the R package Zelig \cite{Choiratetal}, which reports the average-of-simulations, received more than 75,000 dowloads from RStudio's CRAN mirror alone. It has received over 675,000 downloads since the mirror began. The authors' popular Stata software Clarify \citep{TomzWittenbergKing2003} reports the average-of-simulations and has received almost 2,000 citations. Indeed, ``Clarify'' has become a victom of genericization. Indeed, \cite{Rainey2016} describes his approach: ``I compute and plot estimates and 90 percent confidence intervals for predicted probabilities, first-differences, and second-differences using Clarify-like simulation.''
+
+Extensions of King, Tomz, and Wittenberg's approach are developed in other highly-cited methods work. \cite{Tomz2002} extend the approach to multiparty electoral data. \cite{BerryDeMerittEsarey2010} recommend the approach for testing interactive hypotheses with binary outcomes. \cite{Philips2016} apply the approach to dynamic compositional data. \cite{Zhirnov2022} extend the approach distributeion-weighted average marginal effects. \cite{BramborClarkGolder2006}, the most cited paper \text{Political Analysis} and the 7th most cited paper published in any political science journal, recommend the average-of-simulations to compute point estimates of marginal effect for models of limited dependent variables.
+
+But the recommendations in these highly-cited works are subtly at odds with other suggestions. Foundational texts such as \citealt[pp.\@ 320--321]{CasellaBerger2002}) and \citealt[p. \@ 521]{Greene2012} recommend the plug-in estimator. Prior to the publication of King, Tomz, and Wittenberg (2000), Herron (1999) made a similar appeal to political scientists to compute quantities of substantive interest, but recommended the plug-in estimator. \cite{King1989} and \cite{KingZeng2002} recommend the plug-in estimator. But none defend their choice or discuss the alternative. Illustrating the devide, Hanmer and Kalkan (2013) use the plug-in approach in their Monte Carlo simulations, but use the average-of-simulations in their empirical illustrations. 
+
+The political methodology literature has treated the average-of-simulations and the plug-in estimators as interchangable. However, I show that the average-of-simulations and plug-in estimators are not interchangeable. Instead, the average-of-simulations introduces a bias analagous to the transformation-induced bias identified by Rainey (2017). Fortunately, the plug-in estimator avoids this bias and is at least as easy to compute as the average-of-simulations.
 
 \section*{A Review of Transformation-Induced Bias}
 
