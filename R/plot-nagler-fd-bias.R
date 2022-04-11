@@ -57,7 +57,7 @@ ggplot() +
   #           color = mc[3]) +
   theme_bw() + 
   labs(x = "Actual Effect of a 10-Day Shift in Closing Date",
-       y = "Bias in Estimated Effect") + 
+       y = "Bias in Estimate") + 
   geom_text(data = annotate_df, aes(x = x, y = y, label = label),
             color = mc[3], size = 2.9) + 
   scale_x_continuous(breaks = seq(-0.04, 0.0, by = 0.01)) + 

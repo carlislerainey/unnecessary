@@ -1,6 +1,6 @@
 
 # set seed
-set.seed(589)
+set.seed(5891)
 
 # load packages
 library(tidyverse)
@@ -20,7 +20,7 @@ fit <- glm(f, data = turnout_df, family = binomial(link = "probit"))
 texreg::screenreg(fit)
 
 # simulation parameters
-n_c <- 250  # number of cases for which to compute the quantity of interest
+n_c <- 100  # number of cases for which to compute the quantity of interest
 n_sims <- 10000
 sample_size <- c(100, 200, 400, 800)
 
@@ -36,7 +36,7 @@ X_pred <- model.matrix(f, data = pred_df)
 X1_pred <- model.matrix(f, data = pred1_df)
 
 # do simulation
-bias_df <- NULL
+bias_list <- NULL
 for (j in 1:length(sample_size)){
   qi_df <- NULL
   beta_hat_mat <- matrix(NA, nrow = n_sims, ncol = length(beta))
@@ -73,14 +73,16 @@ for (j in 1:length(sample_size)){
   ci_bias <- tau_e_beta - tau_beta
   ti_bias <- e_tau_beta_mle - tau_e_beta
   sim_bias <- e_tau_beta_avg - e_tau_beta_mle
-  bias_df_j <- data.frame(sample_size = sample_size[j], 
+  bias_list[[j]] <- data.frame(sample_size = sample_size[j], 
                           tau = tau_beta,
                           ci_bias = ci_bias,
                           ti_bias = ti_bias,
                           sim_bias = sim_bias, 
                           case_id = pred_df$case_priority)
-  bias_df <- bind_rows(bias_df, bias_df_j)
 }
+
+bias_df <- bind_rows(bias_list)
+
 
 # tidy the data
 tall_bias_df <- bias_df %>%

@@ -186,8 +186,12 @@ urlcolor=blue % color of external links
 
 \begin{center}
 
-{\Large \textbf{A Careful Consideration of Clarify}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}. %I thank Bill Berry, Christopher Gandrud, Michael Hanmer, John Holbein, Gary King, Justin Kirkland, Thomas Leeper, Matt Pietryka, Arthur Spirling, Michael Tomz, Jason Wittenberg, and Chris Wlezien for helpful comments. Holger Kern initated the conversation that led to the paper and provided helpful feedback throughout its development. I also thank audiences at Florida State University and the 2018 Texas Methods Meeting for productive discussions. All remaining errors are my own.
-}}
+{\Large \textbf{A Careful Consideration of CLARIFY}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}. %I thank Bill Berry, Christopher Gandrud, Michael Hanmer, John Holbein, Gary King, Justin Kirkland, Thomas Leeper, Matt Pietryka, Arthur Spirling, Michael Tomz, Jason Wittenberg, and Chris Wlezien for helpful comments. Holger Kern initiated the conversation that led to the paper and provided helpful feedback throughout its development. I also thank audiences at Florida State University and the 2018 Texas Methods Meeting for productive discussions. All remaining errors are my own.
+}
+}
+
+\vspace{0.2cm}
+
 
 {\textbf{Simulation-Induced Bias in Point Estimates of Quantities of Interest}}
 
@@ -207,10 +211,10 @@ Carlisle Rainey\symbolfootnote[2]{Carlisle Rainey is Associate Professor of Poli
 % Abstract
 {\centerline{\textbf{Abstract}}}
 \begin{quote}\noindent
-Some work in political methodology recommends that applied researchers obtain point estimates of quantities of interest by simulating model coefficients, transforming these simulated coefficients into simulated quantities of interest, and then averaging the simulated quantities of interest (e.g., Clarify). 
-But other work advises applied researchers to directly transform coefficient estimates into estimated quantities of interest. 
+Some work in political methodology recommends that applied researchers obtain point estimates of quantities of interest by simulating model coefficients, transforming these simulated coefficients into simulated quantities of interest, and then averaging the simulated quantities of interest (e.g., CLARIFY). 
+But other work advises applied researchers to directly transform coefficient estimates to estimate quantities of interest. 
 I point out that these two approaches are not interchangeable and examine their properties. 
-I show that the simulation approach compounds the transformation-induced bias identified by Rainey (2017), adding bias with direction and magnitude similar to the transformation-induced bias. I refer to this easily-avoided additional bias as ``simulation-induced bias.'' 
+I show that the simulation approach compounds the transformation-induced bias identified by Rainey (2017), adding bias with direction and magnitude similar to the transformation-induced bias. I refer to this easily-avoided additional bias as ``simulation-induced bias.'' Even if researchers use simulation to estimate standard errors, they should directly transform maximum likelihood estimates of coefficient estimates to obtain point estimates of quantities of interest.
 \end{quote}
 
 % Add quote to first page
@@ -226,8 +230,8 @@ I show that the simulation approach compounds the transformation-induced bias id
 
 % Start main text
 %\newpage
-%\doublespace
-\onehalfspace
+\doublespace
+%\onehalfspace
 \section*{Introduction}
 
 \setcounter{page}{1}
@@ -235,24 +239,22 @@ I show that the simulation approach compounds the transformation-induced bias id
 Political scientists employ maximum likelihood (ML) to estimate a variety of statistical models. 
 ML estimators have desirable and widely understood properties. 
 But for many research questions, the model coefficient estimates do not directly interest the researcher. 
-Following \cite{KingTomzWittenberg2000}, researchers often use the coefficient estimates to compute substantively meaningful quantities of interest, such as predicted probabilities, expected counts, marginal effects, and first differences. The literature offers two methods to compute these quantities of interest. 
+Following \cite{KingTomzWittenberg2000}, researchers often use the coefficient estimates to compute substantively meaningful quantities of interest, such as predicted probabilities, expected counts, marginal effects, and first differences. The literature offers two methods to compute point estimates for these quantities of interest. 
 
-Researchers estimate quantities of interest either by simulated quantities of interest and then averaging (e.g., \citealt{KingTomzWittenberg2000}) or by directly transforming coefficients into quantities of interest (e.g., \citealt{Herron1999}).
-CLARIFY for Stata \citep{TomzWittenbergKing2003} and Zelig for R (\citealt{ImaiKingLau2008}; \citealt{Choiratetal}) simulate quantities of interest and find the average. 
-The \texttt{margins} command in Stata \citep{StataManual}, the margins package in R \citep{margins}, and the \texttt{predict()} function in R (for the glm \citep{R} and polr \citep{MASS} classes, among many others) directly transform coefficients into the quantities of interest.
-
-In practice, researchers' choice between these two approaches seems idiosyncratic rather than principled, depending on their preferred software package rather than any statistical criteria. 
+Researchers estimate quantities of interest either by simulating quantities of interest and then averaging (e.g., \citealt{KingTomzWittenberg2000}) or by directly transforming coefficients into quantities of interest (e.g., \citealt{Herron1999}).\footnote{CLARIFY for Stata \citep{TomzWittenbergKing2003} and Zelig for R (\citealt{ImaiKingLau2008}; \citealt{Choiratetal}) simulate quantities of interest and find the average. The package dynsimpie for Stata also reports the average of simulations \citep{philips2016dynsimpie, jung2020command}.
+The \texttt{margins} command in Stata \citep{StataManual}, the margins package in R \citep{margins}, and the \texttt{predict()} function in R for the glm \citep{R} and polr \citep{MASS} classes directly transform coefficients into the quantities of interest.}
+ In practice, researchers' choice between these two approaches seems idiosyncratic rather than principled, depending on their preferred software package rather than any statistical criteria. 
 Further, the methodological literature has not distinguished or compared the two approaches to estimating quantities of interest.
 
-Rainey (2017) shows that directly transforming coefficients into quantities of interest creates ``transformation-induced'' bias. I extend this analysis to the simulation approach that \cite{KingTomzWittenberg2000} suggest. 
-Does King, Tomz, and Wittenberg's approach eliminate the transformation-induced bias? 
-To the contrary, I show that when researchers use the average of simulations to estimate quantities of interest, they compound the transformation-induced bias with an additional bias I refer to as ``simulation-induced bias.'' And while this bias is usually small relative to standard error, I argue that methodologists should recommend methods that better adhere to the usual frequentist justifications. 
+How does the simulation approach compare to directly transforming coefficients? Which should we prefer? Or are the two approaches interchangeable, as the literature seems to imply? Rainey (2017) shows that directly transforming coefficients into quantities of interest creates ``transformation-induced'' bias. I show that when researchers use the average of simulations to estimate quantities of interest, they replicate the logic of transformation-induced bias and add an additional, unnecessary bias to their estimates. I refer to this additional bias as ``simulation-induced bias.''  I show that simulation-induced bias occurs \textit{in addition to} transformation-induced bias and is approximately the same size and direction. While this bias is usually small relative to the standard error, methodologists should not recommend methods that add unnecessary bias to point estimates. Instead, we should recommend methods that better adhere to the usual justifications. 
 
-\section*{The Plug-In Estimator}
+\section*{The Current Practice}
+
+\subsection*{The Plug-In Estimator}
 
 First, researchers can directly transform the coefficient estimates into quantities of interest. 
 The invariance property of ML estimators allows a researcher to find the ML estimate of a function of a parameter (i.e., a quantity of interest) by first using ML to estimate the model parameter and then applying the function to that estimate (or ``plugging in the estimate'') (\citealt[pp.\@ 75--76]{King1989}; \citealt[pp.\@ 320--321]{CasellaBerger2002}). 
-I refer to this approach as the ``plug-in'' estimator. Importantly, the plug-in estimator \textit{remains an ML estimator}. Thus, it has all of the (desirable) properties of ML estimators (e.g., consistency, asymptotic efficiency). 
+I refer to this approach as the ``plug-in'' estimator. Importantly, the plug-in estimator \textit{remains an ML estimator}. Thus, it retains all of the (desirable) properties of ML estimators (e.g., consistency, asymptotic efficiency). 
 
 As a concrete example, suppose a researcher uses ML to estimate a statistical model in which $y_i \sim f(\theta_i)$, where $i \in \{1,\ldots, N\}$ and $f$ represents a probability distribution. 
 The parameter $\theta_i$ connects to a design matrix $X$ of $k$ explanatory variables and a column of ones by a link function $g(\cdot)$, so that $g(\theta_i) = X_i\beta$, where $\beta \in \mathbb{R}^{k+1}$ represents a vector of parameter with length $k + 1$. 
@@ -262,7 +264,7 @@ For example, if the researcher uses a logit model and focuses on the predicted p
 The researcher can use the invariance property to quickly obtain a ML estimate of the predicted probability: $\hat{\tau}^{\text{mle}} = \tau \left( \hat{\beta}^{\text{mle}}\right) = \text{logit}^{-1} \left( X_c \hat{\beta}^{\text{mle}} \right) = \dfrac{1}{1 + e^{-X_c \hat{\beta}^{\text{mle}}}}$.
 
 
-\section*{The Average-of-Simulations Estimator}
+\subsection*{The Average-of-Simulations Estimator}
 
 Second, researchers can use the average of simulated quantities of interest as the point estimator. 
 \cite{KingTomzWittenberg2000} suggest the following approach:\vspace{.1in}
@@ -277,30 +279,32 @@ Most quantities of interest depend on the values of the explanatory variables. I
 \end{enumerate}
 \noindent I refer to this as the ``average-of-simulations'' estimator. But what are the properties of this estimator?
 
-While the estimates it provides are usually similar to well-behaved plug-in estimates, \cite{KingTomzWittenberg2000} develop their method informally. 
-Much of their theoretical argument happens quickly when they write ``we draw many plausible sets of parameters from their posterior or sampling distribution'' (p. 349).\footnote{King, Tomz, and Wittenberg's claim that the draws are from the (frequentist) sampling distribution is incorrect. Take the sample mean as an (counter-)example. If researchers could manipulate a sample to simulate draws from the sampling distribution, then they could compute the population mean with arbitrary precision, because the mean of the sampling distribution is the population mean. Of course, the precision of the sample mean is limited by the sample size--researchers cannot simulate from the sampling distribution.}
+While the estimates it provides are sometimes similar to well-behaved plug-in estimates, \cite{KingTomzWittenberg2000} develop their method informally. 
+Much of their theoretical argument happens quickly when they write ``we draw many plausible sets of parameters from their posterior or sampling distribution'' (p. 349).\footnote{King, Tomz, and Wittenberg's claim that the draws are from the (frequentist) sampling distribution is incorrect. Take the sample mean as an example. If researchers could manipulate a sample to simulate draws from the sampling distribution, then they could compute the population mean with arbitrary precision, because the mean of the sampling distribution is the population mean. Of course, the precision of the sample mean is limited by the sample size--researchers cannot simulate from the sampling distribution.}
 One might justify their method from a frequentist perspective by first thinking of their method as ``informal'' Bayesian posterior simulation \citep{GelmanHill2006}.  
-This is helpful, because the theory and practice of simulating from a posterior distribution is well-developed and widely understood. 
+This is helpful because the theory and practice of simulating from a posterior distribution are well-developed and widely understood. 
 The Berstein-Von Mises theorem \citep[pp.\@ 140-146]{vanderVaart2000} guarantees, under relatively weak assumptions, that posterior simulations are asymptotically equivalent to the simulation procedure suggested by King, Tomz, and Wittenberg. And because the point estimator $\hat{\beta}^{\text{mle}}$ (and functions of $\hat{\beta}^{\text{mle}}$) is consistent, then the mean of the simulations (and the mean of functions of the simulations) are consistent as well. Therefore, one can defend $\hat{\tau}^{\text{avg}}$ on the grounds that it is a consistent estimator of $\tau$. 
 
-However, the small sample properties of the average-of-simulations remain poorly understood. Researchers seem to assume that $\hat{\tau}^{\text{avg}}$ is a comparable alternative, if not equivalent, to  $\hat{\tau}^{\text{mle}}$. 
-But below, I show that the average-of-simulations algorithm compounds the transformation-induces bias described by Rainey (2017) and adds a similar bias to the estimate that I refer to as ``simulation-induced bias.'' 
+However, the small sample properties of the average-of-simulations remain poorly understood. Methodologists and applied researchers seem to assume that $\hat{\tau}^{\text{avg}}$ is interchangeable with  $\hat{\tau}^{\text{mle}}$. 
+But below, I show that the average-of-simulations algorithm compounds the transformation-induced bias described by Rainey (2017) and adds a similar bias to the estimate that I refer to as ``simulation-induced bias.'' 
 
-\section*{Current Practice}
+\subsection*{The Popularity of Simulation in Political Science}
 
-Before comparing the average-of-simulations estimator to the plug-in estimator, I discuss its popularity of the average-of-simulations in political methodology. First, \cite{KingTomzWittenberg2000} is among the most important methods papers published in political science. As of 2021, it has recieved about 4,500 citations according to Google Scholar and 1,800 according to ISI, making it the most cited paper in the \textit{American Journal of Political Science}. The authors explicitly recommend the average-of-simulations to obtain point estimates. They write: ``[a]verage the simulated values to obtain a point estimate'' (p. 351). King, Tomz, and Wittenberg's advice has echoed throughout the discipline, and methodologists continue to recommend the average-of-simulations. Zhirnov, Moral, and Sedashov (2022), for example, explicitly recommend the average-of-simulations for their point estimates.
+\cite{KingTomzWittenberg2000} is among the most important methods papers published in political science. As of 2021, it has received about 4,500 citations according to Google Scholar and 1,800 according to ISI, making it the most cited paper in the \textit{American Journal of Political Science}. But researchers do not use their simulation approach primarily for the point estimates---averaging simulations is an unnecessarily complex method to obtain a point estimate. Instead, researchers use simulation to estimate standard errors for arbitrary quantities of interest. The standard deviation of the simulated $\tilde{\tau}$ serves as an easy, generic alternative to the tedious delta method (Herron 1999).\footnote{Alongside the point estimate, researchers usually estimate the standard error. I recognize that a discussion of the properties of point estimates raises seemingly-urgent questions about the behavior of standard error estimates. But standard errors fall outside the scope of this paper. The omission is not as unsatisfying as it initially seems. From a frequentist perspective, point and interval estimates require separate consideration because distinct theoretical tools are used to evaluate the two. Rather than evaluate a suite of interval estimators, I point researchers to three options with well-understood frequentist properties for creating confidence intervals (in addition to King, Tomz, and Wittenberg's proposal): non-parametric bootstrap, the parametric bootstrap, and the delta method (see \citealt{EfronTibshirani1993} and \citealt{Efron2021} for an overview). } But if the researcher uses simulation to estimate the standard error, then it is tempting to just average the simulations to obtain the point estimate. And many authors suggest this shortcut.
 
-Popular software implements the authors' suggestions. In 2021, the R package Zelig \cite{Choiratetal}, which reports the average-of-simulations, received more than 75,000 dowloads from RStudio's CRAN mirror alone. It has received over 675,000 downloads since the mirror began. The authors' popular Stata software Clarify \citep{TomzWittenbergKing2003} reports the average-of-simulations and has received almost 2,000 citations. Indeed, ``Clarify'' has become a victom of genericization. Indeed, \cite{Rainey2016} describes his approach: ``I compute and plot estimates and 90 percent confidence intervals for predicted probabilities, first-differences, and second-differences using Clarify-like simulation.''
+King, Tomz, and Wittenberg (2000) explicitly recommend the average-of-simulations to obtain point estimates. They write: ``[a]verage the simulated values to obtain a point estimate'' (p. 351). King, Tomz, and Wittenberg's advice has echoed throughout the discipline, and methodologists continue to recommend the average-of-simulations. \cite{Zhirnov2022}, for example, explicitly recommend the average-of-simulations for their point estimates.\footnote{Popular software implements King, Tomz, and Wittenberg's (2000) suggestion to average the simulations. In 2021, the R package Zelig \citep{Choiratetal} received more than 75,000 downloads from RStudio's CRAN mirror alone. It has received over 675,000 downloads since the mirror began. The authors' popular CLARIFY software \citep{TomzWittenbergKing2003} has received almost 2,000 citations. Indeed, ``CLARIFY'' has become a victim of genericization in political science: \cite{Rainey2016} writes ``I compute and plot estimates[...] for predicted probabilities, first-differences, and second-differences using CLARIFY-like simulation'' (pp. 634-635). Likewise, \cite{Zhirnov2022} provide software which supplies the average-of-simulations \citep{zhirnov2022a, zhirnov2022b}.}
 
-Extensions of King, Tomz, and Wittenberg's approach are developed in other highly-cited methods work. \cite{Tomz2002} extend the approach to multiparty electoral data. \cite{BerryDeMerittEsarey2010} recommend the approach for testing interactive hypotheses with binary outcomes. \cite{Philips2016} apply the approach to dynamic compositional data. \cite{Zhirnov2022} extend the approach distributeion-weighted average marginal effects. \cite{BramborClarkGolder2006}, the most cited paper \text{Political Analysis} and the 7th most cited paper published in any political science journal, recommend the average-of-simulations to compute point estimates of marginal effect for models of limited dependent variables.
+Extensions of King, Tomz, and Wittenberg's approach are developed in other highly-cited methods work. \cite{Tomz2002} extend the approach to multiparty electoral data. \cite{BerryDeMerittEsarey2010} recommend the approach for testing interactive hypotheses with binary outcomes. \cite{Philips2016} apply the approach to dynamic compositional data. \cite{Zhirnov2022} extend the approach distribution-weighted average marginal effects. \cite{BramborClarkGolder2006}, the most cited paper \textit{Political Analysis} and the 7th most cited paper ever published in any political science journal, recommend the approach to compute point estimates of marginal effects for models of limited dependent variables. Each of these papers recommends averaging the simulations to obtain point estimates.
 
-But the recommendations in these highly-cited works are subtly at odds with other suggestions. Foundational texts such as \citealt[pp.\@ 320--321]{CasellaBerger2002}) and \citealt[p. \@ 521]{Greene2012} recommend the plug-in estimator. Prior to the publication of King, Tomz, and Wittenberg (2000), Herron (1999) made a similar appeal to political scientists to compute quantities of substantive interest, but recommended the plug-in estimator. \cite{King1989} and \cite{KingZeng2002} recommend the plug-in estimator. But none defend their choice or discuss the alternative. Illustrating the devide, Hanmer and Kalkan (2013) use the plug-in approach in their Monte Carlo simulations, but use the average-of-simulations in their empirical illustrations. 
+But researchers do not need to obtain point estimates by averaging simulations, even if they use simulation to estimate standard errors. Indeed, Herron (1999) and \cite{KingZeng2002} recommend obtaining point estimates using the plug-in principle and estimating the standard error using simulation. Foundational texts such as \citet[pp.\@ 320--321]{CasellaBerger2002} and \citet[p.\@ 521]{Greene2012} recommend the plug-in estimator. \cite{King1989} recommends the plug-in estimator. 
 
-The political methodology literature has treated the average-of-simulations and the plug-in estimators as interchangable. However, I show that the average-of-simulations and plug-in estimators are not interchangeable. Instead, the average-of-simulations introduces a bias analagous to the transformation-induced bias identified by Rainey (2017). Fortunately, the plug-in estimator avoids this bias and is at least as easy to compute as the average-of-simulations.
+While many papers recommend computing quantities of interest and suggest either the plug-in or average-of-simulations estimator, none defend their choice or discuss the alternative. Thus, the political methodology literature has treated the average-of-simulations and the plug-in estimators as interchangeable. As an example, Hanmer and Kalkan (2013) use the plug-in estimator in their Monte Carlo simulations but the average-of-simulations in their empirical illustrations. As another example, King, Tomz, and Wittenberg (2000) recommend the average-of-simulation to political scientists, but King and Zeng (2002) recommend the plug-in estimate to medical researchers. However, I show that the average-of-simulations and plug-in estimators are not interchangeable. Instead, the average-of-simulations introduces a meaningful bias analogous to the transformation-induced bias identified by Rainey (2017). Fortunately, the plug-in estimator avoids this bias and is at least as easy to compute as the average-of-simulations.
 
-\section*{A Review of Transformation-Induced Bias}
 
-As \citet{Rainey2017} shows, transforming unbiased model coefficient estimates can introduce bias into estimates of quantities of interest. 
+
+\section*{A Theory of Simulation-Induced Bias}
+
+Before developing the theory of simulation-induced bias, I review the concept of transformation-induced bias from Rainey (2017). As \citet{Rainey2017} shows, transforming unbiased model coefficient estimates can introduce bias into estimates of quantities of interest. 
 \citet[p.\@ 404]{Rainey2017} decomposes the bias in the estimate of the quantity of interest, which he refers to as {total $\tau$-bias,} into two components: transformation-induced $\tau$-bias and coefficient-induced $\tau$-bias. \citet{Rainey2017} defines these as
 \begin{equation}
 \text{total } \tau\text{-bias}= \underbrace{ \E\left[\tau\left(\hat{\beta}^\text{mle}\right)\right]-  \tau\left[\E\left(\hat{\beta}^\text{mle}\right)\right]  }_{\text{transformation-induced}} + \overbrace{  \tau\left[\E\left(\hat{\beta}^\text{mle}\right)\right] - \tau\left(\beta\right)  }^{\text{coefficient-induced}}\text{.} \label{eqn:ti-bias}
@@ -312,9 +316,7 @@ In general, any strictly convex (concave) $\tau(\cdot)$ creates upward (downward
 The direction and magnitude of the coefficient-induced $\tau$-bias depend on the choice of $\tau(\cdot)$ and the bias in the coefficient estimates, but an unbiased estimator $\hat{\beta}^\text{mle}$ implies the absence of coefficient-induced $\tau$-bias. 
 
 But \cite{Rainey2017} does not consider the average-of-simulations estimator. 
-This raises the question: Does the average-of-simulations estimator $\hat{\tau}^{\text{avg}}$ suffer the same transformation-induced bias as the plug-in estimator $\hat{\tau}^\text{mle}$?
-
-\subsection*{A Theory of Simulation-Induced Bias}
+This raises the question: Does the average-of-simulations estimator $\hat{\tau}^{\text{avg}}$ suffer the same transformation-induced bias as the plug-in estimator $\hat{\tau}^\text{mle}$? I now turn to the average-of-simulations estimator and develop the idea of ``simulation-induced bias.''
 
 If the transformation of coefficient estimates into an estimate of the quantity of interest is always convex (or always concave), then Jensen's inequality allows the simple statement relating $\hat{\tau}^\text{avg}$ and $\hat{\tau}^{\text{mle}}$ given in Lemma \ref{lem:direction} .
 
@@ -324,7 +326,7 @@ Then any strictly convex (concave) $\tau(\cdot)$ guarantees that $\hat{\tau}^{\t
 \end{lemma}
 
 \noindent This result is intuitive. Since I simulate using a multivariate normal distribution, $\tilde{\beta}$ has a symmetric distribution. But the distribution of $\tau(\tilde{\beta})$ is \emph{not} symmetric. If $\tilde{\beta}$ happens to fall below the mode $\hat{\beta}^\text{mle}$, then $\tau(\cdot)$ pulls $\tau(\tilde{\beta})$ in toward $\hat{\tau}^\text{mle}$.
-If $\tilde{\beta}$ happens to fall above the mode $\hat{\beta}^\text{mle}$, then $\tau(\cdot)$ pushes $\tau(\tilde{\beta})$ away from $\hat{\tau}^\text{mle}$. This creates a right-skewed distribution for $\tau(\tilde{\beta})$, which pushes the average $\hat{\tau}^\text{avg}$ above $\hat{\tau}^\text{mle}$. See the Appendix for the proof.
+If $\tilde{\beta}$ happens to fall above the mode $\hat{\beta}^\text{mle}$, then $\tau(\cdot)$ pushes $\tau(\tilde{\beta})$ away from $\hat{\tau}^\text{mle}$. This creates a right-skewed distribution for $\tau(\tilde{\beta})$, which pushes the average $\hat{\tau}^\text{avg}$ above $\hat{\tau}^\text{mle}$. See Appendix \ref{appendix:proofs} for the proof.
 
 For a convex transformation, Lemma \ref{lem:direction} shows that $\hat{\tau}^\text{avg}$ is always larger than $\hat{\tau}^\text{mle}$. I refer to the expectation of this difference between $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$ as ``simulation-induced bias," so that
 \begin{align*}
@@ -338,7 +340,7 @@ Suppose a nondegenerate ML estimator $\hat{\beta}^\text{mle}$.
 Then for any strictly convex or concave $\tau(\cdot)$, the sum of the simulation-induced and transformation-induced $\tau$-bias in $\hat{\tau}^{\text{avg}}$ is strictly greater in magnitude than the transformation-induced $\tau$-bias in $\hat{\tau}^{\text{mle}}$.
 \end{theorem}
 
-\noindent Regardless of the direction the simulation-induced and transformation-induced $\tau$-bias, Theorem \ref{thm:direction} shows that the magnitude of the combination in $\hat{\tau}^{\text{avg}}$ is \textit{always} larger than the transformation-induced bias alone in  $\hat{\tau}^{\text{mle}}$ for strictly convex or concave $\tau(\cdot)$. The proof follows directly from Jensen's inequality, but see the Appendix for the details.
+\noindent Regardless of the direction of simulation-induced and transformation-induced $\tau$-bias, Theorem \ref{thm:direction} shows that the magnitude of the combination in $\hat{\tau}^{\text{avg}}$ is \textit{always} larger than the transformation-induced bias alone in  $\hat{\tau}^{\text{mle}}$ for strictly convex or concave $\tau(\cdot)$. The proof follows directly from Jensen's inequality, but see Appendix \ref{appendix:proofs} for the details.
 
 Theorem \ref{thm:direction} shows that $\hat{\tau}^\text{avg}$ compounds transformation-induced $\tau$-bias with simulation-induced $\tau$-bias. But is this bias substantively important? An analytical approximation provides a helpful guideline.
 
@@ -365,15 +367,15 @@ But, as a rough guideline, one should expect them to be similar.
 And to the extent that the two are similar, the additional simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ is about the same as the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$. 
 
 Because of the similarity between Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, the simulation-induced $\tau$-bias becomes large under the conditions identified by \cite{Rainey2017} as leading to large transformation-induced $\tau$-bias: when the non-linearity in the transformation $\tau(\cdot)$ is severe and when the standard errors of $\hat{\beta}^\text{mle}$ are large.
-While the transformation-induced $\tau$-bias vanishes as the number of observations grows large, it can be substantively meaningful for the sample sizes commonly encountered in social science research \citep{Rainey2017}.
+While the transformation-induced $\tau$-bias vanishes as the number of observations grows large, it can be substantively meaningful for the sample sizes commonly encountered in social science research \citep{Rainey2017}. Appendix \ref{appendix:nagler} uses a realistic data-generating process to show that transformation-induced and coefficient-induced biases are similar and that both are similar to the well-known small-sample bias in logistic regression coefficients.
 
 \section*{The Intuition of Simulation-Induced Bias}
 
-To develop the intuition for the theoretical results above, I examine a stylized example with simulations, an alterative analytical approach, and an empirical example.
+To develop the intuition for the theoretical results above, I examine a stylized example with simulations, an alternative analytical approach, and an empirical example.
 
 \subsection*{Using a Drastic, Convex Transformation: $\tau(\mu) = \mu^2$}
 
-To develop an intuition for the simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$, consider the simple (unrealistic, but heuristically useful) scenario in which $y_i \sim \text{N}(0, 1)$, for $i \in \{1, 2, \ldots, n = 100\}$, and the researcher wishes to estimate $\mu^2$. Suppose that the researcher knows that the variance equals one but does not know that the mean $\mu$ equals zero. The researcher uses the unbiased maximum likelihood estimator $\hat{\mu}^\text{mle} = \frac{\sum_{i=1}^n y_i}{n}$ of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$. The researcher can use the plug-in estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$ of $\tau(\mu)$. Alternatively, the researcher can use the average-of-simulations estimator, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)$, where $\tilde{\mu}^{(i)} \sim \text{N} \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M\}$.
+To develop an intuition for the simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$, consider the simple (unrealistic, but heuristically useful) scenario in which $y_i \sim \text{N}(0, 1)$, for $i \in \{1, 2, \ldots, n = 100\}$, and the researcher wishes to estimate $\mu^2$. Suppose that the researcher knows that the variance equals one but does not know that the mean $\mu$ equals zero. The researcher uses the unbiased ML estimator $\hat{\mu}^\text{mle} = \frac{\sum_{i=1}^n y_i}{n}$ of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$. The researcher can use the plug-in estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$ of $\tau(\mu)$. Alternatively, the researcher can use the average-of-simulations estimator, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)$, where $\tilde{\mu}^{(i)} \sim \text{N} \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M\}$.
 
 The true value of the quantity of interest is $\tau(0) = 0^2 = 0$. However, the ML estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right)^2$ equals zero if and only if $\hat{\mu}^\text{mle} = 0$. Otherwise, $\hat{\tau}^\text{mle} > 0$. Since $\hat{\mu}^\text{mle}$ almost surely differs from zero,  $\hat{\tau}^\text{mle}$ is biased upward.
 
@@ -462,6 +464,9 @@ My first hypothesis is that enforcement operations drop off with the fraction of
 
 I use Holland's hypothesis and data to illustrate the behavior of the average-of-simulations and plug-in estimators. I refit Model 1 from Table 2 in \cite{Holland2015} for each city. I then use each model to compute the percent increase in the enforcement operations for each district in the city if the percent of the district in the lower class dropped by half. For example, in the Villa Maria El Triunfo district in Lima, 84\% of the district is in the lower class. If this dropped to 42\%, then the average-of-simulations estimate suggests that the number of enforcement operations would increase by about 284\% (from about 5 to about 20). The plug-in estimate, on the other hand, suggests an increase of 264\% (from about 5 to about 17). The plug-in estimate, then, is about 7\% smaller than the average-of-simulations estimate---a small, but noticeable shrinkage. 
 
+
+Figure \ref{fig:holland} shows how the estimates change (usually shrink) for all districts when I switch from the average-of-simulations estimates to plug-in estimates. Table \ref{tab:top-5} presents the details for the labeled cases in Figure \ref{fig:holland}. In Bogota, the estimate shrinks by 11\% in Sante Fe and 16\% in Usme. In Lima, the estimate shrinks by 5\% in Chacalacayo and 7\% Villa Maria El Triunfo. The shrinkage is much larger in Santiago, where the standard errors for the coefficient estimates are much larger. The estimate shrinks by about 47\% in San Ramon and 53\% in La Pintana. The median shrinkage is 7\% in Bogota, 2\% in Lima, and 36\% in Santiago. For many districts in Santiago, the average-of-simulations estimate is about \textit{twice} the plugin estimate. These estimates clearly show that the average of simulations and the ML estimates can differ meaningfully in actual analyses.
+
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=\textwidth]{figs/holland.pdf}\\
@@ -470,15 +475,15 @@ I use Holland's hypothesis and data to illustrate the behavior of the average-of
 \end{center}
 \end{figure}
 
-Figure \ref{fig:holland} shows how the estimates change (usually shrink) for all districts when I switch from the average-of-simulations estimates to plug-in estimates. Table \ref{tab:top-5} presents the details for the labelled cases in Figure \ref{fig:holland}. In Bogota, the estimate shrinks by 11\% in Sante Fe and 16\% in Usme. In Lima, the estimate shrinks by 5\% in Chacalacayo and 7\% Villa Maria El Triunfo. The shrinkage is much larger in Santiago, where the standard errors for the coefficient estimates are much larger. The estimate shrinks by about 47\% in San Ramon and 53\% in La Pintana. The median shrinkage is 7\% in Bogota, 2\% in Lima, and 36\% in Santiago. For many districts in Santiago, the average-of-simulations estimate is about \textit{twice} the plugin estimate. These estimates clearly show that the average of simulations and the ML estimates can meaningfully differ in actual analyses.
-
 \input{tabs/top-5.tex}
 
 \section*{Conclusion}
 
-Many social scientists turn to \cite{KingTomzWittenberg2000} for advice on how to interpret, summarize, and present empirical results. By highlighting the importance of reporting substantively meaningful quantities of interest, it has significantly improved empirical research in political science and neighboring disciplines. Depending on the statistical software used, researchers estimate quantities of interest either with the average of simulated quantities of interest (e.g., Clarify in Stata, Zelig in R) or using the invariance property of ML estimators (e.g., margins in Stata and R). In practice, researchers' choice between these two estimators seems idiosyncratic rather than principled, depending on their preferred software package rather than any statistical criteria. Further, the methodological literature has not distinguished or compared the two approaches to estimating quantities of interest.
+Many social scientists turn to \cite{KingTomzWittenberg2000} for advice on interpreting, summarizing, and presenting empirical results. The authors improved empirical research by highlighting the importance of substantively meaningful quantities of interest. I agree with King and Zeng's (\citeyear{king2006dangers}) summary of the literature: “[w]hether such effects are calculated via analytical derivation or what is now the more common approach of statistical simulation, political scientists have made much progress in learning how to make sophisticated methods speak directly to their substantive research questions” (p. 132). 
 
-I show that when researchers use the average of simulations to estimate quantities of interest, they roughly double the transformation-induced bias described by Rainey (2017). I refer to this unnecessary, additional bias as ``simulation-induced bias.'' The good news is that the fix is easy: researchers do not have to use simulation approach to obtain a point estimate of a quantity of interest. Instead, researchers can simply plug estimated coefficients into the transformation to obtain the ML estimate of the quantity of interest. I recommend that statistical software do this by default.
+Researchers estimate quantities of interest either by averaging simulated quantities of interest (e.g., CLARIFY in Stata, Zelig in R) or using the invariance property of maximum likelihood estimators (e.g., margins in Stata and R). In practice, researchers' choice between these two estimators seems idiosyncratic rather than principled, depending on their preferred software package rather than any statistical criteria. The methodological literature recommends both, but has not distinguished or compared the two approaches to estimating quantities of interest.
+
+When researchers use the average of simulations (King, Tomz, and Wittenberg 2000) to estimate quantities of interest, they replicate the logic of transformation-induced bias (Rainey 2017) and add simulation-induced bias to the estimates. This additional bias is roughly the same magnitude and direction as transformation-induced bias and occurs \textit{in addition to} transformation-induced bias. While the additional bias is usually small relative to the standard error, methodologists should not recommend methods that add unnecessary bias to point estimates. Instead, we should recommend methods that better adhere to the usual evaluative standards. Even if we recommend using simulation to estimate standard errors, we should not recommend averaging simulations to obtain the point estimate. Instead, researchers should directly transform maximum likelihood estimates of coefficients to obtain maximum likelihood estimates of the quantities of interest. The resulting point estimates inherit the desirable properties of maximum likelihood estimators and avoid unnecessary simulation-inducted bias.
 
 \singlespace
 %\clearpage
@@ -489,7 +494,9 @@ I show that when researchers use the average of simulations to estimate quantiti
 \newpage
 \appendix
 
-\section{Proofs}
+\noindent {\Large \textbf{Appendix for: ``A Careful Consideration of CLARIFY''}}
+
+\section{Proofs}\label{appendix:proofs}
 
 \subsection{Proof of Lemma \ref{lem:direction}}
 
@@ -513,6 +520,35 @@ It follows that $\underbrace{\E \left( \hat{\tau}^\text{avg}\right) - \tau \left
 \noindent For the concave case, it follows similarly that $\underbrace{\E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} < \underbrace{\E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} < 0$.
  $\blacksquare$
 \end{proof}
+
+\newpage
+
+\section{Real-World Relevance of Simulation-Induced Bias}\label{appendix:nagler}
+
+\onehalfspace
+
+To get a sense of the``real world'' magnitude and importance of simulation-induced bias, I conduct a Monte Carlo study on estimates and data from \cite{BerryDeMerittEsarey2010}. This paper serves as an ideal example because it is highly cited, uses a large dataset, and builds on a familiar series of substantive and methodological papers, including \cite{WolfingerRosenstone1980}, \cite{Nagler1991, Nagler1994}, and \cite{AltmanMcDonald2003}.
+For the data-generating process, I use the model specification and coefficients that \cite{BerryDeMerittEsarey2010} report in their Table 1, Column 2. 
+To generate suitably-small samples of explanatory variables, I randomly draw a sample of $100$ observations and subsequently add in $100$ more, then $200$ more, and then $400$ more observations to create samples of $100$, $200$, $400$, and $800$ observations from the original data set from \cite{BerryDeMerittEsarey2010}.
+
+In the Monte Carlo simulations, I keep the explanatory variables fixed and use the coefficient estimates from \cite{BerryDeMerittEsarey2010} to simulate 10,000 outcome variables. For each simulated outcome variable, I compute $\hat{\beta}$, $\hat{\tau}^\text{mle}$, and $\hat{\tau}^\text{avg}$. Finally, I use these estimates to decompose the $\tau$-bias into its coefficient-induced, transformation-induced, and simulation-induced components.
+
+As the quantity of interest, I calculate the change in the probability of turning out to vote if the election registration deadline occurs $10$ days sooner (a one standard deviation change). 
+However, the effect of this 10-day shift (and the coefficient-, transformation-, and simulation-induced $\tau$-bias) depends on the original closing date as well as the values of the other explanatory variables. To capture and present this heterogeneity, I estimate the coefficient-, transformation-, and simulation-induced biases for 100 randomly-chosen observations from the full data set. 
+
+Figure \ref{fig:nagler} shows the resulting coefficient-, transformation-, and simulation-induced $\tau$-bias (columns) for the four different sample sizes (rows). Each point shows the bias for one of the 100 observations. Points that fall outside the shaded region have a bias greater than $10\%$, which I consider substantively meaningful.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale = 0.95]{figs/nagler-fd-bias.pdf}\\
+\vspace{.1in}
+\caption{The figure shows the coefficient-induced, transformation-induced, and simulation-induced $\tau$-biases for a logistic regression model based on \cite{BerryDeMerittEsarey2010}.
+The points that fall outside the shaded region have bias greater than $10\%$.}\label{fig:nagler}
+\end{center}
+\end{figure}
+
+The simulation-induced $\tau$-bias (right-hand column) has a magnitude comparable to the well-known small sample bias in logistic regression coefficients (left-hand column, \citealt{Rainey2021}). The magnitude of the simulation-induced bias is similar to---or perhaps slightly larger than---the magnitude of the transformation-induced bias (middle column), in line with the rough approximation developed in the main text. Second, at least in some scenarios, the simulation-induced bias is sufficiently large to meaningfully affect results. For at least some observations, the simulation-induced bias remains larger than $10\%$ until the sample size exceeds $400$. Third, while each type of bias disappears asymptotically, the biases disappear at different rates. Rainey (2017) shows that transformation-induced bias can disappear more slowly than coefficient-induced bias. The same pattern appears for simulation-induced bias. Especially for certain observations, the simulation-induced bias remains large even when the coefficient-induced bias has nearly disappeared. 
+
 
 
 \end{document}
