@@ -186,8 +186,7 @@ urlcolor=blue % color of external links
 
 \begin{center}
 
-{\Large \textbf{A Careful Consideration of CLARIFY}\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}. %I thank Bill Berry, Christopher Gandrud, Michael Hanmer, John Holbein, Gary King, Justin Kirkland, Thomas Leeper, Matt Pietryka, Arthur Spirling, Michael Tomz, Jason Wittenberg, and Chris Wlezien for helpful comments. Holger Kern initiated the conversation that led to the paper and provided helpful feedback throughout its development. I also thank audiences at Florida State University and the 2018 Texas Methods Meeting for productive discussions. All remaining errors are my own.
-}
+{\Large \textbf{A Careful Consideration of CLARIFY}%\symbolfootnote[1]{All computer code necessary for replication is available on \href{https://github.com/carlislerainey/unnecessary}{GitHub}. %I thank Bill Berry, Christopher Gandrud, Michael Hanmer, John Holbein, Gary King, Justin Kirkland, Thomas Leeper, Matt Pietryka, Arthur Spirling, Michael Tomz, Jason Wittenberg, and Chris Wlezien for helpful comments. Holger Kern initiated the conversation that led to the paper and provided helpful feedback throughout its development. I also thank audiences at Florida State University and the 2018 Texas Methods Meeting for productive discussions. All remaining errors are my own.}
 }
 
 \vspace{0.2cm}
@@ -283,7 +282,7 @@ While the estimates it provides are sometimes similar to well-behaved plug-in es
 Much of their theoretical argument happens quickly when they write ``we draw many plausible sets of parameters from their posterior or sampling distribution'' (p. 349).\footnote{King, Tomz, and Wittenberg's claim that the draws are from the (frequentist) sampling distribution is incorrect. Take the sample mean as an example. If researchers could manipulate a sample to simulate draws from the sampling distribution, then they could compute the population mean with arbitrary precision, because the mean of the sampling distribution is the population mean. Of course, the precision of the sample mean is limited by the sample size--researchers cannot simulate from the sampling distribution.}
 One might justify their method from a frequentist perspective by first thinking of their method as ``informal'' Bayesian posterior simulation \citep{GelmanHill2006}.  
 This is helpful because the theory and practice of simulating from a posterior distribution are well-developed and widely understood. 
-The Berstein-Von Mises theorem \citep[pp.\@ 140-146]{vanderVaart2000} guarantees, under relatively weak assumptions, that posterior simulations are asymptotically equivalent to the simulation procedure suggested by King, Tomz, and Wittenberg. And because the point estimator $\hat{\beta}^{\text{mle}}$ (and functions of $\hat{\beta}^{\text{mle}}$) is consistent, then the mean of the simulations (and the mean of functions of the simulations) are consistent as well. Therefore, one can defend $\hat{\tau}^{\text{avg}}$ on the grounds that it is a consistent estimator of $\tau$. 
+The Berstein-von Mises theorem \citep[pp.\@ 140-146]{vanderVaart2000} guarantees, under relatively weak assumptions, that posterior simulations are asymptotically equivalent to the simulation procedure suggested by King, Tomz, and Wittenberg. And because the point estimator $\hat{\beta}^{\text{mle}}$ (and functions of $\hat{\beta}^{\text{mle}}$) is consistent, then the mean of the simulations (and the mean of functions of the simulations) are consistent as well. Therefore, one can defend $\hat{\tau}^{\text{avg}}$ on the grounds that it is a consistent estimator of $\tau$. 
 
 However, the small sample properties of the average-of-simulations remain poorly understood. Methodologists and applied researchers seem to assume that $\hat{\tau}^{\text{avg}}$ is interchangeable with  $\hat{\tau}^{\text{mle}}$. 
 But below, I show that the average-of-simulations algorithm compounds the transformation-induced bias described by Rainey (2017) and adds a similar bias to the estimate that I refer to as ``simulation-induced bias.'' 
@@ -299,8 +298,6 @@ Extensions of King, Tomz, and Wittenberg's approach are developed in other highl
 But researchers do not need to obtain point estimates by averaging simulations, even if they use simulation to estimate standard errors. Indeed, Herron (1999) and \cite{KingZeng2002} recommend obtaining point estimates using the plug-in principle and estimating the standard error using simulation. Foundational texts such as \citet[pp.\@ 320--321]{CasellaBerger2002} and \citet[p.\@ 521]{Greene2012} recommend the plug-in estimator. \cite{King1989} recommends the plug-in estimator. 
 
 While many papers recommend computing quantities of interest and suggest either the plug-in or average-of-simulations estimator, none defend their choice or discuss the alternative. Thus, the political methodology literature has treated the average-of-simulations and the plug-in estimators as interchangeable. As an example, Hanmer and Kalkan (2013) use the plug-in estimator in their Monte Carlo simulations but the average-of-simulations in their empirical illustrations. As another example, King, Tomz, and Wittenberg (2000) recommend the average-of-simulation to political scientists, but King and Zeng (2002) recommend the plug-in estimate to medical researchers. However, I show that the average-of-simulations and plug-in estimators are not interchangeable. Instead, the average-of-simulations introduces a meaningful bias analogous to the transformation-induced bias identified by Rainey (2017). Fortunately, the plug-in estimator avoids this bias and is at least as easy to compute as the average-of-simulations.
-
-
 
 \section*{A Theory of Simulation-Induced Bias}
 
@@ -330,7 +327,7 @@ If $\tilde{\beta}$ happens to fall above the mode $\hat{\beta}^\text{mle}$, then
 
 For a convex transformation, Lemma \ref{lem:direction} shows that $\hat{\tau}^\text{avg}$ is always larger than $\hat{\tau}^\text{mle}$. I refer to the expectation of this difference between $\hat{\tau}^\text{avg}$ and $\hat{\tau}^\text{mle}$ as ``simulation-induced bias," so that
 \begin{align*}
-\text{simulation-induced } \tau\text{-bias} =& \E \left(\hat{\tau}^\text{avg} \right) - \E \left(\hat{\tau}^\text{mle} \right).
+\text{simulation-induced } \tau\text{-bias} =& \E\left(\hat{\tau}^\text{avg} \right) - \E\left(\hat{\tau}^\text{mle} \right).
 \end{align*}
 
 Theorem \ref{thm:direction} compares the sum of simulation- and transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ to transformation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$.
@@ -346,20 +343,20 @@ Theorem \ref{thm:direction} shows that $\hat{\tau}^\text{avg}$ compounds transfo
 
 I approximate the simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ as
 \begin{align*}
-\text{simulation-induced $\tau$-bias in } \hat{\tau}^\text{avg} =& \underbrace{\left( \E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} - \underbrace{ \left( \E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] \right)}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}}\\
-=& \E \left( \hat{\tau}^\text{avg}\right) - \E \left( \hat{\tau}^\text{mle}\right)\\
-=& \E \left( \hat{\tau}^\text{avg} - \hat{\tau}^\text{mle} \right)\\
-=& \E \left(     \E \left[ \tau\left( \tilde{\beta} \right) \right]      -      \tau \left( \hat{\beta}^\text{mle} \right)     \right)\\
-=& \E \left(     \underbrace{\E \left[ \tau\left( \tilde{\beta} \right) \right]      -      \tau \left[ E\left(  \tilde{\beta} \right)\right]}_{\substack{\text{approximated in Eq. 1,} \\ \text{p. 405, of \cite{Rainey2017}}}}   \right)\\
-\approx & \E \left[ \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left( \hat{\beta}^\text{mle} \right) \hat{V}_{rs} \left( \hat{\beta}^{\text{mle}} \right) \right], \numberthis \label{eqn:avg-approx}
+\text{simulation-induced $\tau$-bias in } \hat{\tau}^\text{avg} =& \underbrace{\left( \E\left( \hat{\tau}^\text{avg}\right) - \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right] \right) }_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} - \underbrace{ \left( \E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right] \right)}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}}\\
+=& \E\left( \hat{\tau}^\text{avg}\right) - \E\left( \hat{\tau}^\text{mle}\right)\\
+=& \E\left( \hat{\tau}^\text{avg} - \hat{\tau}^\text{mle} \right)\\
+=& \E\left(     \E\left[ \tau\left( \tilde{\beta} \right) \right]      -      \tau \left( \hat{\beta}^\text{mle} \right)     \right)\\
+=& \E\left(     \underbrace{\E\left[ \tau\left( \tilde{\beta} \right) \right]      -      \tau \left[ E\left(  \tilde{\beta} \right)\right]}_{\substack{\text{approximated in Eq. 1,} \\ \text{p. 405, of \cite{Rainey2017}}}}   \right)\\
+\approx & \E\left[ \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left( \hat{\beta}^\text{mle} \right) \hat{V}_{rs} \left( \hat{\beta}^{\text{mle}} \right) \right], \numberthis \label{eqn:avg-approx}
 \end{align*}
 where the remaining expectation occurs with respect to $\hat{\beta}^\text{mle}$, $H\left( \hat{\beta}^\text{mle} \right)$ represents the Hessian matrix of second derivatives of $\tau(\cdot)$ at the point $\hat{\beta}^\text{mle}$ and, conveniently, $\hat{V} \left( \hat{\beta}^{\text{mle}} \right)$ represents the estimated covariance matrix for $\hat{\beta}^\text{mle}$.
 
 This approximation appears similar to the approximation for the transformation-induced $\tau$-bias, which (adjusting notation slightly) \citet[p. 405, Eq. 1]{Rainey2017} computes as
 \begin{align*}
-\text{t.i. } \tau \text{-bias } \approx \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left[ \E \left( \hat{\beta}^\text{mle} \right) \right] V_{rs} \left( \hat{\beta}^{\text{mle}} \right), \numberthis \label{eqn:mle-approx}
+\text{t.i. } \tau \text{-bias } \approx \dfrac{1}{2} \displaystyle \sum_{r = 1}^{k+1} \sum_{s = 1}^{k+1} H_{rs}\left[ \E\left( \hat{\beta}^\text{mle} \right) \right] V_{rs} \left( \hat{\beta}^{\text{mle}} \right), \numberthis \label{eqn:mle-approx}
 \end{align*}
-where $H\left[ \E \left( \hat{\beta}^\text{mle} \right) \right]$ represents the Hessian matrix of second derivatives of $\tau(\cdot)$ at the point $\E \left( \hat{\beta}^\text{mle} \right)$ and $V \left( \hat{\beta}^{\text{mle}} \right)$ represents the covariance matrix of the sampling distribution of $\hat{\beta}^\text{mle}$.
+where $H\left[ \E\left( \hat{\beta}^\text{mle} \right) \right]$ represents the Hessian matrix of second derivatives of $\tau(\cdot)$ at the point $\E\left( \hat{\beta}^\text{mle} \right)$ and $V \left( \hat{\beta}^{\text{mle}} \right)$ represents the covariance matrix of the sampling distribution of $\hat{\beta}^\text{mle}$.
 
 When one compares Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, they yet again compare the \textit{expectation of a function} with the \textit{function of the expectation}.
 Therefore, Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx} are not exactly equal.
@@ -367,7 +364,10 @@ But, as a rough guideline, one should expect them to be similar.
 And to the extent that the two are similar, the additional simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ is about the same as the transformation-induced $\tau$-bias in $\hat{\tau}^\text{mle}$. 
 
 Because of the similarity between Equations \ref{eqn:avg-approx} and \ref{eqn:mle-approx}, the simulation-induced $\tau$-bias becomes large under the conditions identified by \cite{Rainey2017} as leading to large transformation-induced $\tau$-bias: when the non-linearity in the transformation $\tau(\cdot)$ is severe and when the standard errors of $\hat{\beta}^\text{mle}$ are large.
-While the transformation-induced $\tau$-bias vanishes as the number of observations grows large, it can be substantively meaningful for the sample sizes commonly encountered in social science research \citep{Rainey2017}. Appendix \ref{appendix:nagler} uses a realistic data-generating process to show that transformation-induced and coefficient-induced biases are similar and that both are similar to the well-known small-sample bias in logistic regression coefficients.
+While the transformation-induced $\tau$-bias vanishes as the number of observations grows large, it can be substantively meaningful for the sample sizes commonly encountered in social science research. 
+In standard modeling situations, Rainey (2017) demonstrates that transformation-induced bias can (1) be larger than the bias in the estimates of the model coefficients and (2) shrink to zero more slowly as the sample size increases. 
+By extension, the same claims hold for simulation-induced bias (which, again, appears \textit{in addition to} transformation-induced bias). 
+Appendix \ref{appendix:nagler} uses a realistic data-generating process to show that transformation-induced and coefficient-induced biases are similar and that both are similar to the well-known small-sample bias in logistic regression coefficients.
 
 \section*{The Intuition of Simulation-Induced Bias}
 
@@ -397,9 +397,10 @@ Each sample presents a similar story \textemdash{} the convex transformation str
 I repeat this process 10,000 total times to produce 10,000 estimates of $\hat{\mu}^\text{mle}$, $\hat{\tau}^\text{mle}$, and $\hat{\tau}^\text{avg}$.
 Figure \ref{fig:int-samp} shows the density plots for the 10,000 estimates (i.e., the sampling distributions of $\hat{\mu}^\text{mle}$, $\hat{\tau}^\text{mle}$, and $\hat{\tau}^\text{avg}$).
 As I show analytically, $\hat{\mu}^\text{mle}$ is unbiased with a standard error of $\frac{\sigma}{\sqrt{n}} = \frac{1}{\sqrt{100}} = \frac{1}{10}$.
-Both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$ are biased upward, but, as Theorem \ref{thm:direction} suggests, $\hat{\tau}^\text{avg}$ has more bias than $\hat{\tau}^\text{mle}$. And as the approximation suggestions, $\hat{\tau}^\text{avg}$ has about twice the bias of $\hat{\tau}^\text{mle}$.
+Both $\hat{\tau}^\text{mle}$ and $\hat{\tau}^\text{avg}$ are biased upward, but, as Theorem \ref{thm:direction} suggests, $\hat{\tau}^\text{avg}$ has more bias than $\hat{\tau}^\text{mle}$. And as the approximation suggestions, $\hat{\tau}^\text{avg}$ has about twice the bias of $\hat{\tau}^\text{mle}$. Indeed, the exact bias of each estimator is easy to compute for this simple example. Appendix \ref{appendix:drastic-analysis} shows that the biases are $\frac{1}{n} = \frac{1}{100}$ and $\frac{2}{n} = \frac{2}{100}$ in this example.
 
-\begin{figure}[!h]
+\begin{figure}[!h]Indeed, the exact bias of each estimator is easy to compute for this simple example.
+Appendix B shows that the biases are 1 = 1 and 2 = 2 in this example.
 \begin{center}
 \includegraphics[width = 0.7\textwidth]{figs/intuition.pdf}\\
 \vspace{.03in}
@@ -435,7 +436,7 @@ Applying the law of iterated expectations, I obtain $\E_{\tilde{\beta}} \left( \
 The three identities below connect the three key quantities from Theorem \ref{thm:direction} to three versions of $\E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} (\tilde{\beta} \mid \hat{\beta}^\text{mle}) \right)$, with the transformation $\tau(\cdot)$ applied at different points.
 \small
 \begin{alignat}{2}
- \color{color1} \tikzmark{MarkA}\tau \left[ \normalcolor \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} \left( \tilde{\beta} \mid \hat{\beta}^\text{mle} \right) \right) \color{color1} \right] \normalcolor =&  \tau \left[ \E_{\tilde{\beta}} \left( \tilde{\beta} \right) \right] = \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]\text{,} \label{eqn:true}\\
+ \color{color1} \tikzmark{MarkA}\tau \left[ \normalcolor \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} \left( \tilde{\beta} \mid \hat{\beta}^\text{mle} \right) \right) \color{color1} \right] \normalcolor =&  \tau \left[ \E_{\tilde{\beta}} \left( \tilde{\beta} \right) \right] = \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]\text{,} \label{eqn:true}\\
  \E_{\hat{\beta}^\text{mle}}\left( \color{color1} \tikzmark{MarkB}\tau\tikzmark{MarkC} \left[ \normalcolor \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} \left( \tilde{\beta} \mid \hat{\beta}^\text{mle} \right) \color{color1} \right] \normalcolor \right)  =&  \E_{\hat{\beta}^\text{mle}} \left( \tau \left[\hat{\beta}^\text{mle} \right] \right) =  \E_{\hat{\beta}^\text{mle}} \left(\hat{\tau}^\text{mle} \right) \text{, and} \justif{\quad}{$\longleftarrow~$ Switch $\tau$ and an $\E$ once.} \label{eqn:mle}\\
 \E_{\hat{\beta}^\text{mle}}\left( \E_{\tilde{\beta} \mid \hat{\beta}^\text{mle}} \left( \color{color1} \tikzmark{MarkD}\tau \left[ \normalcolor \tilde{\beta} \mid \hat{\beta}^\text{mle} \color{color1} \right] \normalcolor \right) \right)  =&
 \E_{\tilde{\beta}} \left( \tau \left[\tilde{\beta} \right] \right)  =
@@ -483,7 +484,7 @@ Many social scientists turn to \cite{KingTomzWittenberg2000} for advice on inter
 
 Researchers estimate quantities of interest either by averaging simulated quantities of interest (e.g., CLARIFY in Stata, Zelig in R) or using the invariance property of maximum likelihood estimators (e.g., margins in Stata and R). In practice, researchers' choice between these two estimators seems idiosyncratic rather than principled, depending on their preferred software package rather than any statistical criteria. The methodological literature recommends both, but has not distinguished or compared the two approaches to estimating quantities of interest.
 
-When researchers use the average of simulations (King, Tomz, and Wittenberg 2000) to estimate quantities of interest, they replicate the logic of transformation-induced bias (Rainey 2017) and add simulation-induced bias to the estimates. This additional bias is roughly the same magnitude and direction as transformation-induced bias and occurs \textit{in addition to} transformation-induced bias. While the additional bias is usually small relative to the standard error, methodologists should not recommend methods that add unnecessary bias to point estimates. Instead, we should recommend methods that better adhere to the usual evaluative standards. Even if we recommend using simulation to estimate standard errors, we should not recommend averaging simulations to obtain the point estimate. Instead, researchers should directly transform maximum likelihood estimates of coefficients to obtain maximum likelihood estimates of the quantities of interest. The resulting point estimates inherit the desirable properties of maximum likelihood estimators and avoid unnecessary simulation-inducted bias.
+When researchers use the average of simulations (King, Tomz, and Wittenberg 2000) to estimate quantities of interest, they replicate the logic of transformation-induced bias (Rainey 2017) and add simulation-induced bias to the estimates. This additional bias is roughly the same magnitude and direction as transformation-induced bias and occurs \textit{in addition to} transformation-induced bias. While the additional bias is usually small relative to the standard error, methodologists should not recommend methods that add unnecessary bias to point estimates. Instead, we should recommend methods that better adhere to the usual evaluative standards. Even if we recommend using simulation to estimate standard errors, we should not recommend averaging simulations to obtain the point estimate. Instead, researchers should directly transform maximum likelihood estimates of coefficients to obtain maximum likelihood estimates of the quantities of interest. The resulting point estimates inherit the desirable properties of maximum likelihood estimators and avoid unnecessary simulation-induced bias.
 
 \singlespace
 %\clearpage
@@ -513,15 +514,41 @@ The proof for concave $\tau$ follows similarly.
 \subsection{Proof of Theorem \ref{thm:direction}}
 
 \begin{proof}
-According to Theorem 1 of \citet[p.\@ 405]{Rainey2017}, $\E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right] > 0$.
+According to Theorem 1 of \citet[p.\@ 405]{Rainey2017}, $\E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right] > 0$.
 Lemma \ref{lem:direction} shows that for any convex $\tau$, $\hat{\tau}^{\text{avg}} > \hat{\tau}^\text{mle}$.
-It follows that $\underbrace{\E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} > \underbrace{\E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} > 0$.\\
+It follows that $\underbrace{\E\left( \hat{\tau}^\text{avg}\right) - \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} > \underbrace{\E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} > 0$.\\
 
-\noindent For the concave case, it follows similarly that $\underbrace{\E \left( \hat{\tau}^\text{avg}\right) - \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} < \underbrace{\E \left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E \left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} < 0$.
+\noindent For the concave case, it follows similarly that $\underbrace{\E\left( \hat{\tau}^\text{avg}\right) - \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} < \underbrace{\E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} < 0$.
  $\blacksquare$
 \end{proof}
 
 \newpage
+
+\section{Additional Analysis of the Drastic, Convex Transformation}\label{appendix:drastic-analysis}
+
+\onehalfspace
+
+In the main text, I develop an intuition for the simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ using the simple (unrealistic, but heuristically useful) scenario in which $y_i \sim \text{N}(0, 1)$, for $i \in \{1, 2, \ldots, n = 100\}$, and the researcher wishes to estimate $\mu^2$. Suppose that the researcher knows that the variance equals one but does not know that the mean $\mu$ equals zero. The researcher uses the unbiased ML estimator $\hat{\mu}^\text{mle} = \frac{\sum_{i=1}^n y_i}{n}$ of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$. The researcher can use the plug-in estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$ of $\tau(\mu)$. Alternatively, the researcher can use the average-of-simulations estimator, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)$, where $\tilde{\mu}^{(i)} \sim \text{N} \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M\}$.
+
+Below, I calculate the bias of each estimator.
+
+\subsection{The Bias in the ML Estimator}
+
+To simplify the notation below, I use $\hat{\mu}$ in place of $\hat{\mu}^\text{mle}$.
+
+First, note that $\hat{\mu}= \frac{\sum_{i=1}^n y_i}{n}$ is an \textit{unbiased} estimator so that $\E(\hat{\mu}) = \mu = 0$. We then have the common identity for mean-squared error: $\E\left( (\hat{\mu} - \mu)^2 \right) = \text{Var}\left(\hat{\mu}\right) - \E(\hat{\mu} - \mu)^2$. Substituting $\mu = 0$, we have $\E\left( \hat{\mu}^2 \right) = \text{Var}\left(\hat{\mu}\right) - \E(\hat{\mu})^2$. Substituting $\E(\hat{\mu}) = \mu = 0$, we have $\E\left( \hat{\mu}^2 \right) = \text{Var}\left(\hat{\mu}\right)$. Then $\E\left( \hat{\mu}^2 \right) = \text{Var}\left( \frac{\sum_{i=1}^n y_i}{n} \right) = \frac{1}{n^2} \text{Var}\left(\sum_{i=1}^n y_i \right)$. Then, using the identify that the variance of the sum of independent random variables is the sum of their variances, we have  $\E\left( \hat{\mu}^2 \right) = \frac{1}{n^2}  (n \times 1) = \frac{1}{n}$.
+
+Since $\tau = \mu^2 = 0$, the bias in $\hat{\tau} = \left[ \hat{\mu}^\text{mle} \right]^2$ is $\frac{1}{n} - 0 = \frac{1}{n}$. Because there is no coefficient-induced bias, this is also the transformation-induced bias.
+
+\subsection{The Bias in the Average-of-Simulations Estimator}
+
+To simplify the notation below, I use $\bar{\tau}$ in place of $\hat{\tau}^\text{avg}$.
+
+First, compute $\E(\bar{\tau} \mid \hat{\mu}) = \E\left[  \frac{1}{M} \sum_{i = 1}^M \left( \tilde{\mu}^{(i)} \right)^2 \right] = \frac{1}{M}  \sum_{i = 1}^M  \E\left[ \left( \tilde{\mu}^{(i)} \right)^2 \right]$. Then we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \sum_{i = 1}^M \left[ \text{Var}(\tilde{\mu}^{(i)}) + \E\left( \tilde{\mu}^{(i)}\right)^2 \right]$. Substituting known values, we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \sum_{i = 1}^M \left[ \frac{1}{n} + \hat{\mu}^2 \right]$. Simplifying, we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \left[ \frac{M}{n} + M\hat{\mu}^2 \right] = \frac{1}{n} + \hat{\mu}^2$.
+
+Next, apply the law of iterated expectations to find $\E(\bar{\tau}) = \E((\bar{\tau} \mid \hat{\mu}))$. Substituting, we have $\E(\bar{\tau}) = \E(\frac{1}{n} + \hat{\mu}^2)$. Then, simplifying, we have $\E(\bar{\tau}) = \frac{1}{n} + \E(\hat{\mu}^2) = \frac{1}{n} + \frac{1}{n} = \frac{2}{n}$.
+
+The bias in $\hat{\tau}^\text{avg}$ is therefore $\frac{2}{n}$. Because simulation-induced bias is defined as $\E\left(\hat{\tau}^\text{avg} \right) - \E\left(\hat{\tau}^\text{mle} \right)$, the simulation-induced bias in this example is $\frac{2}{n} - \frac{1}{n} = \frac{1}{n}$. Thus, the simulation-induced and transformation-induced bias in this example are exactly equal and the average-of-simulations estimator exactly doubles the bias in the ML estimator.
 
 \section{Real-World Relevance of Simulation-Induced Bias}\label{appendix:nagler}
 
