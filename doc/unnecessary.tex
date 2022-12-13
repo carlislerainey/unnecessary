@@ -546,9 +546,9 @@ To simplify the notation below, I use $\bar{\tau}$ in place of $\hat{\tau}^\text
 
 First, compute $\E(\bar{\tau} \mid \hat{\mu}) = \E\left[  \frac{1}{M} \sum_{i = 1}^M \left( \tilde{\mu}^{(i)} \right)^2 \right] = \frac{1}{M}  \sum_{i = 1}^M  \E\left[ \left( \tilde{\mu}^{(i)} \right)^2 \right]$. Then we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \sum_{i = 1}^M \left[ \text{Var}(\tilde{\mu}^{(i)}) + \E\left( \tilde{\mu}^{(i)}\right)^2 \right]$. Substituting known values, we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \sum_{i = 1}^M \left[ \frac{1}{n} + \hat{\mu}^2 \right]$. Simplifying, we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \left[ \frac{M}{n} + M\hat{\mu}^2 \right] = \frac{1}{n} + \hat{\mu}^2$.
 
-Next, apply the law of iterated expectations to find $\E(\bar{\tau}) = \E((\bar{\tau} \mid \hat{\mu}))$. Substituting, we have $\E(\bar{\tau}) = \E(\frac{1}{n} + \hat{\mu}^2)$. Then, simplifying, we have $\E(\bar{\tau}) = \frac{1}{n} + \E(\hat{\mu}^2) = \frac{1}{n} + \frac{1}{n} = \frac{2}{n}$.
+Next, apply the law of iterated expectations to find $\E(\bar{\tau}) = \E(\bar{\tau} \mid \hat{\mu})$. Substituting, we have $\E(\bar{\tau}) = \E(\frac{1}{n} + \hat{\mu}^2)$. Then, simplifying, we have $\E(\bar{\tau}) = \frac{1}{n} + \E(\hat{\mu}^2) = \frac{1}{n} + \frac{1}{n} = \frac{2}{n}$.
 
-The bias in $\hat{\tau}^\text{avg}$ is therefore $\frac{2}{n}$. Because simulation-induced bias is defined as $\E\left(\hat{\tau}^\text{avg} \right) - \E\left(\hat{\tau}^\text{mle} \right)$, the simulation-induced bias in this example is $\frac{2}{n} - \frac{1}{n} = \frac{1}{n}$. Thus, the simulation-induced and transformation-induced bias in this example are exactly equal and the average-of-simulations estimator exactly doubles the bias in the ML estimator.
+The bias in $\hat{\tau}^\text{avg}$ is therefore $\frac{2}{n}$. Because simulation-induced bias is defined as $\E\left(\hat{\tau}^\text{avg} \right) - \E\left(\hat{\tau}^\text{mle} \right)$, the simulation-induced bias in this example is $\frac{2}{n} - \frac{1}{n} = \frac{1}{n}$. Thus, the simulation-induced and transformation-induced bias are exactly equal and the average-of-simulations estimator exactly doubles the bias in the ML estimator.
 
 \section{Real-World Relevance of Simulation-Induced Bias}\label{appendix:nagler}
 
