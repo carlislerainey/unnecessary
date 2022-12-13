@@ -63,4 +63,4 @@ ggraph::ggraph(net, layout = "kk") +
                          arrow = grid::arrow(length = grid::unit(2, 'mm'))) + 
   ggraph::geom_node_text(ggplot2::aes(label = name), size = 2) +
   ggplot2::theme_void()
-ggplot2::ggsave("makefile-dag.png")
+ggplot2::ggsave("makefile-dag.png", height = 4, width = 6, scale = 1.5)

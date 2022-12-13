@@ -1,11 +1,11 @@
 
-# set seed
-set.seed(19743)
-
 # load packages
 library(tidyverse)
 library(ggrepel)
 library(forcats)
+
+# set seed
+set.seed(19743)
 
 # create colors
 mc <- c("#1b9e77",  # ml

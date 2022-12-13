@@ -1,80 +1,87 @@
 
 # load packages
 library(tidyverse)
-library(magrittr)
 library(ggrepel)
 library(kableExtra)
+# sandwich package also required
+# MASS package also required
 
 # set seed
 set.seed(8904)
 
 # load data
-holland_df <- haven::read_dta("data/Enforcement.dta") %>%
+holland <- haven::read_dta("data/Enforcement.dta") %>% 
+  # keep only the variables we use
+  select(city, district, operations, lower, vendors, budget, population) %>%
   glimpse()
 
-# create formula
-# corresponds to model 1 for each city in holland (2015) table 2
-f <- operations ~ lower + vendors + budget + population
+# formula corresponds to model 1 for each city in holland (2015) table 2
+holland_f <- operations ~ lower + vendors + budget + population
 
-# fit modles and compute quantities of interest for each city
-cities <- unique(holland_df$city)
-tau_df <- NULL
-for (i in 1:length(cities)) {
-  # filter data frame for city i
-  city_df <- filter(holland_df, city == cities[i]) %>%
-    select(city, district, operations, lower, vendors, budget, population)
-  # fit model
-  fit <- glm(f, family = poisson, data = city_df)
+# create function to fit regression model
+fit_model <- function(data) {
+  fit <- glm(holland_f, family = poisson, data = data)
+  return(fit)
+}
 
-  # extract and simulate model coefficients
-  beta_hat <- coef(fit)  # extract coef estimates
-  Sigma_hat <- sandwich::vcovHC(fit, type = "HC4m")  # extract cov estimates
-  # note: we use 5 million simulations here the difference btw the estimators is extremely 
-  # small in the districts in bogota with the least lower class residence. of course, the
-  # monte carlo estimates are extremely close for samples > 1k, but it small errors change 
-  # the direction of the arrows in the figure below. 5 million ensures that tiny monte carlo
-  # errors don't qualitatively change the plot.
-  beta_tilde <- MASS::mvrnorm(5000000, mu = beta_hat, Sigma = Sigma_hat)  # simulate betas
-  
+# simulate coefficients
+simulate_coefficients <- function(beta_hat, Sigma_hat) {
+  MASS::mvrnorm(5000000, mu = beta_hat, Sigma = Sigma_hat)
+}
+
+# simulate quantities of interest
+compute_tau <- function(data, beta_hat, beta_tilde) {
   # set scenarios
-  X_lo <- X_hi <- model.matrix(f, data = city_df)
-  X_lo[, "lower"] <- X_lo[, "lower"]*.5
+  X_hyp <- X_obs <- model.matrix(holland_f, data = data)
+  X_hyp[, "lower"] <- X_hyp[, "lower"]*.5
   
   # compute quantites of interest
-  tau_tilde <- t((exp(X_lo%*%t(beta_tilde)) - exp(X_hi%*%t(beta_tilde)))/exp(X_hi%*%t(beta_tilde)))
+  tau_tilde <- t((exp(X_hyp%*%t(beta_tilde)) - exp(X_obs%*%t(beta_tilde)))/exp(X_obs%*%t(beta_tilde)))
   tau_hat_avg <- apply(tau_tilde, 2, mean)  # simulation average
-  tau_hat_mle <- (exp(X_lo%*%beta_hat) - exp(X_hi%*%beta_hat))/exp(X_hi%*%beta_hat)  # mle
+  tau_hat_mle <- (exp(X_hyp%*%beta_hat) - exp(X_obs%*%beta_hat))/exp(X_obs%*%beta_hat)  # mle
   
-  # compute quantites of interest (lo)
-  tau_tilde_lo <- t(exp(X_lo%*%t(beta_tilde)))
+  # compute quantites of interest (hyp)
+  tau_tilde_lo <- t(exp(X_hyp%*%t(beta_tilde)))
   tau_hat_avg_lo <- apply(tau_tilde_lo, 2, mean)  # simulation average
-  tau_hat_mle_lo <- exp(X_lo%*%beta_hat)
+  tau_hat_mle_lo <- exp(X_hyp%*%beta_hat)
   
-  # compute quantites of interest (hi)
-  tau_tilde_hi <- t(exp(X_hi%*%t(beta_tilde)))
+  # compute quantites of interest (obs)
+  tau_tilde_hi <- t(exp(X_obs%*%t(beta_tilde)))
   tau_hat_avg_hi <- apply(tau_tilde_hi, 2, mean)  # simulation average
-  tau_hat_mle_hi <- exp(X_hi%*%beta_hat)
+  tau_hat_mle_hi <- exp(X_obs%*%beta_hat)
   
   # combine estimated qis into a data frame
-  tau_df_i <- data.frame(mle = tau_hat_mle, 
+  tau <- data.frame(mle = tau_hat_mle, 
                          avg = tau_hat_avg,
                          mle_lo = tau_hat_mle_lo, 
                          avg_lo = tau_hat_avg_lo,
                          mle_hi = tau_hat_mle_hi, 
                          avg_hi = tau_hat_avg_hi) %>%
-    bind_cols(city_df) %>%
-    mutate(city = cities[i])
-  tau_df <- rbind(tau_df, tau_df_i)
+    bind_cols(data)
+  return(tau)
 }
 
-# wrangle the data a bit
-tau_df <- tau_df %>%
+# fit models and compute quantities of interest
+estimations <- holland %>%
+  group_by(city) %>%
+  nest() %>% 
+  mutate(fit = map(data, fit_model),
+         beta_hat = map(fit, coef),
+         Sigma_hat = map(fit, sandwich::vcovHC, type = "HC4m"),
+         beta_tilde = map2(beta_hat, Sigma_hat, simulate_coefficients),
+         tau = pmap(list(data, beta_hat, beta_tilde), compute_tau)) %>%
+  glimpse()
+
+# wrangle estimates into usuable form
+tau <- estimations %>%
+  unnest(tau) %>%
+  ungroup() %>%
   mutate(city = str_to_title(city)) %>%
   mutate(district = reorder(district, lower)) %>%
   glimpse()
 
 # create a data frame of annotations of mle and aos estimators
-ann_df <- tau_df %>%
+ann <- tau %>%
   group_by(city) %>%
   #filter(city == "Santiago") %>%
   filter(avg == max(avg)) %>%
@@ -86,7 +93,7 @@ ann_df <- tau_df %>%
   glimpse()
 
 # create a data frome of annotations for top 5 districts in each city
-ann_city_df <- tau_df %>%
+ann_city <- tau %>%
   group_by(city) %>%
   top_n(5, lower) %>%
   glimpse()
@@ -97,7 +104,7 @@ lab_fn <- function(x) {
 }
 
 # plot the estimates of the quantities of interest
-ggplot(tau_df, aes(x = lower, xend = lower, y = avg, yend = mle)) + 
+ggplot(tau, aes(x = lower, xend = lower, y = avg, yend = mle)) + 
   facet_wrap(vars(city), scales = "free_y") + 
   #geom_point(size = 0.5) + 
   geom_segment(arrow = arrow(length = unit(0.05, "inches"))) + 
@@ -105,28 +112,28 @@ ggplot(tau_df, aes(x = lower, xend = lower, y = avg, yend = mle)) +
   theme_bw() + 
   labs(x = "Percent of District in Lower Class", 
        y = "Percent Increase in Enforcement Operations") + 
-  geom_segment(data = ann_df, aes(x = lower + 1, xend = lower + 9, y = avg, yend = avg), 
+  geom_segment(data = ann, aes(x = lower + 1, xend = lower + 9, y = avg, yend = avg), 
                size = 0.2, color = "#d95f02") + 
-  geom_segment(data = ann_df, aes(x = lower + 1, xend = lower + 9, y = mle, yend = mle), 
+  geom_segment(data = ann, aes(x = lower + 1, xend = lower + 9, y = mle, yend = mle), 
                size = 0.2, color = "#1b9e77") + 
-  geom_label(data = ann_df, aes(x = lower + 7.5, y = avg, label = avg_label), 
+  geom_label(data = ann, aes(x = lower + 7.5, y = avg, label = avg_label), 
              parse = TRUE, size = 2.5, color = "#d95f02", label.padding = unit(0.1, "lines")) + 
-  geom_label(data = ann_df, aes(x = lower + 7.5, y = mle, label = mle_label), 
+  geom_label(data = ann, aes(x = lower + 7.5, y = mle, label = mle_label), 
              parse = TRUE, size = 2.5, color = "#1b9e77", label.padding = unit(0.1, "lines")) + 
-  geom_text_repel(data = ann_city_df, aes(x = lower, y = avg, label = district),
+  geom_text_repel(data = ann_city, aes(x = lower, y = avg, label = district),
                   color = "grey50", size = 2.5, direction = "both", angle = 0, nudge_x = -14,
                   segment.size = .2, point.padding = 0.5, min.segment.length = 0)
 ggsave("doc/figs/holland.pdf", height = 3, width = 9, scale = 1.2)
 
 # 5 largest biases for each district
-smry_df <- tau_df %>%
+smry <- tau %>%
   mutate(ratio = (mle - avg)/avg) %>%
   group_by(city) %>%
   top_n(5, -ratio) %>%
   glimpse()
 
 # create latex table w/ details for 5 largest qis in each city
-smry_df %>%
+smry %>%
   mutate(shrinkage = -(mle - avg)/avg) %>%
   arrange(city, desc(avg)) %>%
   mutate(avg = paste0(round(100*avg), "%"),
@@ -164,13 +171,13 @@ smry_df %>%
   cat(file = "doc/tabs/top-5.tex")
 
 # median bias for each district
-smry2_df <- tau_df %>%
+smry2 <- tau %>%
   mutate(ratio = (mle - avg)/avg) %>%
   group_by(city) %>%
   summarize(med = median(ratio)) %>%
   glimpse() %>%
   write_csv("doc/tabs/holland-medians.csv")
 
-
+texreg::screenreg(estimations$fit)
 
 
