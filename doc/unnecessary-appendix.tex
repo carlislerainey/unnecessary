@@ -1,0 +1,267 @@
+%
+\documentclass[12pt]{article}
+
+% The usual packages
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{subcaption}
+
+\usepackage{fullpage}
+\usepackage{breakcites}
+\usepackage{setspace}
+\usepackage{endnotes}
+\usepackage{mathtools} % for \mathclap
+%\usepackage{float} % can't use with floatrow
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{rotating}
+\usepackage{longtable}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{hyperref}
+%\usepackage[usenames,dvipsnames]{color}
+\usepackage{url}
+\usepackage{natbib}
+\usepackage{framed}
+\usepackage{epigraph}
+\usepackage{lipsum}
+\usepackage{textcomp} % for \textrightarrow
+\usepackage{dcolumn}
+\usepackage{nameref}
+\usepackage{booktabs}
+\usepackage{float}
+%\restylefloat{table}
+\bibpunct{(}{)}{;}{a}{}{,}
+
+% kable packages
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+
+% Set paragraph spacing the way I like
+\parskip=0pt
+\parindent=20pt
+
+%\usepackage{helvet}
+%\usepackage[labelfont={bf}, margin=0cm, font=small, skip=0pt]{caption}
+
+\newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
+
+% Define mathematical results
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{claim}{Claim}
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{definition}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\newenvironment{remark}[1][Remark]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\med}{med}
+\DeclareMathOperator*{\E}{\text{E}}
+%\DeclareMathOperator*{\Pr}{\text{Pr}}
+
+%Set up fonts the way I like
+%\usepackage{tgpagella}
+%\usepackage[T1]{fontenc}
+%\usepackage[bitstream-charter]{mathdesign}
+
+%% Baskervald
+%\usepackage[lf]{Baskervaldx} % lining figures
+%\usepackage[bigdelims,vvarbb]{newtxmath} % math italic letters from Nimbus Roman
+%\usepackage[cal=boondoxo]{mathalfa} % mathcal from STIX, unslanted a bit
+%\renewcommand*\oldstylenums[1]{\textosf{#1}}
+
+%\usepackage[T1]{fontenc}
+%\usepackage{newtxtext,newtxmath}
+
+% A special command to create line break in table cells
+\newcommand{\specialcell}[2][c]{%
+ \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+%% Set up lists the way I like
+% Redefine the first level
+\renewcommand{\theenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumi}{\theenumi}
+% Redefine the second level
+\renewcommand{\theenumii}{\alph{enumii}.}
+\renewcommand{\labelenumii}{\theenumii}
+% Redefine the third level
+\renewcommand{\theenumiii}{\roman{enumiii}.}
+\renewcommand{\labelenumiii}{\theenumiii}
+% Redefine the fourth level
+\renewcommand{\theenumiv}{\Alph{enumiv}.}
+\renewcommand{\labelenumiv}{\theenumiv}
+% Eliminate spacing around lists
+\usepackage{enumitem}
+\setlist{nolistsep}
+
+% Create footnote command so that my name
+% has an asterisk rather than a one.
+\long\def\symbolfootnote[#1]#2{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnote[#1]{#2}\endgroup}
+%\usepackage{footmisc}
+%\renewcommand{\thefootnote}{\symbolfootnote{footnote}}
+
+% Create the colors I want
+\usepackage{color, xcolor}
+\definecolor{color1}{RGB}{217,95,2}  % orange
+\definecolor{color2}{RGB}{27,158,119}  % green
+\definecolor{color3}{RGB}{117,112,179}  % purple
+
+% for colored \left( and \right)
+\newcommand{\cleft}[2][.]{%
+  \begingroup\colorlet{savedleftcolor}{.}%
+  \color{#1}\left#2\color{savedleftcolor}%
+}
+\newcommand{\cright}[2][.]{%
+  \color{#1}\right#2\endgroup
+}
+
+% for drawing arrows
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes}
+
+\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+\newcommand{\DrawBox}[2]{%
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw[->,shorten >= 6pt, shorten <= 2pt, out=-90, in=85, distance=1.3cm, color2, thick] (MarkA.east) to (MarkB.east);
+    \draw[->,shorten >= 6pt, shorten <= 2pt, out=-90, in=90, distance=1cm, color2, thick] (MarkC.west) to (MarkD.east);
+  \end{tikzpicture}
+}
+
+% remarks by equations
+\newcommand{\justif}[2]{&{#1}&\text{#2}}
+
+
+% set up pdf
+\hypersetup{
+pdftitle={}, % title
+pdfauthor={Carlisle Rainey}, % author
+pdfkeywords={bias} {first difference} {marginal effect} {quantities of interest} {maximum likelihood}
+pdfnewwindow=true, % links in new window
+colorlinks=true, % false: boxed links; true: colored links
+linkcolor=black, % color of internal links
+citecolor=black, % color of links to bibliography
+filecolor=blue, % color of file links
+urlcolor=blue % color of external links
+}
+
+% section headers
+%\usepackage[scaled]{helvet}
+%\renewcommand\familydefault{\sfdefault}
+%\usepackage[T1]{fontenc}
+%\usepackage{titlesec}
+%\titleformat{\section}
+%  {\normalfont\sffamily\Large\bfseries}
+%  {\thesection}{1em}{}
+%\titleformat{\subsection}
+%  {\normalfont\sffamily\large\bfseries}
+%  {\thesection}{1em}{}
+%  \titleformat{\subsubsection}
+%  {\normalfont\sffamily\bfseries}
+%  {\thesection}{1em}{}
+
+% enable comments in pdf
+\newcommand{\dtk}[1]{\textcolor{blue}{#1}}
+\newcommand{\ctk}[1]{\textcolor{red}{#1}}
+
+\begin{document}
+
+\begin{center}
+
+{\Large \textbf{APPENDIX}}
+
+\vspace{0.2cm}
+
+{\Large \textbf{A Careful Consideration of CLARIFY}}
+
+\vspace{0.2cm}
+
+{\textbf{Simulation-Induced Bias in Point Estimates of Quantities of Interest}}
+
+\vspace{1cm}
+
+Carlisle Rainey\symbolfootnote[2]{Carlisle Rainey is Associate Professor of Political Science, Florida State University, 540 Bellamy, Tallahassee, FL, 32306. (\href{mailto:crainey@fsu.edu}{crainey@fsu.edu}).}
+
+\vspace{1cm}
+\today
+\end{center}
+\vspace{5mm}
+
+\appendix
+
+\section{Proofs}\label{appendix:proofs}
+
+\subsection{Proof of Lemma 1}
+
+\begin{proof}
+By definition, $$ \hat{\tau}^{\text{avg}} = \text{E}\left[ \tau \left(\tilde{\beta} \right) \right].$$
+Using Jensen's inequality \citep[p.\@ 190, Thm.\@ 4.7.7]{CasellaBerger2002}, $\text{E}\left[ \tau \left(\tilde{\beta} \right) \right] > \tau \left[ \text{E}\left( \tilde{\beta} \right) \right]$, so that $$\hat{\tau}^{\text{avg}} > \tau \left[ \text{E}\left( \tilde{\beta} \right) \right].$$
+However, because $\tilde{\beta} \sim \text{MVN} \left[ \hat{\beta}^{\text{mle}}, \hat{V} \left( \hat{\beta}^{\text{mle}} \right) \right]$, $\text{E}\left( \tilde{\beta} \right) = \hat{\beta}^\text{mle}$, so that
+$$\hat{\tau}^{\text{avg}} > \tau \left( \hat{\beta}^\text{mle}\right).$$
+Of course, $\hat{\tau}^\text{mle} = \tau \left( {\hat{\beta}^\text{mle}} \right)$ by definition, so that $$\hat{\tau}^{\text{avg}} > \hat{\tau}^\text{mle}.$$
+The proof for concave $\tau$ follows similarly.
+ $\blacksquare$
+\end{proof}
+
+\subsection{Proof of Theorem 1}
+
+\begin{proof}
+According to Theorem 1 of \citet[p.\@ 405]{Rainey2017}, $\E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right] > 0$.
+Lemma \ref{lem:direction} shows that for any convex $\tau$, $\hat{\tau}^{\text{avg}} > \hat{\tau}^\text{mle}$.
+It follows that $\underbrace{\E\left( \hat{\tau}^\text{avg}\right) - \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} > \underbrace{\E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} > 0$.\\
+
+\noindent For the concave case, it follows similarly that $\underbrace{\E\left( \hat{\tau}^\text{avg}\right) - \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{s.i. and t.i. } \tau\text{-bias in }\hat{\tau}^{\text{avg}}} < \underbrace{\E\left( \hat{\tau}^\text{mle}\right) -  \tau \left[\E\left( \hat{\beta}^\text{mle} \right) \right]}_{\text{t.i. } \tau\text{-bias in }\hat{\tau}^{\text{mle}}} < 0$.
+ $\blacksquare$
+\end{proof}
+
+\section{Additional Analysis of the Drastic, Convex Transformation}\label{appendix:drastic-analysis}
+
+\onehalfspace
+
+In the main text, I develop an intuition for the simulation-induced $\tau$-bias in $\hat{\tau}^\text{avg}$ using the simple (unrealistic, but heuristically useful) scenario in which $y_i \sim \text{N}(0, 1)$, for $i \in \{1, 2, \ldots, n = 100\}$, and the researcher wishes to estimate $\mu^2$. Suppose that the researcher knows that the variance equals one but does not know that the mean $\mu$ equals zero. The researcher uses the unbiased ML estimator $\hat{\mu}^\text{mle} = \frac{\sum_{i=1}^n y_i}{n}$ of $\mu$, but ultimately cares about the quantity of interest $\tau(\mu) = \mu^2$. The researcher can use the plug-in estimator $\hat{\tau}^\text{mle} = \left( \hat{\mu}^\text{mle} \right) ^2$ of $\tau(\mu)$. Alternatively, the researcher can use the average-of-simulations estimator, estimating $\tau(\mu)$ as $\hat{\tau}^\text{avg} = \frac{1}{M} \sum_{i = 1}^M \tau \left( \tilde{\mu}^{(i)} \right)$, where $\tilde{\mu}^{(i)} \sim \text{N} \left( \hat{\mu}^\text{mle}, \frac{1}{\sqrt{n}} \right)$ for $i \in \{1, 2,\ldots, M\}$.
+
+Below, I calculate the bias of each estimator.\footnote{I thank a reviewer for pointing out these results.}
+
+\subsection{The Bias in the ML Estimator}
+
+To simplify the notation below, I use $\hat{\mu}$ in place of $\hat{\mu}^\text{mle}$.
+
+First, note that $\hat{\mu}= \frac{\sum_{i=1}^n y_i}{n}$ is an \textit{unbiased} estimator so that $\E(\hat{\mu}) = \mu = 0$. We then have the common identity for mean-squared error: $\E\left( (\hat{\mu} - \mu)^2 \right) = \text{Var}\left(\hat{\mu}\right) - \E(\hat{\mu} - \mu)^2$. Substituting $\mu = 0$, we have $\E\left( \hat{\mu}^2 \right) = \text{Var}\left(\hat{\mu}\right) - \E(\hat{\mu})^2$. Substituting $\E(\hat{\mu}) = \mu = 0$, we have $\E\left( \hat{\mu}^2 \right) = \text{Var}\left(\hat{\mu}\right)$. Then $\E\left( \hat{\mu}^2 \right) = \text{Var}\left( \frac{\sum_{i=1}^n y_i}{n} \right) = \frac{1}{n^2} \text{Var}\left(\sum_{i=1}^n y_i \right)$. Then, using the identify that the variance of the sum of independent random variables is the sum of their variances, we have  $\E\left( \hat{\mu}^2 \right) = \frac{1}{n^2}  (n \times 1) = \frac{1}{n}$.
+
+Since $\tau = \mu^2 = 0$, the bias in $\hat{\tau} = \left[ \hat{\mu}^\text{mle} \right]^2$ is $\frac{1}{n} - 0 = \frac{1}{n}$. Because there is no coefficient-induced bias, this is also the transformation-induced bias.
+
+\subsection{The Bias in the Average-of-Simulations Estimator}
+
+To simplify the notation below, I use $\bar{\tau}$ in place of $\hat{\tau}^\text{avg}$.
+
+First, compute $\E(\bar{\tau} \mid \hat{\mu}) = \E\left[  \frac{1}{M} \sum_{i = 1}^M \left( \tilde{\mu}^{(i)} \right)^2 \right] = \frac{1}{M}  \sum_{i = 1}^M  \E\left[ \left( \tilde{\mu}^{(i)} \right)^2 \right]$. Then we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \sum_{i = 1}^M \left[ \text{Var}(\tilde{\mu}^{(i)}) + \E\left( \tilde{\mu}^{(i)}\right)^2 \right]$. Substituting known values, we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \sum_{i = 1}^M \left[ \frac{1}{n} + \hat{\mu}^2 \right]$. Simplifying, we have $\E(\bar{\tau} \mid \hat{\mu}) = \frac{1}{M}  \left[ \frac{M}{n} + M\hat{\mu}^2 \right] = \frac{1}{n} + \hat{\mu}^2$.
+
+Next, apply the law of iterated expectations to find $\E(\bar{\tau}) = \E(\bar{\tau} \mid \hat{\mu})$. Substituting, we have $\E(\bar{\tau}) = \E(\frac{1}{n} + \hat{\mu}^2)$. Then, simplifying, we have $\E(\bar{\tau}) = \frac{1}{n} + \E(\hat{\mu}^2) = \frac{1}{n} + \frac{1}{n} = \frac{2}{n}$.
+
+The bias in $\hat{\tau}^\text{avg}$ is therefore $\frac{2}{n}$. Because simulation-induced bias is defined as $\E\left(\hat{\tau}^\text{avg} \right) - \E\left(\hat{\tau}^\text{mle} \right)$, the simulation-induced bias in this example is $\frac{2}{n} - \frac{1}{n} = \frac{1}{n}$. Thus, the simulation-induced and transformation-induced bias are exactly equal and the average-of-simulations estimator exactly doubles the bias in the ML estimator.
+
+
+\singlespace
+%\clearpage
+\small
+\bibliographystyle{apsr_fs}
+\bibliography{bibliography}
+\end{document}
