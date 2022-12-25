@@ -8,17 +8,17 @@ makefile-dag.png: makefile-dag.R Makefile
 	Rscript $<
 
 # do intuition and plot simulations
-doc/figs/intuition.pdf doc/figs/intuition-sampling.pdf: R/intuition-sims.R
+doc/figs/fig1-intuition.pdf doc/figs/fig2-intuition-sampling.pdf: R/intuition-sims.R
 	Rscript $<
 	rm Rplots.pdf
 	
 # do holland example
-doc/figs/holland.pdf doc/tabs/top-5.tex doc/tabs/holland-medians.csv: R/holland.R data/Enforcement.dta
+doc/figs/fig3-holland.pdf doc/tabs/tab1-top-5.tex doc/tabs/holland-medians.csv: R/holland.R data/Enforcement.dta
 	Rscript $<
 	rm Rplots.pdf
 
 # compile manuscript	
-doc/unnecessary.pdf: doc/unnecessary.tex doc/bibliography.bib doc/figs/intuition.pdf doc/figs/intuition-sampling.pdf doc/figs/holland.pdf doc/tabs/top-5.tex
+doc/unnecessary.pdf: doc/unnecessary.tex doc/bibliography.bib doc/figs/fig1-intuition.pdf doc/figs/fig2-intuition-sampling.pdf doc/figs/fig3-holland.pdf doc/tabs/tab1-top-5.tex
   # cd into doc so that pdflatex runs in the doc directory
 	cd doc; pdflatex unnecessary
 	cd doc; bibtex unnecessary
@@ -44,7 +44,7 @@ cleandag:
 	rm -f makefile-dag.png
 
 cleanALL: cleanpaper cleandag
-	rm -f doc/figs/intuition.pdf doc/figs/intuition-sampling.pdf
-	rm -f doc/figs/holland.pdf doc/tabs/top-5.tex doc/tabs/holland-medians.csv
+	rm -f doc/figs/fig1-intuition.pdf doc/figs/fig2-intuition-sampling.pdf
+	rm -f doc/figs/fig3-holland.pdf doc/tabs/tab1-top-5.tex doc/tabs/holland-medians.csv
 
 	

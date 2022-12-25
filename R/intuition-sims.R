@@ -105,7 +105,7 @@ ggplot(data = tilde_df,
                    label.padding = unit(0.1, "lines"), 
                    parse = TRUE, size = 2.3) + 
   scale_color_manual(values = c(mc[2], mc[1]))
-ggsave("doc/figs/intuition.pdf", height = 5, width = 7)
+ggsave("doc/figs/fig1-intuition.pdf", height = 5, width = 7)
 
 gg_ests_df <- ests_df %>%
   mutate(method = factor(method, levels = c("mle", "avg.")),
@@ -133,5 +133,5 @@ ggplot(gg_ests_df, aes(x = est)) +
        color = "Method",
        linetype = "Method") + 
   guides(fill = guide_legend(keywidth = 1.5, keyheight = 1))
-ggsave("doc/figs/intuition-sampling.pdf", height = 3, width = 9)
+ggsave("doc/figs/fig2-intuition-sampling.pdf", height = 3, width = 9)
 

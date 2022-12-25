@@ -123,7 +123,7 @@ ggplot(tau, aes(x = lower, xend = lower, y = avg, yend = mle)) +
   geom_text_repel(data = ann_city, aes(x = lower, y = avg, label = district),
                   color = "grey50", size = 2.5, direction = "both", angle = 0, nudge_x = -14,
                   segment.size = .2, point.padding = 0.5, min.segment.length = 0)
-ggsave("doc/figs/holland.pdf", height = 3, width = 9, scale = 1.2)
+ggsave("doc/figs/fig3-holland.pdf", height = 3, width = 9, scale = 1.2)
 
 # 5 largest biases for each district
 smry <- tau %>%
@@ -153,7 +153,7 @@ smry %>%
          To = mle_lo, 
          `Shrinkage[note]` = shrinkage) %>%
   kable("latex", booktabs = TRUE, align = c(rep("l", 2), rep("c", 7)), 
-        caption = "\\label{tab:top-5}This table presents the details for the districts labelled in Figure \\ref{fig:holland}.") %>%
+        caption = "\\label{tab:top-5}This table presents the details for the districts labeled in Figure \\ref{fig:holland}.") %>%
   kable_styling(latex_options = "hold_position", position = "center", font_size = 8) %>%
   add_header_above(c(" " = 2, "Average of Simulations" = 3, 
                      "ML Estimate" = 3, 
@@ -168,7 +168,7 @@ smry %>%
                  "Enforcement operations when the percent in the lower class equals half its observed value.",
                  "Shrinkage in the quantity of interest due to switching from the average of simulations to the ML estimator."), 
                notation = "alphabet") %>%
-  cat(file = "doc/tabs/top-5.tex")
+  cat(file = "doc/tabs/tab1-top-5.tex")
 
 # median bias for each district
 smry2 <- tau %>%
